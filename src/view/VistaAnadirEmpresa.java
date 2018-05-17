@@ -19,9 +19,9 @@ import java.awt.event.ActionEvent;
 public class VistaAnadirEmpresa extends JFrame implements Vista {
 
     private JPanel contentPane;
-    private JTextField txtCodigo;
-    private JTextField textField;
-    private JTextField textField_1;
+    private JTextField txtFirma;
+    private JTextField txtConvenio;
+    private JTextField txtNombre;
     private JTextField textField_2;
 
     private Controlador controlador;
@@ -37,7 +37,7 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        JLabel lblCdigoDeEmpresa = new JLabel("Código de Empresa");
+        JLabel lblCdigoDeEmpresa = new JLabel("F. Firma");
 
         JLabel lblNmeroDeConvenio = new JLabel("Número de Convenio");
 
@@ -45,8 +45,8 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
 
         JLabel lblNif = new JLabel("NIF");
 
-        txtCodigo = new JTextField();
-        txtCodigo.setColumns(10);
+        txtFirma = new JTextField();
+        txtFirma.setColumns(10);
 
         JButton btnAnadir = new JButton("Añadir Empresa");
         btnAnadir.addActionListener(new ActionListener() {
@@ -55,11 +55,11 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
             }
         });
 
-        textField = new JTextField();
-        textField.setColumns(10);
+        txtConvenio = new JTextField();
+        txtConvenio.setColumns(10);
 
-        textField_1 = new JTextField();
-        textField_1.setColumns(10);
+        txtNombre = new JTextField();
+        txtNombre.setColumns(10);
 
         textField_2 = new JTextField();
         textField_2.setColumns(10);
@@ -76,10 +76,10 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
                                 .addGap(51)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                         .addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
                                         .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-                                                .addComponent(textField)
-                                                .addComponent(txtCodigo, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                                                .addComponent(txtConvenio)
+                                                .addComponent(txtFirma, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
                                 .addContainerGap(64, Short.MAX_VALUE))
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addContainerGap(227, Short.MAX_VALUE)
@@ -92,15 +92,15 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
                                 .addContainerGap()
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblCdigoDeEmpresa)
-                                        .addComponent(txtCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtFirma, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblNmeroDeConvenio)
-                                        .addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtConvenio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblNombre)
-                                        .addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblNif)

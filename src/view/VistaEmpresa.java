@@ -31,7 +31,7 @@ public class VistaEmpresa extends JFrame implements Vista {
         setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAlumnos.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 693, 392);
+        setBounds(100, 100, 788, 392);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -95,17 +95,16 @@ public class VistaEmpresa extends JFrame implements Vista {
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {"7892350X", "Apple Espa\u00F1a S.A."},
-                        {"542352B", "Twitter Inc."},
-                },
-                new String[]{
-                        "NIF", "Raz\u00F3n Social"
-                }
+        	new Object[][] {
+        		{null, null, null, null, null, null},
+        	},
+        	new String[] {
+        		"N. Convenio", "Raz\u00F3n Social", "F. Firma", "Direcci\u00F3n", "Representante", "Mail"
+        	}
         ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(91);
         table.getColumnModel().getColumn(1).setPreferredWidth(200);
         table.getColumnModel().getColumn(1).setMinWidth(200);
+        table.getColumnModel().getColumn(4).setPreferredWidth(97);
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
     }

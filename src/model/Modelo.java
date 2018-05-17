@@ -7,11 +7,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.util.Vector;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+
+import javax.swing.table.DefaultTableModel;
 
 public class Modelo {
 
@@ -216,6 +219,48 @@ public class Modelo {
         tipoUsuario = -1;
         nombreUsuario = null;
         usuarioActual = null;
+    }
+
+    public DefaultTableModel modeloAlumnos() {
+        try {
+            return crearModelo(connection.prepareStatement("SELECT NUM_MAT FROM ESTUDIANTE;"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public DefaultTableModel modeloPracticas() {
+        try {
+            return crearModelo(connection.prepareStatement("SELECT * FROM EMPRESA_ESTUDIANTE;"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private DefaultTableModel crearModelo(PreparedStatement preparedStatement) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSetMetaData metaData = resultSet.getMetaData();
+
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (resultSet.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(resultSet.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
     }
 
 }

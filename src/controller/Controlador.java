@@ -111,6 +111,7 @@ public class Controlador {
     }
 
     public void mostrarListaAlumnos() {
+        vistaAlumnos.getTable().setModel(modelo.modeloAlumnos());
         vistaAlumnos.setVisible(true);
         if (tipoUsuario == 0)
             vistaPrincipalTutor.setVisible(false);
@@ -123,6 +124,7 @@ public class Controlador {
     }
 
     public void mostrarPracticas() {
+        vistaPracticas.getTable().setModel(modelo.modeloPracticas());
         vistaPrincipalAdministrativo.setVisible(false);
         vistaPracticas.setVisible(true);
     }
