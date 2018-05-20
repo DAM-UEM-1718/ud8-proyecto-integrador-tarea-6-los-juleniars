@@ -1,2 +1,13 @@
 # Gestión de Prácticas CFGS
 
+## Requisitos
+
+Para la conexión a la base de datos, se necesita añadir un archivo "config.properties" al directorio raíz.
+
+El archivo debe tener la siguiente estructura:
+
+```
+user=USUARIO
+pasword=CONTRASEÑA
+host=IP_DEL_SERVIDOR
+```
