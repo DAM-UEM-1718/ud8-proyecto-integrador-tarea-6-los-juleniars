@@ -11,3 +11,5 @@ user=USUARIO
 pasword=CONTRASEÑA
 host=IP_DEL_SERVIDOR
 ```
+
+La base de datos debe llevar el nombre de "gestionpracticas" y se debe de haber inicializado con el script de creación.
