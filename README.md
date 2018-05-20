@@ -1,2 +1,2 @@
-#Gestión de Prácticas CFGS
+# Gestión de Prácticas CFGS
 

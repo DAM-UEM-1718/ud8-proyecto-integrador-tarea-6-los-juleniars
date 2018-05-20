@@ -40,8 +40,8 @@ public class Controlador {
         this.modelo = modelo;
     }
 
-    public void iniciarSesion(String user, String password) {
-        modelo.iniciarSesion(user, password);
+    public void iniciarSesion() {
+        modelo.iniciarSesion(vistaLogin.getTxtUsuario().getText(), new String(vistaLogin.getPswContrasena().getPassword()));
     }
 
     public void mostrarRecuperarContrasena() {
@@ -53,14 +53,16 @@ public class Controlador {
         modelo.recuperarContrasena(usuario);
     }
 
-    public void mostrarVistaSesion(byte tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void mostrarVistaSesion() {
+        tipoUsuario = modelo.getTipoUsuario();
         switch (tipoUsuario) {
             case 0:
+                vistaPrincipalTutor.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
                 vistaPrincipalTutor.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 1:
+                vistaPrincipalAdministrativo.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
                 vistaPrincipalAdministrativo.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;

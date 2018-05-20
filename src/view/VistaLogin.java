@@ -26,6 +26,14 @@ public class VistaLogin extends JFrame implements Vista {
     private JLabel lblContrasea;
 
 
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public JPasswordField getPswContrasena() {
+        return pswContrasena;
+    }
+
     public VistaLogin() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -55,7 +63,7 @@ public class VistaLogin extends JFrame implements Vista {
         btnIniciarSesin.setEnabled(false);
         btnIniciarSesin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controlador.iniciarSesion(txtUsuario.getText(), new String(pswContrasena.getPassword()));
+                controlador.iniciarSesion();
                 //txtUsuario.setText("");
                 //pswContrasena.setText("");
                 getRootPane().setDefaultButton(btnIniciarSesin);
@@ -140,10 +148,10 @@ public class VistaLogin extends JFrame implements Vista {
 
     }
 
-    public void sesionIniciada(byte role) {
+    public void sesionIniciada() {
         //JOptionPane.showMessageDialog(null, "Sesión iniciada");
         limpiarCampos();
-        controlador.mostrarVistaSesion(role);
+        controlador.mostrarVistaSesion();
     }
 
     @Override

@@ -3,10 +3,12 @@ package model;
 import org.apache.commons.lang3.RandomStringUtils;
 import view.*;
 
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.util.Properties;
 import java.util.Vector;
 
 import com.mashape.unirest.http.HttpResponse;
@@ -25,11 +27,11 @@ public class Modelo {
     VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
 
     private final String DATABASE = "gestionpracticas";
-    private final String USER = "root";
-    private final String PASSWORD = "root";
+    private String USER;
+    private String PASSWORD;
     //Cambiar por la IP del servidor de la base de datos
-    private final String HOST = "192.168.33.10";
-    private final String URL = "jdbc:mysql://" + HOST + "/";
+    private String HOST;
+    private String URL;
     private Connection connection;
 
     private String usuarioActual;
@@ -38,6 +40,7 @@ public class Modelo {
     private byte intentos;
 
     public Modelo(VistaLogin vistaLogin) {
+        leerConfiguracion();
         intentos = 0;
         this.vistaLogin = vistaLogin;
         try {
@@ -75,24 +78,16 @@ public class Modelo {
     public void iniciarSesion(String user, String password) {
         try {
             password = hash256(password);
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT PWD, ROLE, COUNT(*), NOMBRE FROM USERS WHERE USR = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;");
             preparedStatement.setString(1, user);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            if (resultSet.getInt(3) > 0) {
+            if (resultSet.next()) {
                 if (resultSet.getString(1).equals(password)) {
                     tipoUsuario = resultSet.getByte(2);
                     intentos = 0;
                     usuarioActual = user;
                     nombreUsuario = resultSet.getString("NOMBRE");
-                    switch (tipoUsuario) {
-                        case 0:
-                            vistaPrincipalTutor.getLblBienvenido().setText("Bienvenido " + nombreUsuario);
-                            break;
-                        case 1:
-                            vistaPrincipalAdministrativo.getLblBienvenido().setText("Bienvenido " + nombreUsuario);
-                    }
-                    vistaLogin.sesionIniciada(tipoUsuario);
+                    vistaLogin.sesionIniciada();
                 } else {
                     intentos++;
                     if (intentos < 3) {
@@ -107,6 +102,25 @@ public class Modelo {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void leerConfiguracion() {
+        try {
+            File file = new File("config.properties");
+            FileInputStream fileInput = new FileInputStream(file);
+            Properties properties = new Properties();
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            properties.load(fileInput);
+            USER = properties.getProperty("user");
+            PASSWORD = properties.getProperty("password");
+            HOST = properties.getProperty("host");
+            URL = "jdbc:mysql://" + HOST + "/";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     //Método para generar una contraseña aleatoria
@@ -223,7 +237,7 @@ public class Modelo {
 
     public DefaultTableModel modeloAlumnos() {
         try {
-            return crearModelo(connection.prepareStatement("SELECT NUM_MAT FROM ESTUDIANTE;"));
+            return crearModelo(new Vector(), connection.prepareStatement("SELECT NUM_MAT FROM ESTUDIANTE;"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -231,8 +245,10 @@ public class Modelo {
     }
 
     public DefaultTableModel modeloPracticas() {
+        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado"};
+        Vector<String> nombreColumnas = new Vector<>();
         try {
-            return crearModelo(connection.prepareStatement("SELECT * FROM EMPRESA_ESTUDIANTE;"));
+            return crearModelo(nombreColumnas, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA;"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -240,27 +256,25 @@ public class Modelo {
     }
 
 
-    private DefaultTableModel crearModelo(PreparedStatement preparedStatement) throws SQLException {
+    private DefaultTableModel crearModelo(Vector nombreColumnas, PreparedStatement preparedStatement) throws SQLException {
         ResultSet resultSet = preparedStatement.executeQuery();
         ResultSetMetaData metaData = resultSet.getMetaData();
-
-        Vector<String> columnNames = new Vector<String>();
-        int columnCount = metaData.getColumnCount();
-        for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
-        }
+        int numeroColumnas = metaData.getColumnCount();
 
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
         while (resultSet.next()) {
             Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+            for (int columnIndex = 1; columnIndex <= numeroColumnas; columnIndex++) {
                 vector.add(resultSet.getObject(columnIndex));
             }
             data.add(vector);
         }
 
-        return new DefaultTableModel(data, columnNames);
+        return new DefaultTableModel(data, nombreColumnas);
 
     }
 
+    public byte getTipoUsuario() {
+        return tipoUsuario;
+    }
 }
