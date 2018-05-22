@@ -37,11 +37,7 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         JButton btnConfig = new JButton("Configuración de Usuario");
-        btnConfig.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostarConfiguracion();
-            }
-        });
+        btnConfig.addActionListener(e -> controlador.mostarConfiguracion());
 
         JLabel lblAsignadas = new JLabel("Alumnos con prácticas asignadas: ");
 
@@ -62,25 +58,13 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         lblClases.setForeground(Color.RED);
 
         JButton btnTutores = new JButton("Tutores");
-        btnTutores.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarTutores();
-            }
-        });
+        btnTutores.addActionListener(e -> controlador.mostrarTutores());
 
         JButton btnGrupos = new JButton("Grupos");
-        btnGrupos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarGrupos();
-            }
-        });
+        btnGrupos.addActionListener(e -> controlador.mostrarGrupos());
 
         JButton btnEmpresas = new JButton("Empresas");
-        btnEmpresas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarEmpresas();
-            }
-        });
+        btnEmpresas.addActionListener(e -> controlador.mostrarEmpresas());
 
         JScrollPane scrollPane = new JScrollPane();
 
@@ -90,18 +74,10 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         lblDetalle.setFont(new Font("Tahoma", Font.BOLD, 14));
 
         JButton btnEditarPrcticas = new JButton("Editar Prácticas");
-        btnEditarPrcticas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarPracticas();
-            }
-        });
+        btnEditarPrcticas.addActionListener(e -> controlador.mostrarPracticas());
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
-        btnCerrarSesin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarSesion();
-            }
-        });
+        btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

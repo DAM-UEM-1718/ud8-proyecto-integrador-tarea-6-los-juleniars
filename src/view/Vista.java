@@ -4,6 +4,6 @@ import controller.Controlador;
 
 public interface Vista {
 
-    public void setControlador(Controlador controlador);
+    void setControlador(Controlador controlador);
 
 }

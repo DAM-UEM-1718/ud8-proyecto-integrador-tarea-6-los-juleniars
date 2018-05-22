@@ -44,24 +44,14 @@ public class VistaPersonal extends JFrame implements Vista {
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         btnAnadirPersonal = new JButton("Añadir Personal");
-        btnAnadirPersonal.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarAnadirPersonal();
-            }
-        });
+        btnAnadirPersonal.addActionListener(e -> controlador.mostrarAnadirPersonal());
 
         btnEliminarTutor = new JButton("Eliminar Personal");
-        btnEliminarTutor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnEliminarTutor.addActionListener(e -> {
         });
 
         btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarPersonal();
-            }
-        });
+        btnVolver.addActionListener(e -> controlador.cerrarPersonal());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

@@ -49,11 +49,7 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
         txtFirma.setColumns(10);
 
         JButton btnAnadir = new JButton("Añadir Empresa");
-        btnAnadir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.anadirEmpresa();
-            }
-        });
+        btnAnadir.addActionListener(e -> controlador.anadirEmpresa());
 
         txtConvenio = new JTextField();
         txtConvenio.setColumns(10);

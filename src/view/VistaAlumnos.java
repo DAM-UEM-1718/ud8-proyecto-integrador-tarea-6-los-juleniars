@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.DefaultTableModel;
 
 import controller.Controlador;
 
@@ -63,9 +62,8 @@ public class VistaAlumnos extends JFrame implements Vista {
         txtDNI.setColumns(10);
 
         btnBuscar = new JButton("Buscar");
-        btnBuscar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnBuscar.addActionListener(e -> {
+
         });
 
         lblTitulo = new JLabel("Editar Alumnos");
@@ -75,41 +73,32 @@ public class VistaAlumnos extends JFrame implements Vista {
         txtEmpresa.setColumns(10);
 
         btnAsignarEmpresa = new JButton("Asignar Empresa");
-        btnAsignarEmpresa.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnAsignarEmpresa.addActionListener(e -> {
+
         });
 
         btnAadirAlumno = new JButton("Añadir Alumno");
-        btnAadirAlumno.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnAadirAlumno.addActionListener(e -> {
+
         });
 
         btnModificarAlumno = new JButton("Modificar Alumno");
-        btnModificarAlumno.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnModificarAlumno.addActionListener(e -> {
+
         });
 
         btnEliminarAlumno = new JButton("Eliminar Alumno");
-        btnEliminarAlumno.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnEliminarAlumno.addActionListener(e -> {
+
         });
 
         btnMostrarAlmunosSin = new JButton("Mostrar Almunos sin Asignar");
-        btnMostrarAlmunosSin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnMostrarAlmunosSin.addActionListener(e -> {
+
         });
 
         JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarAlumnos();
-            }
-        });
+        btnVolver.addActionListener(e -> controlador.cerrarAlumnos());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

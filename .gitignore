@@ -104,4 +104,4 @@ local.properties
 .worksheet
 
 # Archivo de configuración
-config.properties
+config.ini

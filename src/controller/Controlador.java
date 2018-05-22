@@ -14,7 +14,7 @@ public class Controlador {
     private VistaConfiguracion vistaConfiguracion;
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
-    public VistaLogin vistaLogin;
+    private VistaLogin vistaLogin;
     private VistaMensaje vistaMensaje;
     private VistaPersonal vistaPersonal;
     private VistaPracticas vistaPracticas;
@@ -25,7 +25,7 @@ public class Controlador {
     private VistaTutores vistaTutores;
 
 
-    public Modelo modelo;
+    private Modelo modelo;
     private byte tipoUsuario;
 
     public void setVistaLogin(VistaLogin vistaLogin) {
@@ -280,7 +280,7 @@ public class Controlador {
     }
 
     public void nombreMostrarUsuario() {
-        modelo.getNombreUsuario();
+
     }
 
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {

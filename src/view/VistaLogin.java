@@ -61,13 +61,11 @@ public class VistaLogin extends JFrame implements Vista {
 
         btnIniciarSesin = new JButton("Iniciar Sesión");
         btnIniciarSesin.setEnabled(false);
-        btnIniciarSesin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.iniciarSesion();
-                //txtUsuario.setText("");
-                //pswContrasena.setText("");
-                getRootPane().setDefaultButton(btnIniciarSesin);
-            }
+        btnIniciarSesin.addActionListener(e -> {
+            controlador.iniciarSesion();
+            //txtUsuario.setText("");
+            //pswContrasena.setText("");
+            getRootPane().setDefaultButton(btnIniciarSesin);
         });
 
         txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
@@ -121,11 +119,7 @@ public class VistaLogin extends JFrame implements Vista {
                                                 .addComponent(btnIniciarSesin)))
                                 .addContainerGap(93, Short.MAX_VALUE))
         );
-        btnRecuperarContrasea.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarRecuperarContrasena();
-            }
-        });
+        btnRecuperarContrasea.addActionListener(e -> controlador.mostrarRecuperarContrasena());
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
@@ -167,7 +161,7 @@ public class VistaLogin extends JFrame implements Vista {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    public void limpiarCampos() {
+    private void limpiarCampos() {
         txtUsuario.setText("");
         pswContrasena.setText("");
     }
@@ -183,7 +177,7 @@ public class VistaLogin extends JFrame implements Vista {
 
     public void intentosSuperados() {
         Object[] opciones = {"Aceptar"};
-        int input = JOptionPane.showOptionDialog(null, "Intentos de inicio de sesión superados.", "Error", JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        int input = JOptionPane.showOptionDialog(null, "Intentos de inicio de sesión superados.", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         System.exit(0);
 
     }

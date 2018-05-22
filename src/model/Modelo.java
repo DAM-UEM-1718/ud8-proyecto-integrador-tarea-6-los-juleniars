@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -20,11 +21,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class Modelo {
 
-    VistaLogin vistaLogin;
-    VistaRecuperarPswd vistaRecuperarPswd;
-    VistaConfiguracion vistaConfiguracion;
-    VistaPrincipalTutor vistaPrincipalTutor;
-    VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
+    private VistaLogin vistaLogin;
+    private VistaRecuperarPswd vistaRecuperarPswd;
+    private VistaConfiguracion vistaConfiguracion;
+    private VistaPrincipalTutor vistaPrincipalTutor;
+    private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
 
     private final String DATABASE = "gestionpracticas";
     private String USER;
@@ -69,7 +70,7 @@ public class Modelo {
 
     //Convierte un array de bytes a un String
     private static String bytesToHex(byte[] bytes) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
         return result.toString();
     }
@@ -104,18 +105,15 @@ public class Modelo {
         }
     }
 
-    public void leerConfiguracion() {
+    private void leerConfiguracion() {
+        Properties propiedades = new Properties();
         try {
-            File file = new File("config.properties");
-            FileInputStream fileInput = new FileInputStream(file);
-            Properties properties = new Properties();
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            properties.load(fileInput);
-            USER = properties.getProperty("user");
-            PASSWORD = properties.getProperty("password");
-            HOST = properties.getProperty("host");
+            FileInputStream ficheroPropiedades = new FileInputStream(new File("config.ini"));
+            propiedades.load(ficheroPropiedades);
+            USER = propiedades.getProperty("user");
+            PASSWORD = propiedades.getProperty("password");
+            HOST = propiedades.getProperty("host");
             URL = "jdbc:mysql://" + HOST + "/";
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,10 +122,10 @@ public class Modelo {
     }
 
     //Método para generar una contraseña aleatoria
+    @SuppressWarnings("RedundantStringConstructorCall")
     private String contrasenaAleatoria() {
         char[] possibleCharacters = (new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?")).toCharArray();
-        String randomStr = RandomStringUtils.random(7, 0, possibleCharacters.length - 1, false, false, possibleCharacters, new SecureRandom());
-        return randomStr;
+        return RandomStringUtils.random(7, 0, possibleCharacters.length - 1, false, false, possibleCharacters, new SecureRandom());
     }
 
     //Método que genera una nueva contraseña para un usuario, se la envía por mail y la inserta en la base de datos
@@ -151,7 +149,6 @@ public class Modelo {
             int rows = prstm.executeUpdate();
 
             vistaLogin.contrasenaEnviada();
-            ;
         } catch (Exception e) {
             e.printStackTrace();
             vistaLogin.error("Error al generar la nueva contraseña.");
@@ -246,7 +243,7 @@ public class Modelo {
 
     public DefaultTableModel modeloPracticas() {
         String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado"};
-        Vector<String> nombreColumnas = new Vector<>();
+        Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
             return crearModelo(nombreColumnas, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA;"));
         } catch (SQLException e) {
@@ -261,9 +258,9 @@ public class Modelo {
         ResultSetMetaData metaData = resultSet.getMetaData();
         int numeroColumnas = metaData.getColumnCount();
 
-        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        Vector<Vector<Object>> data = new Vector<>();
         while (resultSet.next()) {
-            Vector<Object> vector = new Vector<Object>();
+            Vector<Object> vector = new Vector<>();
             for (int columnIndex = 1; columnIndex <= numeroColumnas; columnIndex++) {
                 vector.add(resultSet.getObject(columnIndex));
             }

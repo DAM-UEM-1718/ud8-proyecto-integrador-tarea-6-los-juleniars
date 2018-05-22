@@ -41,23 +41,15 @@ public class VistaGrupos extends JFrame implements Vista {
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         JButton btnAnadirGrupo = new JButton("Añadir Grupo");
-        btnAnadirGrupo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnAnadirGrupo.addActionListener(e -> {
         });
 
         JButton btnEliminarGrupo = new JButton("Eliminar Grupo");
-        btnEliminarGrupo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnEliminarGrupo.addActionListener(e -> {
         });
 
         JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarGrupos();
-            }
-        });
+        btnVolver.addActionListener(e -> controlador.cerrarGrupos());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

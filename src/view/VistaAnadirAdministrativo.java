@@ -46,11 +46,9 @@ public class VistaAnadirAdministrativo extends JFrame implements Vista {
 
 
         JButton btnAadir = new JButton("Añadir");
-        btnAadir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.anadirAdministrativo(txtExpediente.getText(), txtMail.getText());
-                controlador.mostrarTutores();
-            }
+        btnAadir.addActionListener(e -> {
+            controlador.anadirAdministrativo(txtExpediente.getText(), txtMail.getText());
+            controlador.mostrarTutores();
         });
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(

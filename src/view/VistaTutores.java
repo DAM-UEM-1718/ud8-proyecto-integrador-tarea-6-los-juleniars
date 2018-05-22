@@ -44,24 +44,14 @@ public class VistaTutores extends JFrame implements Vista {
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         btnAnadirTutor = new JButton("Añadir Tutor");
-        btnAnadirTutor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarAnadirUsuario();
-            }
-        });
+        btnAnadirTutor.addActionListener(e -> controlador.mostrarAnadirUsuario());
 
         btnEliminarTutor = new JButton("Eliminar Tutor");
-        btnEliminarTutor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnEliminarTutor.addActionListener(e -> {
         });
 
         btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarTutores();
-            }
-        });
+        btnVolver.addActionListener(e -> controlador.cerrarTutores());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

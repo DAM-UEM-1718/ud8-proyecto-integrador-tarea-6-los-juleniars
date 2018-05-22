@@ -2,13 +2,13 @@
 
 ## Requisitos
 
-Para la conexión a la base de datos, se necesita añadir un archivo "config.properties" al directorio raíz.
+Para la conexión a la base de datos, se necesita añadir un archivo "config.ini" al directorio raíz.
 
 El archivo debe tener la siguiente estructura:
 
 ```
 user=USUARIO
-pasword=CONTRASEÑA
+password=CONTRASEÑA
 host=IP_DEL_SERVIDOR
 ```
 

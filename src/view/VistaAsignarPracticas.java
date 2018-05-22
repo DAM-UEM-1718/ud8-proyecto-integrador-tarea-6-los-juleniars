@@ -156,22 +156,14 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 JButton okButton = new JButton("Asignar");
-                okButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        controlador.cerrarAsignarPracticas();
-                    }
-                });
+                okButton.addActionListener(e -> controlador.cerrarAsignarPracticas());
                 okButton.setActionCommand("OK");
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);
             }
             {
                 JButton cancelButton = new JButton("Cancelar");
-                cancelButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        controlador.cerrarAsignarPracticas();
-                    }
-                });
+                cancelButton.addActionListener(e -> controlador.cerrarAsignarPracticas());
                 cancelButton.setActionCommand("Cancel");
                 buttonPane.add(cancelButton);
             }

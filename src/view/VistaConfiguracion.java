@@ -48,13 +48,11 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
         btnCambiar = new JButton("Cambiar");
         btnCambiar.setEnabled(false);
-        btnCambiar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (new String(pswContrasena.getPassword()).equals(new String(pswConfirmarContrasena.getPassword()))) {
-                    controlador.cambiarContrasena(new String(pswContrasena.getPassword()));
-                } else {
-                    error("Las contraseñas no coinciden.");
-                }
+        btnCambiar.addActionListener(e -> {
+            if (new String(pswContrasena.getPassword()).equals(new String(pswConfirmarContrasena.getPassword()))) {
+                controlador.cambiarContrasena(new String(pswContrasena.getPassword()));
+            } else {
+                error("Las contraseñas no coinciden.");
             }
         });
 
@@ -99,17 +97,11 @@ public class VistaConfiguracion extends JFrame implements Vista {
         JLabel lblApellidoCamacho = new JLabel("Apellido: Camacho");
 
         btnCambiarAvatar = new JButton("Cambiar Avatar");
-        btnCambiarAvatar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnCambiarAvatar.addActionListener(e -> {
         });
 
         btnAceptar = new JButton("Aceptar");
-        btnAceptar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarConfiguracion();
-            }
-        });
+        btnAceptar.addActionListener(e -> controlador.cerrarConfiguracion());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

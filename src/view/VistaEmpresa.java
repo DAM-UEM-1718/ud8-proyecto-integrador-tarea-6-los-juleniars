@@ -44,24 +44,14 @@ public class VistaEmpresa extends JFrame implements Vista {
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         btnAnadirEmpresa = new JButton("Añadir Empresa");
-        btnAnadirEmpresa.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarAnadirEmpresa();
-            }
-        });
+        btnAnadirEmpresa.addActionListener(e -> controlador.mostrarAnadirEmpresa());
 
         btnEliminarEmpresa = new JButton("Eliminar Empresa");
-        btnEliminarEmpresa.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnEliminarEmpresa.addActionListener(e -> {
         });
 
         btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarEmpresas();
-            }
-        });
+        btnVolver.addActionListener(e -> controlador.cerrarEmpresas());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

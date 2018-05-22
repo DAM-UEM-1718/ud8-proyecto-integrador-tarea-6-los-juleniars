@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.DefaultTableModel;
 
 import controller.Controlador;
 
@@ -39,9 +38,7 @@ public class VistaPracticas extends JFrame implements Vista {
         JScrollPane scrollPane = new JScrollPane();
 
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnBuscar.addActionListener(e -> {
         });
 
         JLabel lblTitulo = new JLabel("Prácticas");
@@ -51,30 +48,14 @@ public class VistaPracticas extends JFrame implements Vista {
         txtEmpresa.setColumns(10);
 
         JButton btnAsignar = new JButton("Asignar Prácticas");
-        btnAsignar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarAsignarPracticas();
-            }
-        });
-
-        JButton btnModificar = new JButton("Modificar Prácticas");
-        btnModificar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
+        btnAsignar.addActionListener(e -> controlador.mostrarAsignarPracticas());
 
         JButton btnEliminarPracticas = new JButton("Eliminar Prácticas");
-        btnEliminarPracticas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
+        btnEliminarPracticas.addActionListener(e -> {
         });
 
         JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarPracticas();
-            }
-        });
+        btnVolver.addActionListener(e -> controlador.cerrarPracticas());
         
         JComboBox comboBox = new JComboBox();
         comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nombre Alumno", "Empresa", "Tutor Empresa", "Localización"}));
@@ -83,7 +64,7 @@ public class VistaPracticas extends JFrame implements Vista {
         	gl_contentPane.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_contentPane.createSequentialGroup()
         			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+        				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
         				.addGroup(gl_contentPane.createSequentialGroup()
         					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
         						.addComponent(lblTitulo)
@@ -101,9 +82,7 @@ public class VistaPracticas extends JFrame implements Vista {
         							.addComponent(btnBuscar))))
         				.addGroup(gl_contentPane.createSequentialGroup()
         					.addComponent(btnAsignar)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnModificar)
-        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addGap(18)
         					.addComponent(btnEliminarPracticas)))
         			.addContainerGap())
         );
@@ -124,10 +103,9 @@ public class VistaPracticas extends JFrame implements Vista {
         				.addComponent(btnBuscar))
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+        			.addPreferredGap(ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
         			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
         				.addComponent(btnAsignar)
-        				.addComponent(btnModificar)
         				.addComponent(btnEliminarPracticas))
         			.addContainerGap())
         );

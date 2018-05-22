@@ -32,35 +32,19 @@ public class VistaSuperUsuario extends JFrame implements Vista {
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         JButton btnNewButton = new JButton("Editar Alumnos");
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarListaAlumnos();
-            }
-        });
+        btnNewButton.addActionListener(e -> controlador.mostrarListaAlumnos());
 
         JLabel lblPanelDeAdministracin = new JLabel("Panel de Administración");
         lblPanelDeAdministracin.setFont(new Font("Tahoma", Font.BOLD, 14));
 
         JButton btnEditarTutores = new JButton("Editar Tutores");
-        btnEditarTutores.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarTutores();
-            }
-        });
+        btnEditarTutores.addActionListener(e -> controlador.mostrarTutores());
 
         JButton btnEditarPersonalAdministraivo = new JButton("Editar Personal Administrativo");
-        btnEditarPersonalAdministraivo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarPersonal();
-            }
-        });
+        btnEditarPersonalAdministraivo.addActionListener(e -> controlador.mostrarPersonal());
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
-        btnCerrarSesin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarSesion();
-            }
-        });
+        btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

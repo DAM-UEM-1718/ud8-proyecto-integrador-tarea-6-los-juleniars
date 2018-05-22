@@ -52,11 +52,7 @@ public class VistaMensaje extends JDialog implements Vista {
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 JButton okButton = new JButton("Aceptar");
-                okButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        controlador.cerrarMensaje();
-                    }
-                });
+                okButton.addActionListener(e -> controlador.cerrarMensaje());
                 okButton.setActionCommand("OK");
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);

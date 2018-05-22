@@ -41,11 +41,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         JLabel lblGrupo = new JLabel("Grupo:");
 
         JButton btnConfig = new JButton("Configuración");
-        btnConfig.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostarConfiguracion();
-            }
-        });
+        btnConfig.addActionListener(e -> controlador.mostarConfiguracion());
 
         lblBienvenido = new JLabel("Bienvenido ");
 
@@ -64,27 +60,15 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         JScrollPane scrPorAsignar = new JScrollPane();
 
         JButton btnAsignarAlumnos = new JButton("Editar Alumnos");
-        btnAsignarAlumnos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarListaAlumnos();
-            }
-        });
+        btnAsignarAlumnos.addActionListener(e -> controlador.mostrarListaAlumnos());
 
         JLabel lblOpciones = new JLabel("Opciones");
 
         JButton btnAsignarPrcticas = new JButton("Asignar Prácticas");
-        btnAsignarPrcticas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.mostrarAsignarPracticas();
-            }
-        });
+        btnAsignarPrcticas.addActionListener(e -> controlador.mostrarAsignarPracticas());
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
-        btnCerrarSesin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlador.cerrarSesion();
-            }
-        });
+        btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.TRAILING)
