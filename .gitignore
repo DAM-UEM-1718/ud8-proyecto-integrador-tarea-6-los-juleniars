@@ -102,6 +102,3 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
-
-# Archivo de configuración
-config.ini
