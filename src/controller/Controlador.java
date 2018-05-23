@@ -57,6 +57,8 @@ public class Controlador {
         tipoUsuario = modelo.getTipoUsuario();
         switch (tipoUsuario) {
             case 0:
+                modelo.mostrarGrupoTutor();
+                modelo.mostrarPracticasTutor();
                 vistaPrincipalTutor.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
                 vistaPrincipalTutor.setVisible(true);
                 vistaLogin.setVisible(false);

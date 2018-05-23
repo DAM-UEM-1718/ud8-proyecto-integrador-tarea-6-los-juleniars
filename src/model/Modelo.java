@@ -35,10 +35,11 @@ public class Modelo {
     private String URL;
     private Connection connection;
 
-    private String usuarioActual;
     private String nombreUsuario;
+    private String nombreUsuarioFormal;
     private byte tipoUsuario;
     private byte intentos;
+    private int codGrupo;
 
     public Modelo(VistaLogin vistaLogin) {
         leerConfiguracion();
@@ -86,8 +87,8 @@ public class Modelo {
                 if (resultSet.getString(1).equals(password)) {
                     tipoUsuario = resultSet.getByte(2);
                     intentos = 0;
-                    usuarioActual = user;
-                    nombreUsuario = resultSet.getString("NOMBRE");
+                    nombreUsuario = user;
+                    nombreUsuarioFormal = resultSet.getString("NOMBRE");
                     vistaLogin.sesionIniciada();
                 } else {
                     intentos++;
@@ -201,7 +202,7 @@ public class Modelo {
             String nuevoHash = hash256(nuevaContrasena);
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE USERS SET PWD = ? WHERE USR = ?;");
             preparedStatement.setString(1, nuevoHash);
-            preparedStatement.setString(2, usuarioActual);
+            preparedStatement.setString(2, nombreUsuario);
             preparedStatement.executeUpdate();
             vistaConfiguracion.error("Contraseña cambiada correctamente.");
         } catch (Exception e) {
@@ -215,7 +216,7 @@ public class Modelo {
     }
 
     public String getNombreUsuario() {
-        return nombreUsuario;
+        return nombreUsuarioFormal;
     }
 
     public void setVistaPrincipalTutor(VistaPrincipalTutor vistaPrincipalTutor) {
@@ -228,8 +229,8 @@ public class Modelo {
 
     public void cerrarSesion() {
         tipoUsuario = -1;
+        nombreUsuarioFormal = null;
         nombreUsuario = null;
-        usuarioActual = null;
     }
 
     public DefaultTableModel modeloAlumnos() {
@@ -274,4 +275,85 @@ public class Modelo {
     public byte getTipoUsuario() {
         return tipoUsuario;
     }
+
+    public void mostrarGrupoTutor() {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;");
+            preparedStatement.setString(1, nombreUsuario);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                vistaPrincipalTutor.getComboBox().addItem(new ComboItem(resultSet.getString(1), resultSet.getString(2)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarPracticasTutor() {
+        String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
+        Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
+        try {
+            PreparedStatement stmtGrupo = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO, USERS WHERE USERS.USR = ?;");
+            stmtGrupo.setString(1, nombreUsuario);
+            ResultSet resultSetGrupo = stmtGrupo.executeQuery();
+            if (resultSetGrupo.next()) {
+                codGrupo = resultSetGrupo.getInt(1);
+            }
+            PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, EMPRESA_ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ASIGNADAS = TRUE AND COD_GRUPO = ?;");
+            statementAsignadas.setInt(1, codGrupo);
+            ResultSet asignadas = statementAsignadas.executeQuery();
+            PreparedStatement statementPorAsignar = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, EMPRESA_ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ASIGNADAS = FALSE AND COD_GRUPO = ?;");
+            statementPorAsignar.setInt(1, codGrupo);
+            ResultSet porAsignar = statementPorAsignar.executeQuery();
+            Vector<Vector<Object>> data = new Vector<>();
+            boolean asignadasBool = true;
+            boolean porAsignarBool = true;
+            while (asignadasBool || porAsignarBool) {
+                Vector<Object> vector = new Vector<>();
+                if (asignadas.next()) {
+                    vector.add(asignadas.getString(1) + " " + asignadas.getString(2) + " " + asignadas.getString(3));
+                } else {
+                    asignadasBool = false;
+                }
+                if (porAsignar.next()) {
+                    if (vector.size() == 0) {
+                        vector.add("");
+                    }
+                    vector.add(porAsignar.getString(1) + " " + porAsignar.getString(2) + " " + porAsignar.getString(3));
+                } else {
+                    porAsignarBool = false;
+                }
+                if (vector.size() != 0) {
+                    data.add(vector);
+                }
+            }
+            vistaPrincipalTutor.getTable().setModel(new DefaultTableModel(data, nombreColumnas));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class ComboItem {
+        private String key;
+        private String value;
+
+        public ComboItem(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return key;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
 }
