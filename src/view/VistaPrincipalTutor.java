@@ -17,6 +17,8 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
     private Controlador controlador;
 
     private JLabel lblBienvenido;
+    private JLabel lblNumeroAsignados;
+    private JLabel lblNumeroPorAsignar;
     private JTable table;
     private JComboBox comboBox;
 
@@ -48,12 +50,12 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
 
         JLabel lblAsignados = new JLabel("Alumnos con prácticas asignadas: ");
 
-        JLabel lblNumeroAsignados = new JLabel("3");
+        lblNumeroAsignados = new JLabel("3");
         lblNumeroAsignados.setForeground(new Color(50, 205, 50));
 
         JLabel lblPorAsignar = new JLabel("Alumnos con prácticas por asignar:");
 
-        JLabel lblNumeroPorAsignar = new JLabel("1");
+        lblNumeroPorAsignar = new JLabel("1");
         lblNumeroPorAsignar.setForeground(Color.RED);
 
         JButton btnAsignarAlumnos = new JButton("Editar Alumnos");
@@ -159,5 +161,13 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
 
     public JTable getTable() {
         return table;
+    }
+
+    public JLabel getLblNumeroAsignados() {
+        return lblNumeroAsignados;
+    }
+
+    public JLabel getLblNumeroPorAsignar() {
+        return lblNumeroPorAsignar;
     }
 }

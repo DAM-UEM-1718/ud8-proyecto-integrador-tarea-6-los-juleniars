@@ -31,7 +31,6 @@ public class Modelo {
     private String USER;
     private String PASSWORD;
     //Cambiar por la IP del servidor de la base de datos
-    private String HOST;
     private String URL;
     private Connection connection;
 
@@ -113,8 +112,7 @@ public class Modelo {
             propiedades.load(ficheroPropiedades);
             USER = propiedades.getProperty("user");
             PASSWORD = propiedades.getProperty("password");
-            HOST = propiedades.getProperty("host");
-            URL = "jdbc:mysql://" + HOST + "/";
+            URL = propiedades.getProperty("url");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -246,7 +244,7 @@ public class Modelo {
         String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
-            return crearModelo(nombreColumnas, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA;"));
+            return crearModelo(nombreColumnas, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ASIGNADAS FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA;"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -293,25 +291,28 @@ public class Modelo {
         String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
-            PreparedStatement stmtGrupo = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO, USERS WHERE USERS.USR = ?;");
+            PreparedStatement stmtGrupo = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO, USERS WHERE USERS.USR = ? AND GRUPO.USR = USERS.USR;");
             stmtGrupo.setString(1, nombreUsuario);
             ResultSet resultSetGrupo = stmtGrupo.executeQuery();
             if (resultSetGrupo.next()) {
                 codGrupo = resultSetGrupo.getInt(1);
             }
-            PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, EMPRESA_ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ASIGNADAS = TRUE AND COD_GRUPO = ?;");
+            PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, EMPRESA_ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA_ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
             statementAsignadas.setInt(1, codGrupo);
             ResultSet asignadas = statementAsignadas.executeQuery();
-            PreparedStatement statementPorAsignar = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, EMPRESA_ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ASIGNADAS = FALSE AND COD_GRUPO = ?;");
+            PreparedStatement statementPorAsignar = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
             statementPorAsignar.setInt(1, codGrupo);
             ResultSet porAsignar = statementPorAsignar.executeQuery();
             Vector<Vector<Object>> data = new Vector<>();
             boolean asignadasBool = true;
             boolean porAsignarBool = true;
+            int numeroAsignados=0;
+            int numeroPorAsignar=0;
             while (asignadasBool || porAsignarBool) {
                 Vector<Object> vector = new Vector<>();
                 if (asignadas.next()) {
                     vector.add(asignadas.getString(1) + " " + asignadas.getString(2) + " " + asignadas.getString(3));
+                    numeroAsignados++;
                 } else {
                     asignadasBool = false;
                 }
@@ -319,6 +320,7 @@ public class Modelo {
                     if (vector.size() == 0) {
                         vector.add("");
                     }
+                    numeroPorAsignar++;
                     vector.add(porAsignar.getString(1) + " " + porAsignar.getString(2) + " " + porAsignar.getString(3));
                 } else {
                     porAsignarBool = false;
@@ -327,6 +329,8 @@ public class Modelo {
                     data.add(vector);
                 }
             }
+            vistaPrincipalTutor.getLblNumeroAsignados().setText(Integer.toString(numeroAsignados));
+            vistaPrincipalTutor.getLblNumeroPorAsignar().setText(Integer.toString(numeroPorAsignar));
             vistaPrincipalTutor.getTable().setModel(new DefaultTableModel(data, nombreColumnas));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -337,7 +341,7 @@ public class Modelo {
         private String key;
         private String value;
 
-        public ComboItem(String key, String value) {
+        private ComboItem(String key, String value) {
             this.key = key;
             this.value = value;
         }

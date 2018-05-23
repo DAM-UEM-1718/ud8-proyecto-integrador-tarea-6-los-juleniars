@@ -261,7 +261,7 @@ public class Controlador {
     }
 
     public void mostrarAnadirUsuario() {
-        vistaTutores.setVisible(false);
+        //vistaTutores.setVisible(false);
         vistaAnadirTutor.setVisible(true);
     }
 
