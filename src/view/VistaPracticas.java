@@ -33,7 +33,7 @@ public class VistaPracticas extends JFrame implements Vista {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         JScrollPane scrollPane = new JScrollPane();
 
@@ -56,58 +56,58 @@ public class VistaPracticas extends JFrame implements Vista {
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> controlador.cerrarPracticas());
-        
+
         JComboBox comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nombre Alumno", "Empresa", "Tutor Empresa", "Localización"}));
+        comboBox.setModel(new DefaultComboBoxModel(new String[]{"Nombre Alumno", "Empresa", "Tutor Empresa", "Localización"}));
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
-        	gl_contentPane.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_contentPane.createSequentialGroup()
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        						.addComponent(lblTitulo)
-        						.addGroup(gl_contentPane.createSequentialGroup()
-        							.addGap(10)
-        							.addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)))
-        					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        						.addGroup(gl_contentPane.createSequentialGroup()
-        							.addPreferredGap(ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
-        							.addComponent(btnVolver))
-        						.addGroup(gl_contentPane.createSequentialGroup()
-        							.addGap(18)
-        							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        							.addGap(18)
-        							.addComponent(btnBuscar))))
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addComponent(btnAsignar)
-        					.addGap(18)
-        					.addComponent(btnEliminarPracticas)))
-        			.addContainerGap())
+                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(lblTitulo)
+                                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                                .addGap(10)
+                                                                .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)))
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                                .addPreferredGap(ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
+                                                                .addComponent(btnVolver))
+                                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                                .addGap(18)
+                                                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
+                                                                .addComponent(btnBuscar))))
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addComponent(btnAsignar)
+                                                .addGap(18)
+                                                .addComponent(btnEliminarPracticas)))
+                                .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
-        	gl_contentPane.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_contentPane.createSequentialGroup()
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addGap(23)
-        					.addComponent(lblTitulo))
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(btnVolver)))
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(btnBuscar))
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(btnAsignar)
-        				.addComponent(btnEliminarPracticas))
-        			.addContainerGap())
+                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addGap(23)
+                                                .addComponent(lblTitulo))
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(btnVolver)))
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnBuscar))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(btnAsignar)
+                                        .addComponent(btnEliminarPracticas))
+                                .addContainerGap())
         );
 
         table = new JTable();

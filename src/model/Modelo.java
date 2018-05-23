@@ -80,7 +80,7 @@ public class Modelo {
         try {
             password = hash256(password);
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;");
-            preparedStatement.setString(1, user);
+            preparedStatement.setString(1, user.toLowerCase());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 if (resultSet.getString(1).equals(password)) {
@@ -176,7 +176,7 @@ public class Modelo {
         try {
             String contrasenaAleatoria = contrasenaAleatoria();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);");
-            preparedStatement.setString(1, expediente);
+            preparedStatement.setString(1, expediente.toLowerCase());
             preparedStatement.setString(2, hash256(contrasenaAleatoria));
             preparedStatement.setInt(3, role);
             preparedStatement.setString(4, mail);
@@ -297,7 +297,7 @@ public class Modelo {
             if (resultSetGrupo.next()) {
                 codGrupo = resultSetGrupo.getInt(1);
             }
-            PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, EMPRESA_ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA_ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+            PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
             statementAsignadas.setInt(1, codGrupo);
             ResultSet asignadas = statementAsignadas.executeQuery();
             PreparedStatement statementPorAsignar = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
@@ -306,8 +306,8 @@ public class Modelo {
             Vector<Vector<Object>> data = new Vector<>();
             boolean asignadasBool = true;
             boolean porAsignarBool = true;
-            int numeroAsignados=0;
-            int numeroPorAsignar=0;
+            int numeroAsignados = 0;
+            int numeroPorAsignar = 0;
             while (asignadasBool || porAsignarBool) {
                 Vector<Object> vector = new Vector<>();
                 if (asignadas.next()) {

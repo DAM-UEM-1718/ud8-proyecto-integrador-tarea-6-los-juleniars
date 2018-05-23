@@ -51,103 +51,103 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
 
         txtInicio = new JTextField();
         txtInicio.setColumns(10);
-        
+
         JLabel lblFin = new JLabel("Fecha Fin:");
-        
+
         txtFin = new JTextField();
         txtFin.setColumns(10);
-        
+
         JLabel lblTutorEmpresa = new JLabel("Tutor Empresa:");
-        
+
         txtTutorEmpresa = new JTextField();
         txtTutorEmpresa.setColumns(10);
-        
+
         JLabel lblHorario = new JLabel("Horario:");
-        
+
         txtHorario = new JTextField();
         txtHorario.setColumns(10);
-        
+
         JLabel lblLocalizacion = new JLabel("Localización");
-        
+
         txtLocalizacion = new JTextField();
         txtLocalizacion.setColumns(10);
         GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
         gl_contentPanel.setHorizontalGroup(
-        	gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_contentPanel.createSequentialGroup()
-        			.addContainerGap()
-        			.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_contentPanel.createSequentialGroup()
-        					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        						.addGroup(gl_contentPanel.createSequentialGroup()
-        							.addComponent(lblAlumno)
-        							.addPreferredGap(ComponentPlacement.UNRELATED)
-        							.addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        						.addGroup(gl_contentPanel.createSequentialGroup()
-        							.addComponent(lblInicio)
-        							.addPreferredGap(ComponentPlacement.RELATED)
-        							.addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
-        						.addGroup(gl_contentPanel.createSequentialGroup()
-        							.addComponent(lblFin, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-        							.addGap(4)
-        							.addComponent(txtFin, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
-        					.addGap(31)
-        					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        						.addGroup(gl_contentPanel.createSequentialGroup()
-        							.addComponent(lblHorario, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-        							.addGap(18)
-        							.addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
-        						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-        							.addGroup(gl_contentPanel.createSequentialGroup()
-        								.addComponent(lblTutorEmpresa)
-        								.addPreferredGap(ComponentPlacement.RELATED)
-        								.addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
-        							.addGroup(gl_contentPanel.createSequentialGroup()
-        								.addComponent(lblEmpresa)
-        								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        								.addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-        				.addGroup(gl_contentPanel.createSequentialGroup()
-        					.addComponent(lblLocalizacion)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addComponent(lblAlumno)
+                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                                .addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addComponent(lblInicio)
+                                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                                .addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addComponent(lblFin, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(4)
+                                                                .addComponent(txtFin, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(31)
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addComponent(lblHorario, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
+                                                                .addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+                                                                .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                        .addComponent(lblTutorEmpresa)
+                                                                        .addPreferredGap(ComponentPlacement.RELATED)
+                                                                        .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+                                                                .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                        .addComponent(lblEmpresa)
+                                                                        .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                .addComponent(lblLocalizacion)
+                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         gl_contentPanel.setVerticalGroup(
-        	gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_contentPanel.createSequentialGroup()
-        			.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_contentPanel.createSequentialGroup()
-        					.addContainerGap()
-        					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(lblAlumno)
-        						.addComponent(lblEmpresa)
-        						.addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-        							.addComponent(lblInicio)
-        							.addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        						.addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-        						.addGroup(gl_contentPanel.createSequentialGroup()
-        							.addGap(3)
-        							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-        								.addComponent(lblHorario)
-        								.addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-        						.addGroup(gl_contentPanel.createSequentialGroup()
-        							.addGap(3)
-        							.addComponent(lblFin))
-        						.addComponent(txtFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-        				.addGroup(gl_contentPanel.createSequentialGroup()
-        					.addGap(45)
-        					.addComponent(lblTutorEmpresa)))
-        			.addGap(18)
-        			.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-        				.addComponent(lblLocalizacion)
-        				.addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        			.addContainerGap(21, Short.MAX_VALUE))
+                gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblAlumno)
+                                                        .addComponent(lblEmpresa)
+                                                        .addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                                                .addComponent(lblInicio)
+                                                                .addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addGap(3)
+                                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                                                        .addComponent(lblHorario)
+                                                                        .addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addGap(3)
+                                                                .addComponent(lblFin))
+                                                        .addComponent(txtFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                .addGap(45)
+                                                .addComponent(lblTutorEmpresa)))
+                                .addGap(18)
+                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+                                        .addComponent(lblLocalizacion)
+                                        .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(21, Short.MAX_VALUE))
         );
         contentPanel.setLayout(gl_contentPanel);
         {
@@ -169,7 +169,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
             }
         }
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     @Override

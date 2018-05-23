@@ -85,12 +85,12 @@ public class VistaEmpresa extends JFrame implements Vista {
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{null, null, null, null, null, null},
-        	},
-        	new String[] {
-        		"N. Convenio", "Raz\u00F3n Social", "F. Firma", "Direcci\u00F3n", "Representante", "Mail"
-        	}
+                new Object[][]{
+                        {null, null, null, null, null, null},
+                },
+                new String[]{
+                        "N. Convenio", "Raz\u00F3n Social", "F. Firma", "Direcci\u00F3n", "Representante", "Mail"
+                }
         ));
         table.getColumnModel().getColumn(1).setPreferredWidth(200);
         table.getColumnModel().getColumn(1).setMinWidth(200);
