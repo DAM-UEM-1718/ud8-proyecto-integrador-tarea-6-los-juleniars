@@ -166,18 +166,6 @@ public class VistaAlumnos extends JFrame implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        /*table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {"265758984", "Julen", "Bujanda Blanco", "70000000A", "Sin Asignar"},
-                        {"089568345", "Iv\u00E1n", "Hern\u00E1ndez", "70000001B", "Apple Espa\u00F1a S.A."},
-                        {"940385554", "V\u00EDctor", "Jim\u00E9nez", "8000000A", "Facebook Inc."},
-                        {"325545232", "Andr\u00E9s", "Murillas", "9000000A", "Twitter Inc."},
-                },
-                new String[]{
-                        "Num. Matr\u00EDcula", "Nombre", "Apellidos", "DNI", "Empresa Asignada"
-                }
-        ));*/
-        //table.getColumnModel().getColumn(0).setPreferredWidth(91);
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
     }

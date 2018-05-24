@@ -20,11 +20,12 @@ import java.util.Vector;
 
 public class Modelo {
 
+    private VistaAlumnos vistaAlumnos;
     private VistaLogin vistaLogin;
-    private VistaRecuperarPswd vistaRecuperarPswd;
     private VistaConfiguracion vistaConfiguracion;
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
+    private VistaPersonal vistaPersonal;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaTutores vistaTutores;
@@ -61,7 +62,6 @@ public class Modelo {
     }
 
     public void setVistaRecuperarPswd(VistaRecuperarPswd vistaRecuperarPswd) {
-        this.vistaRecuperarPswd = vistaRecuperarPswd;
     }
 
     //Método para generar un hash de la contraseña utilizando el algoritmo SHA-256
@@ -395,6 +395,24 @@ public class Modelo {
         }
     }
 
+    public void cargarPersonal(){
+        String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
+        try {
+            vistaPersonal.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 1;")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarAlumnos() {
+        String[] nombreColumnas= {"N. Matrícula", "Nombre" , "Apellidos", "DNI"};
+        try {
+            vistaAlumnos.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setVistaTutores(VistaTutores vistaTutores) {
         this.vistaTutores = vistaTutores;
     }
@@ -405,6 +423,14 @@ public class Modelo {
 
     public void setVistaGrupos(VistaGrupos vistaGrupos) {
         this.vistaGrupos = vistaGrupos;
+    }
+
+    public void setVistaPersonal(VistaPersonal vistaPersonal) {
+        this.vistaPersonal = vistaPersonal;
+    }
+
+    public void setVistaAlumnos(VistaAlumnos vistaAlumnos) {
+        this.vistaAlumnos = vistaAlumnos;
     }
 
     private class ComboItem {

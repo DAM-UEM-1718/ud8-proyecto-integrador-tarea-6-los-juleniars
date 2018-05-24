@@ -75,6 +75,7 @@ public class Main {
         controlador.setModelo(modelo);
 
         //Asignamos las vistas al modelo
+        modelo.setVistaAlumnos(vistaAlumnos);
         modelo.setVistaLogin(vistaLogin);
         modelo.setVistaRecuperarPswd(vistaRecuperarPswd);
         modelo.setVistaConfiguracion(vistaConfiguracion);
@@ -83,6 +84,7 @@ public class Main {
         modelo.setVistaPrincipalTutor(vistaPrincipalTutor);
         modelo.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
         modelo.setVistaTutores(vistaTutores);
+        modelo.setVistaPersonal(vistaPersonal);
 
         //Muestra la vista de inicio de sesión
         vistaLogin.setVisible(true);

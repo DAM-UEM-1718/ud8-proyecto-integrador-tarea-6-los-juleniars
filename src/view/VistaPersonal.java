@@ -22,6 +22,10 @@ public class VistaPersonal extends JFrame implements Vista {
     private JButton btnVolver;
 
 
+    public JTable getTable() {
+        return table;
+    }
+
     public VistaPersonal() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -84,15 +88,6 @@ public class VistaPersonal extends JFrame implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {"53252", "Ana", "Manzanares", "00000000A"},
-                },
-                new String[]{
-                        "Num. Expediente", "Nombre", "Apellidos", "DNI"
-                }
-        ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(91);
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
     }

@@ -116,12 +116,13 @@ public class Controlador {
     }
 
     public void mostrarListaAlumnos() {
-        vistaAlumnos.getTable().setModel(modelo.modeloAlumnos());
-        vistaAlumnos.setVisible(true);
-        if (tipoUsuario == 0)
+        if (tipoUsuario == 0) {
+            vistaAlumnos.getTable().setModel(modelo.modeloAlumnos());
             vistaPrincipalTutor.setVisible(false);
-        else if (tipoUsuario == 2)
+        }else if (tipoUsuario == 2)
+            modelo.cargarAlumnos();
             vistaSuperUsuario.setVisible(false);
+        vistaAlumnos.setVisible(true);
     }
 
     public void mostarConfiguracion() {
@@ -201,6 +202,7 @@ public class Controlador {
     }
 
     public void mostrarPersonal() {
+        modelo.cargarPersonal();
         cerrarPanelUsuario();
         vistaPersonal.setVisible(true);
     }
