@@ -244,6 +244,10 @@ public class Controlador {
         }
     }
 
+    public void cambiarGrupo(){
+        modelo.cambiarGrupoTutor();
+    }
+
     public void setVistaPersonal(VistaPersonal vistaPersonal) {
         this.vistaPersonal = vistaPersonal;
     }

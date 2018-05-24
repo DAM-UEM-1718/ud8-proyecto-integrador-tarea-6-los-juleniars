@@ -7,6 +7,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.RandomStringUtils;
 import view.*;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileInputStream;
@@ -280,20 +281,29 @@ public class Modelo {
     }
 
     public void mostrarGrupoTutor() {
+        vistaPrincipalTutor.getComboBox().setModel(new DefaultComboBoxModel(new Modelo.ComboItem[]{}));
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;");
             preparedStatement.setString(1, nombreUsuario);
             ResultSet resultSet = preparedStatement.executeQuery();
             int contador = 0;
             while (resultSet.next()) {
-                if (contador == 0)
+                if (contador == 0) {
                     codGrupo = resultSet.getInt(2);
+                }
                 vistaPrincipalTutor.getComboBox().addItem(new ComboItem(resultSet.getString(1), resultSet.getString(2)));
                 contador++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void cambiarGrupoTutor() {
+        ComboItem comboItem = (ComboItem) vistaPrincipalTutor.getComboBox().getSelectedItem();
+        codGrupo = Integer.parseInt(comboItem.value);
+        mostrarPracticasTutor();
+
     }
 
     public void mostrarPracticasTutor() {
@@ -395,7 +405,7 @@ public class Modelo {
         }
     }
 
-    public void cargarPersonal(){
+    public void cargarPersonal() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
             vistaPersonal.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 1;")));
@@ -405,7 +415,7 @@ public class Modelo {
     }
 
     public void cargarAlumnos() {
-        String[] nombreColumnas= {"N. Matrícula", "Nombre" , "Apellidos", "DNI"};
+        String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
             vistaAlumnos.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;")));
         } catch (SQLException e) {
@@ -433,11 +443,11 @@ public class Modelo {
         this.vistaAlumnos = vistaAlumnos;
     }
 
-    private class ComboItem {
+    public class ComboItem {
         private String key;
         private String value;
 
-        private ComboItem(String key, String value) {
+        public ComboItem(String key, String value) {
             this.key = key;
             this.value = value;
         }

@@ -1,15 +1,13 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import controller.Controlador;
+import model.Modelo;
 
-import java.awt.*;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class VistaPrincipalTutor extends JFrame implements Vista {
 
@@ -39,7 +37,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[]{}));
+        comboBox.addActionListener(e -> controlador.cambiarGrupo());
 
         JLabel lblGrupo = new JLabel("Grupo:");
 

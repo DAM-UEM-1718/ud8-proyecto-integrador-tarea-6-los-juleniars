@@ -2,7 +2,7 @@
   <artifact type="jar" name="6.1-Tarea2:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/6_1_Tarea2_jar</output-path>
     <root id="archive" name="6.1-Tarea2.jar">
-      <element id="module-output" name="Proyecto Integrador" />
+      <element id="module-output" name="ProyectoIntegrador" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libraries/httpasyncclient-4.1.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libraries/mysql-connector-java-8.0.11.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libraries/org.json.jar" path-in-jar="/" />
