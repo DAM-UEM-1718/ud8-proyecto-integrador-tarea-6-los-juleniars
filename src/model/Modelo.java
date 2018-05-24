@@ -437,6 +437,10 @@ public class Modelo {
         }
     }
 
+    public void registro(String nombre, String usuario, String contraseña){
+
+    }
+
     public void setVistaTutores(VistaTutores vistaTutores) {
         this.vistaTutores = vistaTutores;
     }

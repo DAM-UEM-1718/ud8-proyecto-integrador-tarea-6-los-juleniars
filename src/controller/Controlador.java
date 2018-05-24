@@ -250,7 +250,11 @@ public class Controlador {
         modelo.cambiarGrupoTutor();
     }
 
-    public void registrar() {
+    public void mostrarRegistro() {
+        vistaRegistro.setVisible(true);
+    }
+
+    public void registrar(){
 
     }
 

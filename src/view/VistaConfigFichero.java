@@ -30,7 +30,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
     public VistaConfigFichero() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaConfigFichero.class.getResource("/img/uem.png")));
         setTitle("Configuración Base de Datos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 327, 306);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

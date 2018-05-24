@@ -103,7 +103,7 @@ public class VistaLogin extends JFrame implements Vista {
         btnRecuperarContrasea = new JButton("Recuperar Contraseña");
 
         btnRegistro = new JButton("Registro");
-        btnRegistro.addActionListener(e -> controlador.registrar());
+        btnRegistro.addActionListener(e -> controlador.mostrarRegistro());
 
         btnConfig = new JButton("");
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
