@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -24,6 +26,7 @@ public class Modelo {
     private VistaAlumnos vistaAlumnos;
     private VistaLogin vistaLogin;
     private VistaConfiguracion vistaConfiguracion;
+    private VistaConfigFichero vistaConfigFichero;
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
     private VistaPersonal vistaPersonal;
@@ -38,6 +41,7 @@ public class Modelo {
     private String PASSWORD;
     //Cambiar por la IP del servidor de la base de datos
     private String URL;
+    private String HOST;
     private Connection connection;
 
     private String nombreUsuario;
@@ -45,13 +49,23 @@ public class Modelo {
     private byte tipoUsuario;
     private byte intentos;
     private int codGrupo;
+    private Properties propiedades;
+    private FileInputStream entrada;
+    private final String FICHERO;
 
     public Modelo(VistaLogin vistaLogin) {
-        leerConfiguracion();
+        FICHERO = "config.ini";
+        propiedades = new Properties();
         intentos = 0;
         this.vistaLogin = vistaLogin;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            entrada = new FileInputStream(new File(FICHERO));
+            propiedades.load(entrada);
+            USER = propiedades.getProperty("user");
+            PASSWORD = propiedades.getProperty("password");
+            HOST = propiedades.getProperty("host");
+            URL = "jdbc:mysql://" + HOST + "/";
             connection = DriverManager.getConnection(URL + DATABASE, USER, PASSWORD);
         } catch (Exception e) {
             this.vistaLogin.errorConexion();
@@ -108,22 +122,6 @@ public class Modelo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void leerConfiguracion() {
-        Properties propiedades = new Properties();
-        try {
-            FileInputStream ficheroPropiedades = new FileInputStream(new File("config.ini"));
-            propiedades.load(ficheroPropiedades);
-            USER = propiedades.getProperty("user");
-            PASSWORD = propiedades.getProperty("password");
-            URL = propiedades.getProperty("url");
-            MAILGUN_API_KEY = propiedades.getProperty("mailgun");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     //Método para generar una contraseña aleatoria
@@ -351,6 +349,7 @@ public class Modelo {
         }
     }
 
+    //Carga la tabla del Dashboard del director
     public void mostrarDashboardDirector() {
         String[] arrayNombre = {"Grupo", "Tutor", "Alumnos por Asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombre));
@@ -415,11 +414,25 @@ public class Modelo {
         }
     }
 
+    //Carga la tabla de almunos
     public void cargarAlumnos() {
         String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
             vistaAlumnos.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;")));
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Escribe la configuración en el fichero config.ini
+    public void escribirConfiguracion(String user, String password, String host) {
+        try {
+            propiedades.setProperty("user", user);
+            propiedades.setProperty("password", password);
+            propiedades.setProperty("host", host);
+            FileOutputStream salida = new FileOutputStream(FICHERO);
+            propiedades.store(salida, "Editado");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -448,6 +461,11 @@ public class Modelo {
         this.vistaRegistro = vistaRegistro;
     }
 
+    public void setVistaConfigFichero(VistaConfigFichero vistaConfigFichero) {
+        this.vistaConfigFichero = vistaConfigFichero;
+    }
+
+    //Clase interna para los objetos de las comboBoxes
     public class ComboItem {
         private String key;
         private String value;

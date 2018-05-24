@@ -12,6 +12,7 @@ public class Main {
         VistaAnadirAdministrativo vistaAnadirAdministrativo = new VistaAnadirAdministrativo();
         VistaAnadirEmpresa vistaAnadirEmpresa = new VistaAnadirEmpresa();
         VistaAsignarPracticas vistaAsignarPracticas = new VistaAsignarPracticas();
+        VistaConfigFichero vistaConfigFichero = new VistaConfigFichero();
         VistaConfiguracion vistaConfiguracion = new VistaConfiguracion();
         VistaEmpresa vistaEmpresa = new VistaEmpresa();
         VistaGrupos vistaGrupos = new VistaGrupos();
@@ -35,6 +36,7 @@ public class Main {
         vistaAnadirAdministrativo.setControlador(controlador);
         vistaAnadirEmpresa.setControlador(controlador);
         vistaAsignarPracticas.setControlador(controlador);
+        vistaConfigFichero.setControlador(controlador);
         vistaConfiguracion.setControlador(controlador);
         vistaEmpresa.setControlador(controlador);
         vistaGrupos.setControlador(controlador);
@@ -56,6 +58,7 @@ public class Main {
         controlador.setVistaAnadirAdministrativo(vistaAnadirAdministrativo);
         controlador.setVistaAnadirEmpresa(vistaAnadirEmpresa);
         controlador.setVistaAsignarPracticas(vistaAsignarPracticas);
+        controlador.setVistaConfigFichero(vistaConfigFichero);
         controlador.setVistaConfiguracion(vistaConfiguracion);
         controlador.setVistaEmpresa(vistaEmpresa);
         controlador.setVistaGrupos(vistaGrupos);
@@ -84,6 +87,7 @@ public class Main {
         modelo.setVistaAlumnos(vistaAlumnos);
         modelo.setVistaLogin(vistaLogin);
         modelo.setVistaRecuperarPswd(vistaRecuperarPswd);
+        modelo.setVistaConfigFichero(vistaConfigFichero);
         modelo.setVistaConfiguracion(vistaConfiguracion);
         modelo.setVistaEmpresa(vistaEmpresa);
         modelo.setVistaGrupos(vistaGrupos);

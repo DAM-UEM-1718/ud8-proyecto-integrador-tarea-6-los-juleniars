@@ -2,6 +2,7 @@ package view;
 
 import controller.Controlador;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -9,8 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class VistaLogin extends JFrame implements Vista {
 
@@ -22,6 +23,7 @@ public class VistaLogin extends JFrame implements Vista {
     private JButton btnIniciarSesin;
     private JButton btnRecuperarContrasea;
     private JButton btnRegistro;
+    private JButton btnConfig;
     private JLabel lblUsuario;
     private JLabel lblContrasea;
 
@@ -102,6 +104,8 @@ public class VistaLogin extends JFrame implements Vista {
 
         btnRegistro = new JButton("Registro");
         btnRegistro.addActionListener(e -> controlador.registrar());
+
+        btnConfig = new JButton("");
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -123,11 +127,17 @@ public class VistaLogin extends JFrame implements Vista {
                                                         .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(btnIniciarSesin))))
                                 .addContainerGap(93, Short.MAX_VALUE))
+                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+                                .addContainerGap(376, Short.MAX_VALUE)
+                                .addComponent(btnConfig)
+                                .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
-                                .addGap(84)
+                                .addContainerGap()
+                                .addComponent(btnConfig)
+                                .addGap(50)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblUsuario)
                                         .addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -143,6 +153,17 @@ public class VistaLogin extends JFrame implements Vista {
                                 .addComponent(btnRegistro)
                                 .addContainerGap(48, Short.MAX_VALUE))
         );
+
+        BufferedImage icono = null;
+        try {
+            Image img = ImageIO.read(getClass().getResource("/img/nut.png"));
+            btnConfig.setIcon(new ImageIcon(img.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        btnConfig.setBorder(BorderFactory.createEmptyBorder());
+        btnConfig.setContentAreaFilled(false);
+        btnConfig.addActionListener(e -> controlador.mostrarConfigFichero());
         btnRecuperarContrasea.addActionListener(e -> controlador.mostrarRecuperarContrasena());
         getRootPane().setDefaultButton(btnIniciarSesin);
         contentPane.setLayout(gl_contentPane);
