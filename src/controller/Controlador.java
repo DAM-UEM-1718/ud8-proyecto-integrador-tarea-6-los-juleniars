@@ -11,6 +11,7 @@ public class Controlador {
     private VistaAnadirAdministrativo vistaAnadirAdministrativo;
     private VistaAnadirEmpresa vistaAnadirEmpresa;
     private VistaAsignarPracticas vistaAsignarPracticas;
+    private VistaConfigFichero vistaConfigFichero;
     private VistaConfiguracion vistaConfiguracion;
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
@@ -120,9 +121,9 @@ public class Controlador {
         if (tipoUsuario == 0) {
             vistaAlumnos.getTable().setModel(modelo.modeloAlumnos());
             vistaPrincipalTutor.setVisible(false);
-        }else if (tipoUsuario == 2)
+        } else if (tipoUsuario == 2)
             modelo.cargarAlumnos();
-            vistaSuperUsuario.setVisible(false);
+        vistaSuperUsuario.setVisible(false);
         vistaAlumnos.setVisible(true);
     }
 
@@ -245,11 +246,11 @@ public class Controlador {
         }
     }
 
-    public void cambiarGrupo(){
+    public void cambiarGrupo() {
         modelo.cambiarGrupoTutor();
     }
 
-    public void registrar(){
+    public void registrar() {
 
     }
 
@@ -300,6 +301,18 @@ public class Controlador {
 
     }
 
+    public void mostrarConfigFichero() {
+        vistaConfigFichero.setVisible(true);
+    }
+
+    public void escribirFichero() {
+        String user = vistaConfigFichero.getTxtUser().getText();
+        String password = new String(vistaConfigFichero.getPswContrasena().getPassword());
+        String url = vistaConfigFichero.getTxtURL().getText();
+        modelo.escribirConfiguracion(user, password, url);
+        vistaConfigFichero.setVisible(false);
+    }
+
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
         this.vistaAnadirEmpresa = vistaAnadirEmpresa;
     }
@@ -314,5 +327,9 @@ public class Controlador {
 
     public void setVistaRegistro(VistaRegistro vistaRegistro) {
         this.vistaRegistro = vistaRegistro;
+    }
+
+    public void setVistaConfigFichero(VistaConfigFichero vistaConfigFichero) {
+        this.vistaConfigFichero = vistaConfigFichero;
     }
 }
