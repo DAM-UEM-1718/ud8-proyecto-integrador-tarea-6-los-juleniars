@@ -358,6 +358,8 @@ public class Modelo {
         try {
             PreparedStatement stmtCodigoTutores = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO;");
             ResultSet resultSet = stmtCodigoTutores.executeQuery();
+            int alumnosPorAsignar = 0;
+            int clasesPorAsignar = 0;
             while (resultSet.next()) {
                 Vector<Object> vector = new Vector<>();
                 PreparedStatement stmtFilas = connection.prepareStatement("SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?;");
@@ -369,10 +371,16 @@ public class Modelo {
                 if (resultSetFilas.next() && resultSetSinAsignar.next()) {
                     vector.add(resultSetFilas.getString(1));
                     vector.add(resultSetFilas.getObject(2));
-                    vector.add(resultSetSinAsignar.getObject(1));
+                    int alumnosPorAsignarGrupo=resultSetSinAsignar.getInt(1);
+                    alumnosPorAsignar += alumnosPorAsignarGrupo;
+                    vector.add(alumnosPorAsignarGrupo);
+                    if (alumnosPorAsignarGrupo>0)
+                        clasesPorAsignar++;
                 }
                 data.add(vector);
             }
+            vistaPrincipalAdministrativo.getLblAlumnosPorAsignar().setText(Integer.toString(alumnosPorAsignar));
+            vistaPrincipalAdministrativo.getLblClases().setText(Integer.toString(clasesPorAsignar));
             vistaPrincipalAdministrativo.getTable().setModel(new DefaultTableModel(data, nombreColumnas));
         } catch (SQLException e) {
             e.printStackTrace();

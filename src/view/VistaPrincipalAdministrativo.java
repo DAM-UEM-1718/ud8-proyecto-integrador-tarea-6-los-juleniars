@@ -19,6 +19,9 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
     private JTable table;
 
     private JLabel lblBienvenido;
+    private JLabel lblNumeroAlumnos;
+    private JLabel lblAlumnosPorAsignar;
+    private JLabel lblClases;
 
     public VistaPrincipalAdministrativo() {
         try {
@@ -43,10 +46,10 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
 
         JLabel lblPorAsignar = new JLabel("Alumnos con prácticas por asignar:");
 
-        JLabel lblNumeroAlumnos = new JLabel("0");
+        lblNumeroAlumnos = new JLabel("0");
         lblNumeroAlumnos.setForeground(new Color(50, 205, 50));
 
-        JLabel lblAlumnosPorAsignar = new JLabel("2");
+        lblAlumnosPorAsignar = new JLabel("2");
         lblAlumnosPorAsignar.setForeground(Color.RED);
 
         JLabel lblEstadsticas = new JLabel("Estadísticas");
@@ -54,7 +57,7 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
 
         JLabel lblClasesConPrcticas = new JLabel("Clases con prácticas por asignar:");
 
-        JLabel lblClases = new JLabel("1");
+        lblClases = new JLabel("1");
         lblClases.setForeground(Color.RED);
 
         JButton btnTutores = new JButton("Tutores");
@@ -183,5 +186,17 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
 
     public JTable getTable() {
         return table;
+    }
+
+    public JLabel getLblNumeroAlumnos() {
+        return lblNumeroAlumnos;
+    }
+
+    public JLabel getLblAlumnosPorAsignar() {
+        return lblAlumnosPorAsignar;
+    }
+
+    public JLabel getLblClases() {
+        return lblClases;
     }
 }
