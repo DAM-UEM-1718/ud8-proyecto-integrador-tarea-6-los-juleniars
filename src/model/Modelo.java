@@ -30,6 +30,7 @@ public class Modelo {
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaTutores vistaTutores;
+    private VistaRegistro vistaRegistro;
 
     private String MAILGUN_API_KEY;
     private final String DATABASE = "gestionpracticas";
@@ -441,6 +442,10 @@ public class Modelo {
 
     public void setVistaAlumnos(VistaAlumnos vistaAlumnos) {
         this.vistaAlumnos = vistaAlumnos;
+    }
+
+    public void setVistaRegistro(VistaRegistro vistaRegistro) {
+        this.vistaRegistro = vistaRegistro;
     }
 
     public class ComboItem {

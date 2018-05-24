@@ -1,5 +1,5 @@
-import controller.*;
-import model.*;
+import controller.Controlador;
+import model.Modelo;
 import view.*;
 
 public class Main {
@@ -22,6 +22,7 @@ public class Main {
         VistaRecuperarPswd vistaRecuperarPswd = new VistaRecuperarPswd();
         VistaPrincipalAdministrativo vistaPrincipalAdministrativo = new VistaPrincipalAdministrativo();
         VistaPrincipalTutor vistaPrincipalTutor = new VistaPrincipalTutor();
+        VistaRegistro vistaRegistro = new VistaRegistro();
         VistaSuperUsuario vistaSuperUsuario = new VistaSuperUsuario();
         VistaTutores vistaTutores = new VistaTutores();
 
@@ -43,6 +44,7 @@ public class Main {
         vistaPrincipalAdministrativo.setControlador(controlador);
         vistaPrincipalTutor.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
+        vistaRegistro.setControlador(controlador);
         vistaSuperUsuario.setControlador(controlador);
         vistaLogin.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
@@ -65,8 +67,12 @@ public class Main {
         controlador.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
         controlador.setVistaPrincipalTutor(vistaPrincipalTutor);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
+        controlador.setVistaRegistro(vistaRegistro);
         controlador.setVistaSuperUsuario(vistaSuperUsuario);
         controlador.setVistaTutores(vistaTutores);
+
+        //Muestra la vista de inicio de sesión
+        vistaLogin.setVisible(true);
 
         //Creamos el modelo
         Modelo modelo = new Modelo(vistaLogin);
@@ -85,9 +91,7 @@ public class Main {
         modelo.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
         modelo.setVistaTutores(vistaTutores);
         modelo.setVistaPersonal(vistaPersonal);
-
-        //Muestra la vista de inicio de sesión
-        vistaLogin.setVisible(true);
+        modelo.setVistaRegistro(vistaRegistro);
 
     }
 

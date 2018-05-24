@@ -21,6 +21,7 @@ public class Controlador {
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaRecuperarPswd vistaRecuperarPswd;
+    private VistaRegistro vistaRegistro;
     private VistaSuperUsuario vistaSuperUsuario;
     private VistaTutores vistaTutores;
 
@@ -248,6 +249,10 @@ public class Controlador {
         modelo.cambiarGrupoTutor();
     }
 
+    public void registrar(){
+
+    }
+
     public void setVistaPersonal(VistaPersonal vistaPersonal) {
         this.vistaPersonal = vistaPersonal;
     }
@@ -307,4 +312,7 @@ public class Controlador {
         vistaAnadirEmpresa.setVisible(false);
     }
 
+    public void setVistaRegistro(VistaRegistro vistaRegistro) {
+        this.vistaRegistro = vistaRegistro;
+    }
 }

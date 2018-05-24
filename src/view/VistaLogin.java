@@ -1,17 +1,16 @@
 package view;
 
+import controller.Controlador;
+
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import controller.*;
-
-import java.awt.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VistaLogin extends JFrame implements Vista {
 
@@ -22,6 +21,7 @@ public class VistaLogin extends JFrame implements Vista {
     private JPasswordField pswContrasena;
     private JButton btnIniciarSesin;
     private JButton btnRecuperarContrasea;
+    private JButton btnRegistro;
     private JLabel lblUsuario;
     private JLabel lblContrasea;
 
@@ -99,27 +99,31 @@ public class VistaLogin extends JFrame implements Vista {
 
 
         btnRecuperarContrasea = new JButton("Recuperar Contraseña");
+
+        btnRegistro = new JButton("Registro");
+        btnRegistro.addActionListener(e -> controlador.registrar());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addGap(108)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(lblUsuario)
-                                                        .addComponent(lblContrasea))
-                                                .addGap(45)
-                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-                                                        .addComponent(pswContrasena)
-                                                        .addComponent(txtUsuario, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)))
-                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addComponent(btnRecuperarContrasea)
-                                                .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnIniciarSesin)))
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                                        .addComponent(btnRegistro)
+                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+                                                .addGroup(gl_contentPane.createSequentialGroup()
+                                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                                .addComponent(lblUsuario)
+                                                                .addComponent(lblContrasea))
+                                                        .addGap(45)
+                                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+                                                                .addComponent(pswContrasena)
+                                                                .addComponent(txtUsuario, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)))
+                                                .addGroup(gl_contentPane.createSequentialGroup()
+                                                        .addComponent(btnRecuperarContrasea)
+                                                        .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(btnIniciarSesin))))
                                 .addContainerGap(93, Short.MAX_VALUE))
         );
-        btnRecuperarContrasea.addActionListener(e -> controlador.mostrarRecuperarContrasena());
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
@@ -135,8 +139,11 @@ public class VistaLogin extends JFrame implements Vista {
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnRecuperarContrasea)
                                         .addComponent(btnIniciarSesin))
-                                .addContainerGap(77, Short.MAX_VALUE))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addComponent(btnRegistro)
+                                .addContainerGap(48, Short.MAX_VALUE))
         );
+        btnRecuperarContrasea.addActionListener(e -> controlador.mostrarRecuperarContrasena());
         getRootPane().setDefaultButton(btnIniciarSesin);
         contentPane.setLayout(gl_contentPane);
 
@@ -193,5 +200,4 @@ public class VistaLogin extends JFrame implements Vista {
         System.exit(0);
 
     }
-
 }
