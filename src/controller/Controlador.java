@@ -48,9 +48,9 @@ public class Controlador {
         vistaRecuperarPswd.setVisible(true);
     }
 
-    public void recuperarContrasena(String usuario) {
+    public void recuperarContrasena() {
         vistaRecuperarPswd.setVisible(false);
-        modelo.recuperarContrasena(usuario);
+        modelo.recuperarContrasena(vistaRecuperarPswd.getTxtNombreUsuario().getText());
     }
 
     public void mostrarVistaSesion() {
@@ -64,6 +64,7 @@ public class Controlador {
                 vistaLogin.setVisible(false);
                 break;
             case 1:
+                modelo.mostrarDashboardDirector();
                 vistaPrincipalAdministrativo.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
                 vistaPrincipalAdministrativo.setVisible(true);
                 vistaLogin.setVisible(false);
@@ -250,13 +251,13 @@ public class Controlador {
         vistaMensaje.setVisible(false);
     }
 
-    public void anadirTutor(String expediente, String mail) {
-        modelo.generarUsuario(expediente, mail, (byte) 0);
+    public void anadirTutor() {
+        modelo.generarUsuario(vistaAnadirTutor.getTxtExpediente().getText(), vistaAnadirTutor.getTxtMail().getText(), (byte) 0);
         vistaAnadirTutor.setVisible(false);
     }
 
-    public void anadirAdministrativo(String expediente, String mail) {
-        modelo.generarUsuario(expediente, mail, (byte) 1);
+    public void anadirAdministrativo() {
+        modelo.generarUsuario(vistaAnadirAdministrativo.getTxtExpediente().getText(), vistaAnadirAdministrativo.getTxtMail().getText(), (byte) 1);
         vistaAnadirAdministrativo.setVisible(false);
     }
 
@@ -265,8 +266,8 @@ public class Controlador {
         vistaAnadirTutor.setVisible(true);
     }
 
-    public void cambiarContrasena(String nuevaContrasena) {
-        modelo.cambiarContrasena(nuevaContrasena);
+    public void cambiarContrasena() {
+        modelo.cambiarContrasena(new String(vistaConfiguracion.getPswContrasena().getPassword()));
     }
 
     public void setVistaAnadirTutor(VistaAnadirTutor vistaAnadirTutor) {

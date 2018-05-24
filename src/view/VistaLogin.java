@@ -157,8 +157,20 @@ public class VistaLogin extends JFrame implements Vista {
         JOptionPane.showMessageDialog(null, "Contraseña enviada.");
     }
 
-    public void error(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje);
+    public void errorInicioSesion() {
+        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+    }
+
+    public void errorGenerarContrasena() {
+        JOptionPane.showMessageDialog(null, "Error al enviar lanueva contraseña.");
+    }
+
+    public void errorCrearUsuario() {
+        JOptionPane.showMessageDialog(null, "Error al crear el nuevo usuario.");
+    }
+
+    public void errorConexion() {
+        JOptionPane.showMessageDialog(null, "No ha sido posible conectarse a la base de datos.");
     }
 
     private void limpiarCampos() {

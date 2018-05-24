@@ -1,9 +1,15 @@
 package model;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.RandomStringUtils;
 import view.*;
 
-import java.io.*;
+import javax.swing.table.DefaultTableModel;
+import java.io.File;
+import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -11,13 +17,6 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Vector;
-
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
-import javax.swing.table.DefaultTableModel;
 
 public class Modelo {
 
@@ -27,6 +26,7 @@ public class Modelo {
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
 
+    private String MAILGUN_API_KEY;
     private final String DATABASE = "gestionpracticas";
     private String USER;
     private String PASSWORD;
@@ -48,7 +48,7 @@ public class Modelo {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL + DATABASE, USER, PASSWORD);
         } catch (Exception e) {
-            this.vistaLogin.error("No ha sido posible conectarse a la base de datos.");
+            this.vistaLogin.errorConexion();
             e.printStackTrace();
         }
     }
@@ -92,13 +92,13 @@ public class Modelo {
                 } else {
                     intentos++;
                     if (intentos < 3) {
-                        vistaLogin.error("Usuario o contraseña incorrectos");
+                        vistaLogin.errorInicioSesion();
                     } else {
                         vistaLogin.intentosSuperados();
                     }
                 }
             } else {
-                vistaLogin.error("Usuario o contraseña incorrectos");
+                vistaLogin.errorInicioSesion();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +113,7 @@ public class Modelo {
             USER = propiedades.getProperty("user");
             PASSWORD = propiedades.getProperty("password");
             URL = propiedades.getProperty("url");
+            MAILGUN_API_KEY = propiedades.getProperty("mailgun");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,14 +151,13 @@ public class Modelo {
             vistaLogin.contrasenaEnviada();
         } catch (Exception e) {
             e.printStackTrace();
-            vistaLogin.error("Error al generar la nueva contraseña.");
+            vistaLogin.errorGenerarContrasena();
         }
     }
 
     //Método que realiza una petición HTTP POST para enviar un mail a través de la API de Mailgun
     private void enviarMail(String mailEnvio, String asunto, String contenido) {
         final String DOMINIO = "mg.julen.gq";
-        final String MAILGUN_API_KEY = "key-7679fa660b4aa69e9bf7a624030c591b";
         try {
             HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + DOMINIO + "/messages")
                     .basicAuth("api", MAILGUN_API_KEY)
@@ -189,7 +189,7 @@ public class Modelo {
 
         } catch (Exception e) {
             e.printStackTrace();
-            vistaLogin.error("Error al crear el usuario.");
+            vistaLogin.errorCrearUsuario();
         }
 
     }
@@ -202,10 +202,10 @@ public class Modelo {
             preparedStatement.setString(1, nuevoHash);
             preparedStatement.setString(2, nombreUsuario);
             preparedStatement.executeUpdate();
-            vistaConfiguracion.error("Contraseña cambiada correctamente.");
+            vistaConfiguracion.contrasenaCambiada();
         } catch (Exception e) {
             e.printStackTrace();
-            vistaConfiguracion.error("No ha sido posible cambiar la contraseña.");
+            vistaConfiguracion.errorCambio();
         }
     }
 
@@ -232,8 +232,11 @@ public class Modelo {
     }
 
     public DefaultTableModel modeloAlumnos() {
+        String[] arrayNombres = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
-            return crearModelo(new Vector(), connection.prepareStatement("SELECT NUM_MAT FROM ESTUDIANTE;"));
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;");
+            preparedStatement.setInt(1, codGrupo);
+            return crearModelo(arrayNombres, preparedStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -242,9 +245,8 @@ public class Modelo {
 
     public DefaultTableModel modeloPracticas() {
         String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado"};
-        Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
-            return crearModelo(nombreColumnas, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ASIGNADAS FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA;"));
+            return crearModelo(arrayNombres, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -252,11 +254,11 @@ public class Modelo {
     }
 
 
-    private DefaultTableModel crearModelo(Vector nombreColumnas, PreparedStatement preparedStatement) throws SQLException {
+    private DefaultTableModel crearModelo(String[] arrayNombres, PreparedStatement preparedStatement) throws SQLException {
+        Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         ResultSet resultSet = preparedStatement.executeQuery();
         ResultSetMetaData metaData = resultSet.getMetaData();
         int numeroColumnas = metaData.getColumnCount();
-
         Vector<Vector<Object>> data = new Vector<>();
         while (resultSet.next()) {
             Vector<Object> vector = new Vector<>();
@@ -279,8 +281,12 @@ public class Modelo {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;");
             preparedStatement.setString(1, nombreUsuario);
             ResultSet resultSet = preparedStatement.executeQuery();
+            int contador = 0;
             while (resultSet.next()) {
+                if (contador == 0)
+                    codGrupo = resultSet.getInt(2);
                 vistaPrincipalTutor.getComboBox().addItem(new ComboItem(resultSet.getString(1), resultSet.getString(2)));
+                contador++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -291,12 +297,6 @@ public class Modelo {
         String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
-            PreparedStatement stmtGrupo = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO, USERS WHERE USERS.USR = ? AND GRUPO.USR = USERS.USR;");
-            stmtGrupo.setString(1, nombreUsuario);
-            ResultSet resultSetGrupo = stmtGrupo.executeQuery();
-            if (resultSetGrupo.next()) {
-                codGrupo = resultSetGrupo.getInt(1);
-            }
             PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
             statementAsignadas.setInt(1, codGrupo);
             ResultSet asignadas = statementAsignadas.executeQuery();
@@ -337,6 +337,34 @@ public class Modelo {
         }
     }
 
+    public void mostrarDashboardDirector() {
+        String[] arrayNombre = {"Grupo", "Tutor", "Alumnos por Asignar"};
+        Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombre));
+        Vector<Vector<Object>> data = new Vector<>();
+        try {
+            PreparedStatement stmtCodigoTutores = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO;");
+            ResultSet resultSet = stmtCodigoTutores.executeQuery();
+            while (resultSet.next()) {
+                Vector<Object> vector = new Vector<>();
+                PreparedStatement stmtFilas = connection.prepareStatement("SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?");
+                stmtFilas.setInt(1, resultSet.getInt(1));
+                PreparedStatement stmtSinAsignar = connection.prepareStatement("SELECT COUNT(*) FROM (SELECT ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE) AND COD_GRUPO=? AND ESTUDIANTE.NUM_MAT=GRUPO_ESTUDIANTE.NUM_MAT) AS CONSULTA;");
+                stmtSinAsignar.setInt(1, resultSet.getInt(1));
+                ResultSet resultSetFilas = stmtFilas.executeQuery();
+                ResultSet resultSetSinAsignar = stmtSinAsignar.executeQuery();
+                if (resultSetFilas.next() && resultSetSinAsignar.next()) {
+                    vector.add(resultSetFilas.getString(1));
+                    vector.add(resultSetFilas.getObject(2));
+                    vector.add(resultSetSinAsignar.getObject(1));
+                }
+                data.add(vector);
+            }
+            vistaPrincipalAdministrativo.getTable().setModel(new DefaultTableModel(data, nombreColumnas));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class ComboItem {
         private String key;
         private String value;
@@ -346,7 +374,6 @@ public class Modelo {
             this.value = value;
         }
 
-        @Override
         public String toString() {
             return key;
         }

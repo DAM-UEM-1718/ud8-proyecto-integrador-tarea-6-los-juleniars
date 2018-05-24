@@ -47,7 +47,7 @@ public class VistaAnadirAdministrativo extends JFrame implements Vista {
 
         JButton btnAadir = new JButton("Añadir");
         btnAadir.addActionListener(e -> {
-            controlador.anadirAdministrativo(txtExpediente.getText(), txtMail.getText());
+            controlador.anadirAdministrativo();
             controlador.mostrarTutores();
         });
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -87,5 +87,13 @@ public class VistaAnadirAdministrativo extends JFrame implements Vista {
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public JTextField getTxtMail() {
+        return txtMail;
+    }
+
+    public JTextField getTxtExpediente() {
+        return txtExpediente;
     }
 }

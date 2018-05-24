@@ -50,7 +50,7 @@ public class VistaConfiguracion extends JFrame implements Vista {
         btnCambiar.setEnabled(false);
         btnCambiar.addActionListener(e -> {
             if (new String(pswContrasena.getPassword()).equals(new String(pswConfirmarContrasena.getPassword()))) {
-                controlador.cambiarContrasena(new String(pswContrasena.getPassword()));
+                controlador.cambiarContrasena();
             } else {
                 error("Las contraseñas no coinciden.");
             }
@@ -98,6 +98,7 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
         btnCambiarAvatar = new JButton("Cambiar Avatar");
         btnCambiarAvatar.addActionListener(e -> {
+
         });
 
         btnAceptar = new JButton("Aceptar");
@@ -168,7 +169,19 @@ public class VistaConfiguracion extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
+    public void contrasenaCambiada() {
+        JOptionPane.showMessageDialog(null, "Contraseña cambiada correctamente.");
+    }
+
+    public void errorCambio() {
+        JOptionPane.showMessageDialog(null, "Contraseña cambiada correctamente.");
+    }
+
     public void error(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
+    }
+
+    public JPasswordField getPswContrasena() {
+        return pswContrasena;
     }
 }

@@ -180,4 +180,8 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
     public JLabel getLblBienvenido() {
         return lblBienvenido;
     }
+
+    public JTable getTable() {
+        return table;
+    }
 }

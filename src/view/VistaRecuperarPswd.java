@@ -64,7 +64,7 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 JButton okButton = new JButton("Enviar");
-                okButton.addActionListener(e -> controlador.recuperarContrasena(txtNombreUsuario.getText()));
+                okButton.addActionListener(e -> controlador.recuperarContrasena());
                 okButton.setActionCommand("OK");
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);
@@ -84,4 +84,7 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
     }
 
 
+    public JTextField getTxtNombreUsuario() {
+        return txtNombreUsuario;
+    }
 }
