@@ -135,16 +135,19 @@ public class Controlador {
     }
 
     public void mostrarTutores() {
+        modelo.cargarTutores();
         cerrarPanelUsuario();
         vistaTutores.setVisible(true);
     }
 
     public void mostrarGrupos() {
+        modelo.cargarGrupos();
         vistaPrincipalAdministrativo.setVisible(false);
         vistaGrupos.setVisible(true);
     }
 
     public void mostrarEmpresas() {
+        modelo.cargarEmpresas();
         vistaPrincipalAdministrativo.setVisible(false);
         vistaEmpresa.setVisible(true);
     }

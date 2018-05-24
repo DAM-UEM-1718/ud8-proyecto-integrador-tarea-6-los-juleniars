@@ -23,8 +23,11 @@ public class Modelo {
     private VistaLogin vistaLogin;
     private VistaRecuperarPswd vistaRecuperarPswd;
     private VistaConfiguracion vistaConfiguracion;
+    private VistaEmpresa vistaEmpresa;
+    private VistaGrupos vistaGrupos;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
+    private VistaTutores vistaTutores;
 
     private String MAILGUN_API_KEY;
     private final String DATABASE = "gestionpracticas";
@@ -346,7 +349,7 @@ public class Modelo {
             ResultSet resultSet = stmtCodigoTutores.executeQuery();
             while (resultSet.next()) {
                 Vector<Object> vector = new Vector<>();
-                PreparedStatement stmtFilas = connection.prepareStatement("SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?");
+                PreparedStatement stmtFilas = connection.prepareStatement("SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?;");
                 stmtFilas.setInt(1, resultSet.getInt(1));
                 PreparedStatement stmtSinAsignar = connection.prepareStatement("SELECT COUNT(*) FROM (SELECT ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE) AND COD_GRUPO=? AND ESTUDIANTE.NUM_MAT=GRUPO_ESTUDIANTE.NUM_MAT) AS CONSULTA;");
                 stmtSinAsignar.setInt(1, resultSet.getInt(1));
@@ -363,6 +366,45 @@ public class Modelo {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void cargarTutores() {
+        String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
+        try {
+            vistaTutores.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 0;")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarGrupos() {
+        String[] nombreColumnas = {"Código", "Nombre", "Nombre del Ciclo", "Tutor"};
+        try {
+            vistaGrupos.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT COD_GRUPO, NOM_GRUPO, NOM_CICLO, NOMBRE FROM GRUPO, CICLO, USERS WHERE CICLO.CLAVE_CICLO = GRUPO.CLAVE_CICLO AND GRUPO.USR = USERS.USR;")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarEmpresas() {
+        String[] nombreColumnas = {"N. Convenio", "Nombre", "F. Firma", "Dirección", "Localidad", "Representante", "Mail"};
+        try {
+            vistaEmpresa.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_CONV, NOM_EMPR, F_FIRMA, DIRECCION, LOCALIDAD, REPR_EMPR, CORREO_EMPR FROM EMPRESA;")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setVistaTutores(VistaTutores vistaTutores) {
+        this.vistaTutores = vistaTutores;
+    }
+
+    public void setVistaEmpresa(VistaEmpresa vistaEmpresa) {
+        this.vistaEmpresa = vistaEmpresa;
+    }
+
+    public void setVistaGrupos(VistaGrupos vistaGrupos) {
+        this.vistaGrupos = vistaGrupos;
     }
 
     private class ComboItem {

@@ -1,16 +1,13 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.DefaultTableModel;
-
 import controller.Controlador;
 
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class VistaTutores extends JFrame implements Vista {
 
@@ -84,16 +81,6 @@ public class VistaTutores extends JFrame implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {"53252", "Pedro Jes\u00FAs", "Camacho", "00000000A"},
-                        {"52355", "Ra\u00FAl", "Rodr\u00EDguez", "00000001B"},
-                },
-                new String[]{
-                        "Num. Expediente", "Nombre", "Apellidos", "DNI"
-                }
-        ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(91);
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
     }
@@ -101,5 +88,9 @@ public class VistaTutores extends JFrame implements Vista {
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 }

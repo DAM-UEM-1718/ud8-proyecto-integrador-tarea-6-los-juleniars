@@ -78,8 +78,11 @@ public class Main {
         modelo.setVistaLogin(vistaLogin);
         modelo.setVistaRecuperarPswd(vistaRecuperarPswd);
         modelo.setVistaConfiguracion(vistaConfiguracion);
+        modelo.setVistaEmpresa(vistaEmpresa);
+        modelo.setVistaGrupos(vistaGrupos);
         modelo.setVistaPrincipalTutor(vistaPrincipalTutor);
         modelo.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
+        modelo.setVistaTutores(vistaTutores);
 
         //Muestra la vista de inicio de sesión
         vistaLogin.setVisible(true);

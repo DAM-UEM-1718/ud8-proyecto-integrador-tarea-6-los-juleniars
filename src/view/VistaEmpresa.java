@@ -84,17 +84,6 @@ public class VistaEmpresa extends JFrame implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {null, null, null, null, null, null},
-                },
-                new String[]{
-                        "N. Convenio", "Raz\u00F3n Social", "F. Firma", "Direcci\u00F3n", "Representante", "Mail"
-                }
-        ));
-        table.getColumnModel().getColumn(1).setPreferredWidth(200);
-        table.getColumnModel().getColumn(1).setMinWidth(200);
-        table.getColumnModel().getColumn(4).setPreferredWidth(97);
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
     }
@@ -102,5 +91,9 @@ public class VistaEmpresa extends JFrame implements Vista {
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 }

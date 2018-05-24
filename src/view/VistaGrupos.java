@@ -82,19 +82,6 @@ public class VistaGrupos extends JFrame implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {"244", "Dise\u00F1o de Aplicaciones Multiplataforma", "Pedro Camacho", "2", "2018", "2"},
-                },
-                new String[]{
-                        "C\u00F3digo Grupo", "Nombre Ciclo", "Tutor", "Curso", "A\u00F1o", "Alumnos sin Empresa"
-                }
-        ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(91);
-        table.getColumnModel().getColumn(1).setPreferredWidth(200);
-        table.getColumnModel().getColumn(1).setMinWidth(200);
-        table.getColumnModel().getColumn(5).setPreferredWidth(115);
-        table.getColumnModel().getColumn(5).setMinWidth(115);
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
     }
@@ -102,5 +89,9 @@ public class VistaGrupos extends JFrame implements Vista {
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 }
