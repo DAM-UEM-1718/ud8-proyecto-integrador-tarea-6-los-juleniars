@@ -35,12 +35,14 @@ public class VistaConfigFichero extends JFrame implements Vista {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         JLabel lblUsuario = new JLabel("Usuario");
 
         JLabel lblContrasea = new JLabel("Contraseña");
 
-        JLabel lblUrlConexin = new JLabel("URL conexión");
+        JLabel lblHostMysql = new JLabel("Host MySQL");
 
         txtUser = new JTextField();
         txtUser.setColumns(10);
@@ -61,7 +63,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                                         .addComponent(lblUsuario)
                                                         .addComponent(lblContrasea)
-                                                        .addComponent(lblUrlConexin))
+                                                        .addComponent(lblHostMysql))
                                                 .addGap(62)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                                         .addComponent(txtURL, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
@@ -88,7 +90,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
                                         .addComponent(pswContrasena, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(lblUrlConexin)
+                                        .addComponent(lblHostMysql)
                                         .addComponent(txtURL, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addComponent(btnAceptar)

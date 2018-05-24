@@ -349,6 +349,7 @@ public class Modelo {
         }
     }
 
+    //Carga la tabla del Dashboard del director
     public void mostrarDashboardDirector() {
         String[] arrayNombre = {"Grupo", "Tutor", "Alumnos por Asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombre));
@@ -413,6 +414,7 @@ public class Modelo {
         }
     }
 
+    //Carga la tabla de almunos
     public void cargarAlumnos() {
         String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
@@ -422,11 +424,12 @@ public class Modelo {
         }
     }
 
-    public void escribirConfiguracion(String user, String password, String url) {
+    //Escribe la configuración en el fichero config.ini
+    public void escribirConfiguracion(String user, String password, String host) {
         try {
             propiedades.setProperty("user", user);
             propiedades.setProperty("password", password);
-            propiedades.setProperty("url", url);
+            propiedades.setProperty("host", host);
             FileOutputStream salida = new FileOutputStream(FICHERO);
             propiedades.store(salida, "Editado");
         } catch (IOException e) {
@@ -462,6 +465,7 @@ public class Modelo {
         this.vistaConfigFichero = vistaConfigFichero;
     }
 
+    //Clase interna para los objetos de las comboBoxes
     public class ComboItem {
         private String key;
         private String value;
