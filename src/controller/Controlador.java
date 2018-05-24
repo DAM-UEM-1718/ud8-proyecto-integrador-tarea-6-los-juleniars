@@ -254,8 +254,14 @@ public class Controlador {
         vistaRegistro.setVisible(true);
     }
 
-    public void registrar(){
-
+    public void registrar() {
+        String nombre = vistaRegistro.getTxtNombre().getText();
+        String usuario = vistaRegistro.getTxtUser().getText();
+        String password = new String(vistaRegistro.getPswContrasena().getPassword());
+        String mail = vistaRegistro.getTxtMail().getText();
+        String nif = vistaRegistro.getTxtNIF().getText();
+        modelo.registro(nombre, usuario, password, mail, nif);
+        vistaRegistro.setVisible(false);
     }
 
     public void setVistaPersonal(VistaPersonal vistaPersonal) {

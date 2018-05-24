@@ -1,7 +1,6 @@
 package model;
 
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -66,6 +65,7 @@ public class Modelo {
             PASSWORD = propiedades.getProperty("password");
             HOST = propiedades.getProperty("host");
             URL = "jdbc:mysql://" + HOST + "/";
+            MAILGUN_API_KEY = propiedades.getProperty("mailgun");
             connection = DriverManager.getConnection(URL + DATABASE, USER, PASSWORD);
         } catch (Exception e) {
             this.vistaLogin.errorConexion();
@@ -162,13 +162,14 @@ public class Modelo {
     private void enviarMail(String mailEnvio, String asunto, String contenido) {
         final String DOMINIO = "mg.julen.gq";
         try {
-            HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + DOMINIO + "/messages")
+            HttpResponse<String> request = Unirest.post("https://api.mailgun.net/v3/" + DOMINIO + "/messages")
                     .basicAuth("api", MAILGUN_API_KEY)
                     .queryString("from", "Gestión Prácticas CFGS - UEM <noreply@uemgestionpracticas.com>")
                     .queryString("to", mailEnvio)
                     .queryString("subject", asunto)
                     .queryString("html", contenido)
-                    .asJson();
+                    .asString();
+            //System.out.println(request.getBody());
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -437,8 +438,21 @@ public class Modelo {
         }
     }
 
-    public void registro(String nombre, String usuario, String contraseña){
-
+    public void registro(String nombre, String usuario, String password, String mail, String nif) {
+        try {
+            password = hash256(password);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);");
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, usuario);
+            preparedStatement.setString(3, password);
+            preparedStatement.setInt(4, 0);
+            preparedStatement.setString(5, mail);
+            preparedStatement.setString(6, nif);
+            preparedStatement.executeUpdate();
+            enviarMail(mail, "Gestión Prácticas CFGS", "Bienvenido al software gestor de prácticas de CFGS. Su usuario es: " + usuario);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setVistaTutores(VistaTutores vistaTutores) {
