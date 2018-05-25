@@ -5,6 +5,8 @@ import controller.Controlador;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class VistaConfigFichero extends JFrame implements Vista {
@@ -12,20 +14,9 @@ public class VistaConfigFichero extends JFrame implements Vista {
     private Controlador controlador;
     private JPanel contentPane;
     private JTextField txtUser;
-    private JTextField txtURL;
+    private JTextField txtHost;
     private JPasswordField pswContrasena;
-
-    public JTextField getTxtUser() {
-        return txtUser;
-    }
-
-    public JTextField getTxtURL() {
-        return txtURL;
-    }
-
-    public JPasswordField getPswContrasena() {
-        return pswContrasena;
-    }
+    private JButton btnAceptar;
 
     public VistaConfigFichero() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaConfigFichero.class.getResource("/img/uem.png")));
@@ -47,12 +38,13 @@ public class VistaConfigFichero extends JFrame implements Vista {
         txtUser = new JTextField();
         txtUser.setColumns(10);
 
-        txtURL = new JTextField();
-        txtURL.setColumns(10);
+        txtHost = new JTextField();
+        txtHost.setColumns(10);
 
         pswContrasena = new JPasswordField();
 
-        JButton btnAceptar = new JButton("Aceptar");
+        btnAceptar = new JButton("Aceptar");
+        btnAceptar.setEnabled(false);
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -66,7 +58,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
                                                         .addComponent(lblHostMysql))
                                                 .addGap(62)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(txtURL, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtHost, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
                                                                         .addComponent(pswContrasena, Alignment.LEADING)
@@ -91,7 +83,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
                                 .addGap(18)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblHostMysql)
-                                        .addComponent(txtURL, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtHost, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addComponent(btnAceptar)
                                 .addGap(57))
@@ -99,12 +91,75 @@ public class VistaConfigFichero extends JFrame implements Vista {
         contentPane.setLayout(gl_contentPane);
 
         btnAceptar.addActionListener(e -> controlador.escribirFichero());
+
+        txtUser.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+        pswContrasena.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+        txtHost.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
     }
 
-    public void limpiarCampos(){
-        txtURL.setText("");
+    public JTextField getTxtUser() {
+        return txtUser;
+    }
+
+    public JTextField getTxtHost() {
+        return txtHost;
+    }
+
+    public JPasswordField getPswContrasena() {
+        return pswContrasena;
+    }
+
+    public void limpiarCampos() {
+        txtHost.setText("");
         txtUser.setText("");
         pswContrasena.setText("");
+    }
+
+    public void changed() {
+        if (txtUser.getText().equals("") || txtHost.getText().equals("") || new String(pswContrasena.getPassword()).equals("")) {
+            btnAceptar.setEnabled(false);
+        } else {
+            btnAceptar.setEnabled(true);
+        }
     }
 
     @Override

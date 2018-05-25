@@ -172,10 +172,24 @@ public class VistaRegistro extends JFrame implements Vista {
             }
 
         });
+        txtNIF.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
 
     }
 
-    public void limpiarCampos(){
+    public void limpiarCampos() {
         txtMail.setText("");
         txtUser.setText("");
         pswContrasena.setText("");
@@ -183,8 +197,8 @@ public class VistaRegistro extends JFrame implements Vista {
         txtNombre.setText("");
     }
 
-    private void changed(){
-        if (txtUser.getText().equals("")|| new String(pswContrasena.getPassword()).equals("")||txtMail.getText().equals("")){
+    private void changed() {
+        if (txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.equals("")) {
             btnValidar.setEnabled(false);
         } else {
             btnValidar.setEnabled(true);
