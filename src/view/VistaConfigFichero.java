@@ -101,6 +101,12 @@ public class VistaConfigFichero extends JFrame implements Vista {
         btnAceptar.addActionListener(e -> controlador.escribirFichero());
     }
 
+    public void limpiarCampos(){
+        txtURL.setText("");
+        txtUser.setText("");
+        pswContrasena.setText("");
+    }
+
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;

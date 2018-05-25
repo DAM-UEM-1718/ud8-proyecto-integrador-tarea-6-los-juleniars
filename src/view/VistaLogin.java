@@ -190,7 +190,7 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     public void errorGenerarContrasena() {
-        JOptionPane.showMessageDialog(null, "Error al enviar lanueva contraseña.");
+        JOptionPane.showMessageDialog(null, "Error al enviar la nueva contraseña.");
     }
 
     public void errorCrearUsuario() {

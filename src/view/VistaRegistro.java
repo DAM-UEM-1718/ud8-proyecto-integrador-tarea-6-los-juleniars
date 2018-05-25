@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class VistaRegistro extends JFrame implements Vista {
@@ -20,6 +22,7 @@ public class VistaRegistro extends JFrame implements Vista {
     private JLabel lblNif;
     private JLabel lblRegistro;
     private JPasswordField pswContrasena;
+    private JButton btnValidar;
 
     public VistaRegistro() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -44,8 +47,9 @@ public class VistaRegistro extends JFrame implements Vista {
         txtNIF = new JTextField();
         txtNIF.setColumns(10);
 
-        JButton btnValidar = new JButton("VALIDAR");
+        btnValidar = new JButton("VALIDAR");
         btnValidar.addActionListener(e -> controlador.registrar());
+        btnValidar.setEnabled(false);
 
         JLabel lblNombreYApellidos = new JLabel("Nombre y Apellidos:");
 
@@ -125,6 +129,66 @@ public class VistaRegistro extends JFrame implements Vista {
                                 .addContainerGap())
         );
         contentPane.setLayout(gl_contentPane);
+
+        txtUser.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+        pswContrasena.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+        txtMail.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+
+    }
+
+    public void limpiarCampos(){
+        txtMail.setText("");
+        txtUser.setText("");
+        pswContrasena.setText("");
+        txtNIF.setText("");
+        txtNombre.setText("");
+    }
+
+    private void changed(){
+        if (txtUser.getText().equals("")|| new String(pswContrasena.getPassword()).equals("")||txtMail.getText().equals("")){
+            btnValidar.setEnabled(false);
+        } else {
+            btnValidar.setEnabled(true);
+        }
     }
 
     @Override

@@ -261,6 +261,7 @@ public class Controlador {
         String mail = vistaRegistro.getTxtMail().getText();
         String nif = vistaRegistro.getTxtNIF().getText();
         modelo.registro(nombre, usuario, password, mail, nif);
+        vistaRegistro.limpiarCampos();
         vistaRegistro.setVisible(false);
     }
 
@@ -320,6 +321,7 @@ public class Controlador {
         String password = new String(vistaConfigFichero.getPswContrasena().getPassword());
         String host = vistaConfigFichero.getTxtURL().getText();
         modelo.escribirConfiguracion(user, password, host);
+        vistaConfigFichero.limpiarCampos();
         vistaConfigFichero.setVisible(false);
     }
 

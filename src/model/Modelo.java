@@ -22,6 +22,8 @@ import java.util.Vector;
 
 public class Modelo {
 
+    private final String DATABASE = "gestionpracticas";
+    private final String FICHERO;
     private VistaAlumnos vistaAlumnos;
     private VistaLogin vistaLogin;
     private VistaConfiguracion vistaConfiguracion;
@@ -33,16 +35,13 @@ public class Modelo {
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaTutores vistaTutores;
     private VistaRegistro vistaRegistro;
-
     private String MAILGUN_API_KEY;
-    private final String DATABASE = "gestionpracticas";
     private String USER;
     private String PASSWORD;
     //Cambiar por la IP del servidor de la base de datos
     private String URL;
     private String HOST;
     private Connection connection;
-
     private String nombreUsuario;
     private String nombreUsuarioFormal;
     private byte tipoUsuario;
@@ -50,7 +49,7 @@ public class Modelo {
     private int codGrupo;
     private Properties propiedades;
     private FileInputStream entrada;
-    private final String FICHERO;
+    private DefaultTableModel tablaAlumnos;
 
     public Modelo(VistaLogin vistaLogin) {
         FICHERO = "config.ini";
@@ -73,13 +72,6 @@ public class Modelo {
         }
     }
 
-    public void setVistaLogin(VistaLogin vistaLogin) {
-        this.vistaLogin = vistaLogin;
-    }
-
-    public void setVistaRecuperarPswd(VistaRecuperarPswd vistaRecuperarPswd) {
-    }
-
     //Método para generar un hash de la contraseña utilizando el algoritmo SHA-256
     private static String hash256(String data) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -92,6 +84,13 @@ public class Modelo {
         StringBuilder result = new StringBuilder();
         for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
         return result.toString();
+    }
+
+    public void setVistaLogin(VistaLogin vistaLogin) {
+        this.vistaLogin = vistaLogin;
+    }
+
+    public void setVistaRecuperarPswd(VistaRecuperarPswd vistaRecuperarPswd) {
     }
 
     //Método de inicio de sesión
@@ -371,10 +370,10 @@ public class Modelo {
                 if (resultSetFilas.next() && resultSetSinAsignar.next()) {
                     vector.add(resultSetFilas.getString(1));
                     vector.add(resultSetFilas.getObject(2));
-                    int alumnosPorAsignarGrupo=resultSetSinAsignar.getInt(1);
+                    int alumnosPorAsignarGrupo = resultSetSinAsignar.getInt(1);
                     alumnosPorAsignar += alumnosPorAsignarGrupo;
                     vector.add(alumnosPorAsignarGrupo);
-                    if (alumnosPorAsignarGrupo>0)
+                    if (alumnosPorAsignarGrupo > 0)
                         clasesPorAsignar++;
                 }
                 data.add(vector);
@@ -427,7 +426,8 @@ public class Modelo {
     public void cargarAlumnos() {
         String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
-            vistaAlumnos.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;")));
+            tablaAlumnos = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;"));
+            vistaAlumnos.getTable().setModel(tablaAlumnos);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -9,6 +9,8 @@ import controller.Controlador;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class VistaRecuperarPswd extends JDialog implements Vista {
 
@@ -16,6 +18,7 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
     private JLabel lblNombreUsuario;
     private JTextField txtNombreUsuario;
     private Controlador controlador;
+    private JButton okButton;
 
 
     public VistaRecuperarPswd() {
@@ -63,9 +66,10 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
-                JButton okButton = new JButton("Enviar");
+                okButton = new JButton("Enviar");
                 okButton.addActionListener(e -> controlador.recuperarContrasena());
                 okButton.setActionCommand("OK");
+                okButton.setEnabled(false);
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);
             }
@@ -75,6 +79,28 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
                 cancelButton.setActionCommand("Cancel");
                 buttonPane.add(cancelButton);
             }
+        }
+        txtNombreUsuario.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+    }
+
+    public void changed(){
+        if (txtNombreUsuario.getText().equals("")){
+            okButton.setEnabled(false);
+        } else {
+            okButton.setEnabled(true);
         }
     }
 
