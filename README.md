@@ -9,7 +9,7 @@ El archivo debe tener la siguiente estructura:
 ```
 user=USUARIO
 password=CONTRASEÑA
-host=IP_DEL_SERVIDOR
+url=URL_CONEXION_BBDD
 ```
 
 La base de datos debe llevar el nombre de "gestionpracticas" y se debe de haber inicializado con el script de creación.

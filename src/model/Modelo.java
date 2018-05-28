@@ -40,7 +40,6 @@ public class Modelo {
     private String PASSWORD;
     //Cambiar por la IP del servidor de la base de datos
     private String URL;
-    private String HOST;
     private Connection connection;
     private String nombreUsuario;
     private String nombreUsuarioFormal;
@@ -62,8 +61,7 @@ public class Modelo {
             propiedades.load(entrada);
             USER = propiedades.getProperty("user");
             PASSWORD = propiedades.getProperty("password");
-            HOST = propiedades.getProperty("host");
-            URL = "jdbc:mysql://" + HOST + "/";
+            URL = propiedades.getProperty("url");
             MAILGUN_API_KEY = propiedades.getProperty("mailgun");
             connection = DriverManager.getConnection(URL + DATABASE, USER, PASSWORD);
         } catch (Exception e) {
