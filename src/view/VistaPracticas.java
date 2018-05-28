@@ -52,7 +52,7 @@ public class VistaPracticas extends JFrame implements Vista {
 
         JButton btnEliminarPracticas = new JButton("Eliminar Prácticas");
         btnEliminarPracticas.addActionListener(e -> {
-
+            controlador.eliminarPracticas();
         });
 
         JButton btnVolver = new JButton("Volver");

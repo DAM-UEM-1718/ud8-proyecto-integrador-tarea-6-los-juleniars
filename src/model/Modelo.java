@@ -16,12 +16,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -252,21 +250,26 @@ public class Modelo {
         return null;
     }
 
-    public DefaultTableModel modeloPracticas() {
-        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado"};
+    public void cargarPracticas() {
+        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado", "N. Matrícula", "N. Convenio"};
+        JTable tabla = vistaPracticas.getTable();
         try {
             switch (tipoUsuario) {
                 case 0:
-                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
-                    preparedStatement.setInt(1, codGrupo);
-                    return crearModelo(arrayNombres, preparedStatement);
+                    PreparedStatement stmtTutor = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
+                    stmtTutor.setInt(1, codGrupo);
+                    tabla.setModel(crearModelo(arrayNombres, stmtTutor));
+                    break;
                 case 1:
-                    return crearModelo(arrayNombres, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;"));
+                    PreparedStatement stmtDirector = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;");
+                    tabla.setModel(crearModelo(arrayNombres, stmtDirector));
+                    break;
             }
+            tabla.removeColumn(tabla.getColumnModel().getColumn(9));
+            tabla.removeColumn(tabla.getColumnModel().getColumn(9));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
 
@@ -500,9 +503,31 @@ public class Modelo {
             preparedStatement.setString(9, estado);
             preparedStatement.executeUpdate();
             DefaultTableModel modelo = (DefaultTableModel) vistaPracticas.getTable().getModel();
-            modelo.addRow(new String[]{nombreEstudiante, nombreEmpresa, tutorEmpresa, fechaInicioString, fechaFinString, horario, localizacion, Boolean.toString(erasmus), estado});
+            modelo.addRow(new String[]{nombreEstudiante, nombreEmpresa, tutorEmpresa, fechaInicioString, fechaFinString, horario, localizacion, Boolean.toString(erasmus), estado, Integer.toString(numMatEstudiante), Integer.toString(numConvEmpresa)});
             vistaAsignarPracticas.setVisible(false);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void eliminarPracticas() {
+        DefaultTableModel modelo = (DefaultTableModel) vistaPracticas.getTable().getModel();
+        JTable tabla = vistaPracticas.getTable();
+        Object numeroMatricula = modelo.getValueAt(tabla.getSelectedRow(), 9);
+        Object numeroConvenio = modelo.getValueAt(tabla.getSelectedRow(), 10);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;");
+            if (numeroMatricula instanceof String && numeroConvenio instanceof String) {
+                preparedStatement.setInt(1, Integer.parseInt((String) numeroMatricula));
+                preparedStatement.setInt(2, Integer.parseInt((String) numeroConvenio));
+
+            } else {
+                preparedStatement.setInt(1, (Integer) numeroMatricula);
+                preparedStatement.setInt(2, (Integer) numeroConvenio);
+            }
+            preparedStatement.executeUpdate();
+            modelo.removeRow(tabla.getSelectedRow());
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

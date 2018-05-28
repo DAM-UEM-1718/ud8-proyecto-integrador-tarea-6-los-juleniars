@@ -132,8 +132,8 @@ public class Controlador {
     }
 
     public void mostrarPracticas() {
-        vistaPracticas.getTable().setModel(modelo.modeloPracticas());
-        vistaPrincipalAdministrativo.setVisible(false);
+        cerrarPanelUsuario();
+        modelo.cargarPracticas();
         vistaPracticas.setVisible(true);
     }
 
@@ -195,6 +195,10 @@ public class Controlador {
         boolean erasmus = vistaAsignarPracticas.getChckbxErasmus().isSelected();
         String estado = vistaAsignarPracticas.getTxtEstado().getText();
         modelo.asignarPracticas(estudiante, empresa, fechaInicio, fechafin, tutorEmpresa, horario, localizacion, erasmus, estado);
+    }
+
+    public void eliminarPracticas() {
+        modelo.eliminarPracticas();
     }
 
     public void cerrarTutores() {
