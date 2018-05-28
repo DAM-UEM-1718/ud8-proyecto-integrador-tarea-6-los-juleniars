@@ -9,7 +9,7 @@ El archivo debe tener la siguiente estructura:
 ```
 user=USUARIO
 password=CONTRASEÑA
-url=URL_CONEXION_BBDD
+url=jdbc:mysql://HOST_BBDD/NOMBRE_BBDD
+mailgun=key-LLAVE_API
 ```
-
-La base de datos debe llevar el nombre de "gestionpracticas" y se debe de haber inicializado con el script de creación.
+La base de datos se debe de haber inicializado con el script de creación incluido en el directorio raíz del repositorio.

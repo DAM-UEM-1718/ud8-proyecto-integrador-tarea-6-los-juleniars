@@ -157,7 +157,7 @@ public class VistaRegistro extends JFrame implements Vista {
         );
         contentPane.setLayout(gl_contentPane);
 
-        txtNombre.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener documentListener = new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 changed();
             }
@@ -170,80 +170,20 @@ public class VistaRegistro extends JFrame implements Vista {
                 changed();
             }
 
-        });
-        txtUser.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
+        };
 
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
-        pswContrasena.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
-        pswConfirmar.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
-        txtMail.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
-        txtNIF.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
+        txtNombre.getDocument().addDocumentListener(documentListener);
+        txtUser.getDocument().addDocumentListener(documentListener);
+        pswContrasena.getDocument().addDocumentListener(documentListener);
+        pswConfirmar.getDocument().addDocumentListener(documentListener);
+        txtMail.getDocument().addDocumentListener(documentListener);
+        txtNIF.getDocument().addDocumentListener(documentListener);
 
     }
 
+    /**
+     * Limpia todos los campos del formulario
+     */
     public void limpiarCampos() {
         txtMail.setText("");
         txtUser.setText("");
@@ -265,6 +205,7 @@ public class VistaRegistro extends JFrame implements Vista {
 
     /**
      * Comprueba el mail introducido
+     *
      * @return True si el mail es válido
      */
     private boolean validarMail() {

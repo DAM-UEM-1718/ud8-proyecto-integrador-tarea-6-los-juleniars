@@ -92,7 +92,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
 
         btnAceptar.addActionListener(e -> controlador.escribirFichero());
 
-        txtUser.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener documentListener = new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 changed();
             }
@@ -105,35 +105,10 @@ public class VistaConfigFichero extends JFrame implements Vista {
                 changed();
             }
 
-        });
-        pswContrasena.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
-        txtHost.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
+        };
+        txtUser.getDocument().addDocumentListener(documentListener);
+        pswContrasena.getDocument().addDocumentListener(documentListener);
+        txtHost.getDocument().addDocumentListener(documentListener);
     }
 
     public JTextField getTxtUser() {
@@ -154,7 +129,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
         pswContrasena.setText("");
     }
 
-    public void changed() {
+    private void changed() {
         if (txtUser.getText().equals("") || txtHost.getText().equals("") || new String(pswContrasena.getPassword()).equals("")) {
             btnAceptar.setEnabled(false);
         } else {

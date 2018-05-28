@@ -96,7 +96,7 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
         });
     }
 
-    public void changed(){
+    private void changed(){
         if (txtNombreUsuario.getText().equals("")){
             okButton.setEnabled(false);
         } else {

@@ -86,7 +86,6 @@ public class Main {
         //Asignamos las vistas al modelo
         modelo.setVistaAlumnos(vistaAlumnos);
         modelo.setVistaLogin(vistaLogin);
-        modelo.setVistaRecuperarPswd(vistaRecuperarPswd);
         modelo.setVistaConfigFichero(vistaConfigFichero);
         modelo.setVistaConfiguracion(vistaConfiguracion);
         modelo.setVistaEmpresa(vistaEmpresa);

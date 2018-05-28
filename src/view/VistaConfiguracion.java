@@ -3,14 +3,12 @@ package view;
 import controller.Controlador;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.*;
 
 public class VistaConfiguracion extends JFrame implements Vista {
 
@@ -48,15 +46,9 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
         btnCambiar = new JButton("Cambiar");
         btnCambiar.setEnabled(false);
-        btnCambiar.addActionListener(e -> {
-            if (new String(pswContrasena.getPassword()).equals(new String(pswConfirmarContrasena.getPassword()))) {
-                controlador.cambiarContrasena();
-            } else {
-                error("Las contraseñas no coinciden.");
-            }
-        });
+        btnCambiar.addActionListener(e -> controlador.cambiarContrasena());
 
-        pswContrasena.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener documentListener = new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 changed();
             }
@@ -69,23 +61,9 @@ public class VistaConfiguracion extends JFrame implements Vista {
                 changed();
             }
 
-        });
-
-        pswConfirmarContrasena.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                changed();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                changed();
-            }
-
-        });
-
+        };
+        pswContrasena.getDocument().addDocumentListener(documentListener);
+        pswConfirmarContrasena.getDocument().addDocumentListener(documentListener);
 
         JLabel lblConfiguracin = new JLabel("Configuración de Usuario");
         lblConfiguracin.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -183,5 +161,9 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
     public JPasswordField getPswContrasena() {
         return pswContrasena;
+    }
+
+    public JPasswordField getPswConfirmarContrasena() {
+        return pswConfirmarContrasena;
     }
 }

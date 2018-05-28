@@ -86,9 +86,6 @@ public class Modelo {
         this.vistaLogin = vistaLogin;
     }
 
-    public void setVistaRecuperarPswd(VistaRecuperarPswd vistaRecuperarPswd) {
-    }
-
     //Método de inicio de sesión
     public void iniciarSesion(String user, String password) {
         try {
@@ -193,7 +190,10 @@ public class Modelo {
 
     }
 
-    //Método para cambar la contraseña de un usuario
+    /**
+     * Cambia la contraseña del usuario
+     * @param nuevaContrasena
+     */
     public void cambiarContrasena(String nuevaContrasena) {
         try {
             String nuevoHash = hash256(nuevaContrasena);
@@ -442,7 +442,16 @@ public class Modelo {
         }
     }
 
-    public void registro(String nombre, String usuario, String password, String mail, String nif) {
+    /**
+     * Comprueba si el usuario de tipo tutor indicado ya se encuentra en la base de datos, y en caso negativo lo introduce y le manda un mail de bienvenida
+     *
+     * @param nombre   Nombre formal
+     * @param usuario  Nombre de usuario
+     * @param password
+     * @param mail
+     * @param nif
+     */
+    public void registroTutor(String nombre, String usuario, String password, String mail, String nif) {
         try {
             //Comprobar que el usuario no existe
             PreparedStatement stmtComprobacion = connection.prepareStatement("SELECT * FROM USERS WHERE USR = ? OR NIF = ?;");
@@ -498,11 +507,11 @@ public class Modelo {
     }
 
     //Clase interna para los objetos de las comboBoxes
-    public class ComboItem {
+    private class ComboItem {
         private String key;
         private String value;
 
-        public ComboItem(String key, String value) {
+        private ComboItem(String key, String value) {
             this.key = key;
             this.value = value;
         }

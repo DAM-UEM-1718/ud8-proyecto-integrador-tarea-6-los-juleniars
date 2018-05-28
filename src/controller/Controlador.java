@@ -262,7 +262,7 @@ public class Controlador {
         String mail = vistaRegistro.getTxtMail().getText();
         String nif = vistaRegistro.getTxtNIF().getText();
         if (password.equals(confimar)) {
-            modelo.registro(nombre, usuario, password, mail, nif);
+            modelo.registroTutor(nombre, usuario, password, mail, nif);
         } else {
             vistaRegistro.errorPassword();
         }
@@ -301,7 +301,11 @@ public class Controlador {
     }
 
     public void cambiarContrasena() {
-        modelo.cambiarContrasena(new String(vistaConfiguracion.getPswContrasena().getPassword()));
+        if (new String(vistaConfiguracion.getPswContrasena().getPassword()).equals(new String(vistaConfiguracion.getPswConfirmarContrasena().getPassword()))) {
+            modelo.cambiarContrasena(new String(vistaConfiguracion.getPswContrasena().getPassword()));
+        } else {
+            vistaConfiguracion.error("Las contraseñas no coinciden.");
+        }
     }
 
     public void setVistaAnadirTutor(VistaAnadirTutor vistaAnadirTutor) {
