@@ -22,7 +22,6 @@ import java.util.Vector;
 
 public class Modelo {
 
-    private final String DATABASE = "gestionpracticas";
     private final String FICHERO;
     private VistaAlumnos vistaAlumnos;
     private VistaLogin vistaLogin;
@@ -38,7 +37,6 @@ public class Modelo {
     private String MAILGUN_API_KEY;
     private String USER;
     private String PASSWORD;
-    //Cambiar por la IP del servidor de la base de datos
     private String URL;
     private Connection connection;
     private String nombreUsuario;
@@ -63,7 +61,7 @@ public class Modelo {
             PASSWORD = propiedades.getProperty("password");
             URL = propiedades.getProperty("url");
             MAILGUN_API_KEY = propiedades.getProperty("mailgun");
-            connection = DriverManager.getConnection(URL + DATABASE, USER, PASSWORD);
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (Exception e) {
             this.vistaLogin.errorConexion();
             e.printStackTrace();
@@ -432,11 +430,11 @@ public class Modelo {
     }
 
     //Escribe la configuración en el fichero config.ini
-    public void escribirConfiguracion(String user, String password, String host) {
+    public void escribirConfiguracion(String user, String password, String url) {
         try {
             propiedades.setProperty("user", user);
             propiedades.setProperty("password", password);
-            propiedades.setProperty("host", host);
+            propiedades.setProperty("url", url);
             FileOutputStream salida = new FileOutputStream(FICHERO);
             propiedades.store(salida, "Editado");
         } catch (IOException e) {

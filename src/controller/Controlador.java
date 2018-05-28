@@ -315,8 +315,8 @@ public class Controlador {
     public void escribirFichero() {
         String user = vistaConfigFichero.getTxtUser().getText();
         String password = new String(vistaConfigFichero.getPswContrasena().getPassword());
-        String host = vistaConfigFichero.getTxtHost().getText();
-        modelo.escribirConfiguracion(user, password, host);
+        String url = vistaConfigFichero.getTxtHost().getText();
+        modelo.escribirConfiguracion(user, password, url);
         vistaConfigFichero.limpiarCampos();
         vistaConfigFichero.setVisible(false);
     }
