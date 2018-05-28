@@ -192,6 +192,7 @@ public class Modelo {
 
     /**
      * Cambia la contraseña del usuario
+     *
      * @param nuevaContrasena
      */
     public void cambiarContrasena(String nuevaContrasena) {
@@ -245,7 +246,15 @@ public class Modelo {
     public DefaultTableModel modeloPracticas() {
         String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado"};
         try {
-            return crearModelo(arrayNombres, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;"));
+            switch (tipoUsuario) {
+                case 0:
+                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
+                    preparedStatement.setInt(1, codGrupo);
+                    return crearModelo(arrayNombres, preparedStatement);
+
+                case 1:
+                    return crearModelo(arrayNombres, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

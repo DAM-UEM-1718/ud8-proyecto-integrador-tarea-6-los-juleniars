@@ -62,7 +62,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         JLabel lblOpciones = new JLabel("Opciones");
 
         JButton btnAsignarPrcticas = new JButton("Asignar Prácticas");
-        btnAsignarPrcticas.addActionListener(e -> controlador.mostrarAsignarPracticas());
+        btnAsignarPrcticas.addActionListener(e -> controlador.mostrarPracticas());
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
