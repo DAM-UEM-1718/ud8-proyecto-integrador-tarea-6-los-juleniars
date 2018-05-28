@@ -198,7 +198,7 @@ public class VistaRegistro extends JFrame implements Vista {
     }
 
     private void changed() {
-        if (txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.equals("")) {
+        if (txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.getText().equals("")) {
             btnValidar.setEnabled(false);
         } else {
             btnValidar.setEnabled(true);

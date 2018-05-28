@@ -308,10 +308,6 @@ public class Controlador {
         this.vistaAnadirAdministrativo = vistaAnadirAdministrativo;
     }
 
-    public void nombreMostrarUsuario() {
-
-    }
-
     public void mostrarConfigFichero() {
         vistaConfigFichero.setVisible(true);
     }
