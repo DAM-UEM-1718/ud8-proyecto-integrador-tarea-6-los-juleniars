@@ -23,10 +23,12 @@ public class VistaRegistro extends JFrame implements Vista {
     private JLabel lblRegistro;
     private JPasswordField pswContrasena;
     private JButton btnValidar;
+    private JLabel lblConfirmarContrasea;
+    private JPasswordField pswConfirmar;
 
     public VistaRegistro() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 450, 315);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setTitle("Registro");
@@ -65,66 +67,83 @@ public class VistaRegistro extends JFrame implements Vista {
         lblRegistro.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 20));
 
         pswContrasena = new JPasswordField();
+
+        lblConfirmarContrasea = new JLabel("Confirmar");
+
+        pswConfirmar = new JPasswordField();
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addContainerGap()
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                                                                .addGroup(gl_contentPane.createSequentialGroup()
+                                                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                                                .addComponent(lblContrasena)
+                                                                                .addComponent(lblNombreYApellidos)
+                                                                                .addComponent(lblNombreDeUsuario))
+                                                                        .addGap(10))
+                                                                .addGroup(gl_contentPane.createSequentialGroup()
+                                                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                                                                                .addComponent(lblConfirmarContrasea, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 101, Short.MAX_VALUE)
+                                                                                .addComponent(lblCorreoElectronico, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                                                                        .addPreferredGap(ComponentPlacement.RELATED)))
+                                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                                .addComponent(lblNif)
+                                                                .addPreferredGap(ComponentPlacement.RELATED)))
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                                         .addGroup(gl_contentPane.createSequentialGroup()
-                                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                                                        .addComponent(lblContrasena)
-                                                                                        .addComponent(lblNombreYApellidos)
-                                                                                        .addComponent(lblNif)
-                                                                                        .addComponent(lblNombreDeUsuario))
-                                                                                .addGap(10))
-                                                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                                                .addComponent(lblCorreoElectronico, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                                                                                .addPreferredGap(ComponentPlacement.RELATED)))
-                                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                                        .addComponent(txtMail, GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                                                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                                                .addPreferredGap(ComponentPlacement.RELATED)
-                                                                                .addComponent(txtNombre, GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
-                                                                        .addComponent(txtNIF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(txtUser, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(pswContrasena, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-                                                        .addComponent(lblRegistro, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)))
+                                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                                .addComponent(txtNombre, GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
+                                                        .addComponent(txtUser, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(pswContrasena, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(pswConfirmar, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtMail, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtNIF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(lblRegistro, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addGap(173)
-                                                .addComponent(btnValidar)))
+                                                .addComponent(btnValidar)
+                                                .addGap(156)))
                                 .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(lblRegistro, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblNombreYApellidos))
-                                .addGap(7)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(txtUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblNombreDeUsuario))
-                                .addGap(9)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(txtMail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblCorreoElectronico))
-                                .addPreferredGap(ComponentPlacement.RELATED)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(lblContrasena)
-                                        .addComponent(pswContrasena, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(lblRegistro, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18)
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblNombreYApellidos))
+                                                .addGap(7)
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(txtUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblNombreDeUsuario))
+                                                .addGap(9)
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(txtMail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblCorreoElectronico))
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(lblContrasena)
+                                                        .addComponent(pswContrasena, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addGap(165)
+                                                .addComponent(pswConfirmar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addGap(165)
+                                                .addComponent(lblConfirmarContrasea)))
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(txtNIF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lblNif))
-                                .addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                                 .addComponent(btnValidar)
                                 .addContainerGap())
         );
@@ -145,6 +164,20 @@ public class VistaRegistro extends JFrame implements Vista {
 
         });
         pswContrasena.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
+        pswConfirmar.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 changed();
             }
@@ -198,11 +231,23 @@ public class VistaRegistro extends JFrame implements Vista {
     }
 
     private void changed() {
-        if (txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.getText().equals("")) {
+        if (txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.getText().equals("")) {
             btnValidar.setEnabled(false);
         } else {
             btnValidar.setEnabled(true);
         }
+    }
+
+    public void errorUsuario() {
+        JOptionPane.showMessageDialog(null, "Ya existe un usuario con el mismo nombre o NIF.");
+    }
+
+    public void errorPassword() {
+        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.");
+    }
+
+    public void registrado() {
+        controlador.registrado();
     }
 
     @Override
@@ -228,5 +273,9 @@ public class VistaRegistro extends JFrame implements Vista {
 
     public JPasswordField getPswContrasena() {
         return pswContrasena;
+    }
+
+    public JPasswordField getPswConfirmar() {
+        return pswConfirmar;
     }
 }

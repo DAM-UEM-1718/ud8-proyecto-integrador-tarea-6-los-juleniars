@@ -444,16 +444,26 @@ public class Modelo {
 
     public void registro(String nombre, String usuario, String password, String mail, String nif) {
         try {
-            password = hash256(password);
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);");
-            preparedStatement.setString(1, nombre);
-            preparedStatement.setString(2, usuario);
-            preparedStatement.setString(3, password);
-            preparedStatement.setInt(4, 0);
-            preparedStatement.setString(5, mail);
-            preparedStatement.setString(6, nif);
-            preparedStatement.executeUpdate();
-            enviarMail(mail, "Gestión Prácticas CFGS", "Bienvenido al software gestor de prácticas de CFGS. Su usuario es: " + usuario);
+            //Comprobar que el usuario no existe
+            PreparedStatement stmtComprobacion = connection.prepareStatement("SELECT * FROM USERS WHERE USR = ? OR NIF = ?;");
+            stmtComprobacion.setString(1, usuario);
+            stmtComprobacion.setString(2, nif);
+            ResultSet resultSet = stmtComprobacion.executeQuery();
+            if (!resultSet.next()) {
+                password = hash256(password);
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);");
+                preparedStatement.setString(1, nombre);
+                preparedStatement.setString(2, usuario);
+                preparedStatement.setString(3, password);
+                preparedStatement.setInt(4, 0);
+                preparedStatement.setString(5, mail);
+                preparedStatement.setString(6, nif);
+                preparedStatement.executeUpdate();
+                enviarMail(mail, "Gestión Prácticas CFGS", "Bienvenido al software gestor de prácticas de CFGS. Su usuario es: " + usuario);
+                vistaRegistro.registrado();
+            } else {
+                vistaRegistro.errorUsuario();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

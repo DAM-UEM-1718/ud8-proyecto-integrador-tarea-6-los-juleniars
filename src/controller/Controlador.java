@@ -258,9 +258,17 @@ public class Controlador {
         String nombre = vistaRegistro.getTxtNombre().getText();
         String usuario = vistaRegistro.getTxtUser().getText();
         String password = new String(vistaRegistro.getPswContrasena().getPassword());
+        String confimar = new String(vistaRegistro.getPswConfirmar().getPassword());
         String mail = vistaRegistro.getTxtMail().getText();
         String nif = vistaRegistro.getTxtNIF().getText();
-        modelo.registro(nombre, usuario, password, mail, nif);
+        if (password.equals(confimar)) {
+            modelo.registro(nombre, usuario, password, mail, nif);
+        } else {
+            vistaRegistro.errorPassword();
+        }
+    }
+
+    public void registrado() {
         vistaRegistro.limpiarCampos();
         vistaRegistro.setVisible(false);
     }
