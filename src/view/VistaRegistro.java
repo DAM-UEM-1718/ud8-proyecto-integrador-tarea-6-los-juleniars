@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class VistaRegistro extends JFrame implements Vista {
 
@@ -50,7 +52,13 @@ public class VistaRegistro extends JFrame implements Vista {
         txtNIF.setColumns(10);
 
         btnValidar = new JButton("VALIDAR");
-        btnValidar.addActionListener(e -> controlador.registrar());
+        btnValidar.addActionListener(e -> {
+            if (validarMail()) {
+                controlador.registrar();
+            } else {
+                JOptionPane.showMessageDialog(null, "El mail no es válido.");
+            }
+        });
         btnValidar.setEnabled(false);
 
         JLabel lblNombreYApellidos = new JLabel("Nombre y Apellidos:");
@@ -149,6 +157,20 @@ public class VistaRegistro extends JFrame implements Vista {
         );
         contentPane.setLayout(gl_contentPane);
 
+        txtNombre.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        });
         txtUser.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 changed();
@@ -230,12 +252,26 @@ public class VistaRegistro extends JFrame implements Vista {
         txtNombre.setText("");
     }
 
+    /**
+     * Activa el botón de registro en cuanto se han rellenado todos los campos
+     */
     private void changed() {
-        if (txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.getText().equals("")) {
+        if (txtNombre.getText().equals("") || txtUser.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || new String(pswContrasena.getPassword()).equals("") || txtMail.getText().equals("") || txtNIF.getText().equals("")) {
             btnValidar.setEnabled(false);
         } else {
             btnValidar.setEnabled(true);
         }
+    }
+
+    /**
+     * Comprueba el mail introducido
+     * @return True si el mail es válido
+     */
+    private boolean validarMail() {
+        final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(txtMail.getText());
+        return matcher.matches();
     }
 
     public void errorUsuario() {
