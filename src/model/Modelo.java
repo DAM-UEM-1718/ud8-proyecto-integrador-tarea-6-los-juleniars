@@ -16,24 +16,33 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Vector;
 
 public class Modelo {
 
     private final String FICHERO;
+
     private VistaAlumnos vistaAlumnos;
+    private VistaAsignarPracticas vistaAsignarPracticas;
     private VistaLogin vistaLogin;
     private VistaConfiguracion vistaConfiguracion;
     private VistaConfigFichero vistaConfigFichero;
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
     private VistaPersonal vistaPersonal;
+    private VistaPracticas vistaPracticas;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaTutores vistaTutores;
     private VistaRegistro vistaRegistro;
+
     private String MAILGUN_API_KEY;
     private String USER;
     private String PASSWORD;
@@ -251,7 +260,6 @@ public class Modelo {
                     PreparedStatement preparedStatement = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
                     preparedStatement.setInt(1, codGrupo);
                     return crearModelo(arrayNombres, preparedStatement);
-
                 case 1:
                     return crearModelo(arrayNombres, connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;"));
             }
@@ -438,6 +446,67 @@ public class Modelo {
         }
     }
 
+    /**
+     * Popula los combo box de asignar prácticas
+     */
+    public void cargarAsignarPracticas() {
+        vistaAsignarPracticas.getCmbAlumno().setModel(new DefaultComboBoxModel(new Modelo.ComboItem[]{}));
+        vistaAsignarPracticas.getCmbEmpresa().setModel(new DefaultComboBoxModel(new Modelo.ComboItem[]{}));
+        try {
+            PreparedStatement stmtAlumnos = null;
+            switch (tipoUsuario) {
+                case 0:
+                    stmtAlumnos = connection.prepareStatement("SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+                    stmtAlumnos.setInt(1, codGrupo);
+                    break;
+                case 1:
+                    stmtAlumnos = connection.prepareStatement("SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+                    break;
+            }
+            ResultSet resultSetAlumnos = stmtAlumnos.executeQuery();
+            while (resultSetAlumnos.next()) {
+                vistaAsignarPracticas.getCmbAlumno().addItem(new ComboItem(resultSetAlumnos.getString(1), resultSetAlumnos.getString(2)));
+            }
+            PreparedStatement stmtEmpresas = connection.prepareStatement("SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;");
+            ResultSet resultSetEmpresas = stmtEmpresas.executeQuery();
+            while (resultSetEmpresas.next()) {
+                vistaAsignarPracticas.getCmbEmpresa().addItem(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Asigna las prácticas al alumno seleccionado y las inserta en la base de datos
+     */
+    public void asignarPracticas(ComboItem comboEstudiante, ComboItem comboEmpresa, String fechaInicioString, String fechaFinString, String tutorEmpresa, String horario, String localizacion, boolean erasmus, String estado) {
+        String nombreEstudiante = comboEstudiante.getKey();
+        int numMatEstudiante = Integer.parseInt(comboEstudiante.getValue());
+        String nombreEmpresa = comboEmpresa.getKey();
+        int numConvEmpresa = Integer.parseInt(comboEmpresa.getValue());
+        try {
+            Date fechaInicio = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioString);
+            Date fechaFin = new SimpleDateFormat("dd/MM/yyyy").parse(fechaFinString);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            preparedStatement.setInt(1, numMatEstudiante);
+            preparedStatement.setInt(2, numConvEmpresa);
+            preparedStatement.setString(3, tutorEmpresa);
+            preparedStatement.setObject(4, fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            preparedStatement.setObject(5, fechaFin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            preparedStatement.setString(6, horario);
+            preparedStatement.setString(7, localizacion);
+            preparedStatement.setBoolean(8, erasmus);
+            preparedStatement.setString(9, estado);
+            preparedStatement.executeUpdate();
+            DefaultTableModel modelo = (DefaultTableModel) vistaPracticas.getTable().getModel();
+            modelo.addRow(new String[]{nombreEstudiante, nombreEmpresa, tutorEmpresa, fechaInicioString, fechaFinString, horario, localizacion, Boolean.toString(erasmus), estado});
+            vistaAsignarPracticas.setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //Escribe la configuración en el fichero config.ini
     public void escribirConfiguracion(String user, String password, String url) {
         try {
@@ -515,12 +584,20 @@ public class Modelo {
         this.vistaConfigFichero = vistaConfigFichero;
     }
 
+    public void setVistaAsignarPracticas(VistaAsignarPracticas vistaAsignarPracticas) {
+        this.vistaAsignarPracticas = vistaAsignarPracticas;
+    }
+
+    public void setVistaPracticas(VistaPracticas vistaPracticas) {
+        this.vistaPracticas = vistaPracticas;
+    }
+
     //Clase interna para los objetos de las comboBoxes
-    private class ComboItem {
+    public class ComboItem {
         private String key;
         private String value;
 
-        private ComboItem(String key, String value) {
+        public ComboItem(String key, String value) {
             this.key = key;
             this.value = value;
         }

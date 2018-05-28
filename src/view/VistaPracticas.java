@@ -52,13 +52,13 @@ public class VistaPracticas extends JFrame implements Vista {
 
         JButton btnEliminarPracticas = new JButton("Eliminar Prácticas");
         btnEliminarPracticas.addActionListener(e -> {
+
         });
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> controlador.cerrarPracticas());
 
         JComboBox comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[]{"Nombre Alumno", "Empresa", "Tutor Empresa", "Localización"}));
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

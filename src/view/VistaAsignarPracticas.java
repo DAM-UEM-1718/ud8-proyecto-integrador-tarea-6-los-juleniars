@@ -2,50 +2,42 @@ package view;
 
 import controller.Controlador;
 
-import java.awt.*;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class VistaAsignarPracticas extends JDialog implements Vista {
 
-    private Controlador controlador;
-
     private final JPanel contentPanel = new JPanel();
+    private Controlador controlador;
     private JTextField txtInicio;
     private JTextField txtFin;
     private JTextField txtTutorEmpresa;
     private JTextField txtHorario;
     private JTextField txtLocalizacion;
 
+    private JComboBox cmbAlumno;
+    private JComboBox cmbEmpresa;
+    private JTextField txtEstado;
+    private JCheckBox chckbxErasmus;
+
     public VistaAsignarPracticas() {
         setTitle("Asignar Prácticas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAsignarPracticas.class.getResource("/img/uem.png")));
-        setBounds(100, 100, 450, 225);
+        setBounds(100, 100, 450, 253);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-        JComboBox cmbAlumno = new JComboBox();
-        cmbAlumno.setModel(new DefaultComboBoxModel(new String[]{"Julen Bujanda", "Víctor Jiménez"}));
+        cmbAlumno = new JComboBox();
 
         JLabel lblAlumno = new JLabel("Alumno");
 
         JLabel lblEmpresa = new JLabel("Empresa");
 
-        JComboBox cmbEmpresa = new JComboBox();
-        cmbEmpresa.setModel(new DefaultComboBoxModel(new String[]{"Apple España S.A.", "Twitter Inc.", "Facebook Inc."}));
+        cmbEmpresa = new JComboBox();
 
         JLabel lblInicio = new JLabel("Fecha Inicio:");
 
@@ -71,6 +63,13 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
 
         txtLocalizacion = new JTextField();
         txtLocalizacion.setColumns(10);
+
+        chckbxErasmus = new JCheckBox("Erasmus");
+
+        JLabel lblEstado = new JLabel("Estado:");
+
+        txtEstado = new JTextField();
+        txtEstado.setColumns(10);
         GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
         gl_contentPanel.setHorizontalGroup(
                 gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -107,9 +106,16 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
                                                                         .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                         .addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
                                         .addGroup(gl_contentPanel.createSequentialGroup()
-                                                .addComponent(lblLocalizacion)
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(lblLocalizacion)
+                                                        .addComponent(lblEstado))
                                                 .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18)
+                                                                .addComponent(chckbxErasmus))
+                                                        .addComponent(txtEstado))))
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         gl_contentPanel.setVerticalGroup(
@@ -146,8 +152,14 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
                                 .addGap(18)
                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
                                         .addComponent(lblLocalizacion)
-                                        .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(21, Short.MAX_VALUE))
+                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(chckbxErasmus)))
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(lblEstado)
+                                        .addComponent(txtEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contentPanel.setLayout(gl_contentPanel);
         {
@@ -156,7 +168,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 JButton okButton = new JButton("Asignar");
-                okButton.addActionListener(e -> controlador.cerrarAsignarPracticas());
+                okButton.addActionListener(e -> controlador.asignarPracticas());
                 okButton.setActionCommand("OK");
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);
@@ -175,5 +187,41 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public JComboBox getCmbAlumno() {
+        return cmbAlumno;
+    }
+
+    public JComboBox getCmbEmpresa() {
+        return cmbEmpresa;
+    }
+
+    public JTextField getTxtInicio() {
+        return txtInicio;
+    }
+
+    public JTextField getTxtFin() {
+        return txtFin;
+    }
+
+    public JTextField getTxtTutorEmpresa() {
+        return txtTutorEmpresa;
+    }
+
+    public JTextField getTxtHorario() {
+        return txtHorario;
+    }
+
+    public JTextField getTxtLocalizacion() {
+        return txtLocalizacion;
+    }
+
+    public JTextField getTxtEstado() {
+        return txtEstado;
+    }
+
+    public JCheckBox getChckbxErasmus() {
+        return chckbxErasmus;
     }
 }

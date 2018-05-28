@@ -176,11 +176,25 @@ public class Controlador {
     }
 
     public void mostrarAsignarPracticas() {
+        modelo.cargarAsignarPracticas();
         vistaAsignarPracticas.setVisible(true);
     }
 
     public void cerrarAsignarPracticas() {
         vistaAsignarPracticas.setVisible(false);
+    }
+
+    public void asignarPracticas() {
+        Modelo.ComboItem estudiante = (Modelo.ComboItem) vistaAsignarPracticas.getCmbAlumno().getModel().getSelectedItem();
+        Modelo.ComboItem empresa = (Modelo.ComboItem) vistaAsignarPracticas.getCmbEmpresa().getModel().getSelectedItem();
+        String fechaInicio = vistaAsignarPracticas.getTxtInicio().getText();
+        String fechafin = vistaAsignarPracticas.getTxtFin().getText();
+        String tutorEmpresa = vistaAsignarPracticas.getTxtTutorEmpresa().getText();
+        String horario = vistaAsignarPracticas.getTxtHorario().getText();
+        String localizacion = vistaAsignarPracticas.getTxtLocalizacion().getText();
+        boolean erasmus = vistaAsignarPracticas.getChckbxErasmus().isSelected();
+        String estado = vistaAsignarPracticas.getTxtEstado().getText();
+        modelo.asignarPracticas(estudiante, empresa, fechaInicio, fechafin, tutorEmpresa, horario, localizacion, erasmus, estado);
     }
 
     public void cerrarTutores() {
