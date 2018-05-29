@@ -80,6 +80,17 @@ public class Main {
         //Creamos el modelo
         Modelo modelo = new Modelo(vistaLogin);
 
+        //Asignamos el modelo a las vistas
+        vistaAlumnos.setModelo(modelo);
+        vistaAsignarPracticas.setModelo(modelo);
+        vistaEmpresa.setModelo(modelo);
+        vistaGrupos.setModelo(modelo);
+        vistaPersonal.setModelo(modelo);
+        vistaPracticas.setModelo(modelo);
+        vistaPrincipalAdministrativo.setModelo(modelo);
+        vistaPrincipalTutor.setModelo(modelo);
+        vistaTutores.setModelo(modelo);
+
         //Asignamos el modelo al controlador
         controlador.setModelo(modelo);
 

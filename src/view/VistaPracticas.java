@@ -6,6 +6,7 @@ import java.awt.*;
 import javax.swing.GroupLayout.Alignment;
 
 import controller.Controlador;
+import model.Modelo;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
@@ -16,7 +17,9 @@ public class VistaPracticas extends JFrame implements Vista {
     private JPanel contentPane;
     private JTable table;
     private JTextField txtEmpresa;
+
     private Controlador controlador;
+    private Modelo modelo;
 
 
     public VistaPracticas() {
@@ -133,7 +136,18 @@ public class VistaPracticas extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
+    public void cargarTablas() {
+        table.setModel(modelo.getTablaPracticas());
+        table.removeColumn(table.getColumnModel().getColumn(9));
+        table.removeColumn(table.getColumnModel().getColumn(9));
+    }
+
     public JTable getTable() {
         return table;
     }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
+
 }

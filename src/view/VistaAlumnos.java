@@ -6,6 +6,7 @@ import java.awt.*;
 import javax.swing.GroupLayout.Alignment;
 
 import controller.Controlador;
+import model.Modelo;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
@@ -13,10 +14,13 @@ import java.awt.event.ActionEvent;
 
 public class VistaAlumnos extends JFrame implements Vista {
 
+
+    private Controlador controlador;
+    private Modelo modelo;
+
     private JPanel contentPane;
     private JTable table;
     private JTextField txtMatricula;
-    private Controlador controlador;
     private JButton btnBuscar;
     private JLabel lblTitulo;
     private JButton btnMostrarAlmunosSin;
@@ -149,12 +153,16 @@ public class VistaAlumnos extends JFrame implements Vista {
         contentPane.setLayout(gl_contentPane);
     }
 
+    public void cargarTabla() {
+        table.setModel(modelo.getTablaAlumnos());
+    }
+
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
     }
 
-    public JTable getTable() {
-        return table;
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 }

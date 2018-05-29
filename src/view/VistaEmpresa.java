@@ -1,22 +1,21 @@
 package view;
 
+import controller.Controlador;
+import model.Modelo;
+
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.DefaultTableModel;
-
-import controller.Controlador;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VistaEmpresa extends JFrame implements Vista {
 
+    private Controlador controlador;
+    private Modelo modelo;
+
     private JPanel contentPane;
     private JTable table;
-    private Controlador controlador;
     private JButton btnAnadirEmpresa;
     private JButton btnEliminarEmpresa;
     private JButton btnVolver;
@@ -88,6 +87,10 @@ public class VistaEmpresa extends JFrame implements Vista {
         contentPane.setLayout(gl_contentPane);
     }
 
+    public void cargarTabla() {
+        table.setModel(modelo.getTablaEmpresas());
+    }
+
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
@@ -95,5 +98,9 @@ public class VistaEmpresa extends JFrame implements Vista {
 
     public JTable getTable() {
         return table;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 }

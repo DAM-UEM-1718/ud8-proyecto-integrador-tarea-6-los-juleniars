@@ -1,19 +1,19 @@
 package view;
 
 import controller.Controlador;
-import model.Modelo;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
-public class VistaAsignarPracticas extends JDialog implements Vista {
+public class VistaModificarPracticas extends JDialog implements Vista {
 
     private final JPanel contentPanel = new JPanel();
     private Controlador controlador;
-    private Modelo modelo;
     private JTextField txtInicio;
     private JTextField txtFin;
     private JTextField txtTutorEmpresa;
@@ -24,9 +24,10 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
     private JComboBox cmbEmpresa;
     private JTextField txtEstado;
     private JCheckBox chckbxErasmus;
+    private JButton btnOK;
 
-    public VistaAsignarPracticas() {
-        setTitle("Asignar Prácticas");
+    public VistaModificarPracticas() {
+        setTitle("Modificar Prácticas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAsignarPracticas.class.getResource("/img/uem.png")));
         setBounds(100, 100, 450, 253);
         getContentPane().setLayout(new BorderLayout());
@@ -169,11 +170,12 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
-                JButton okButton = new JButton("Asignar");
-                okButton.addActionListener(e -> controlador.asignarPracticas());
-                okButton.setActionCommand("OK");
-                buttonPane.add(okButton);
-                getRootPane().setDefaultButton(okButton);
+                btnOK = new JButton("Modificar");
+                btnOK.addActionListener(e -> controlador.asignarPracticas());
+                btnOK.setActionCommand("OK");
+                btnOK.setEnabled(false);
+                buttonPane.add(btnOK);
+                getRootPane().setDefaultButton(btnOK);
             }
             {
                 JButton cancelButton = new JButton("Cancelar");
@@ -184,11 +186,35 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
         }
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
+        DocumentListener documentListener = new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        };
+        txtEstado.getDocument().addDocumentListener(documentListener);
+        txtFin.getDocument().addDocumentListener(documentListener);
+        txtHorario.getDocument().addDocumentListener(documentListener);
+        txtInicio.getDocument().addDocumentListener(documentListener);
+        txtLocalizacion.getDocument().addDocumentListener(documentListener);
+        txtTutorEmpresa.getDocument().addDocumentListener(documentListener);
     }
 
-    public void cargarCmbs() {
-        cmbAlumno.setModel(modelo.getModeloCmbAlumnos());
-        cmbEmpresa.setModel(modelo.getModeloCmbEmpresas());
+    public void changed() {
+        if (txtEstado.getText().equals("") || txtFin.getText().equals("") || txtHorario.getText().equals("") || txtInicio.getText().equals("") || txtLocalizacion.getText().equals("") || txtLocalizacion.getText().equals("")) {
+            btnOK.setEnabled(false);
+        } else {
+            btnOK.setEnabled(true);
+        }
     }
 
     @Override
@@ -230,9 +256,5 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
 
     public JCheckBox getChckbxErasmus() {
         return chckbxErasmus;
-    }
-
-    public void setModelo(Modelo modelo) {
-        this.modelo = modelo;
     }
 }

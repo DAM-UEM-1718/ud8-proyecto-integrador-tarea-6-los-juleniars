@@ -2,6 +2,7 @@ package controller;
 
 import model.Modelo;
 import view.*;
+import javax.swing.*;
 
 public class Controlador {
 
@@ -119,10 +120,10 @@ public class Controlador {
 
     public void mostrarListaAlumnos() {
         if (tipoUsuario == 0) {
-            vistaAlumnos.getTable().setModel(modelo.modeloAlumnos());
+            modelo.cargarAlumnosTutor();
             vistaPrincipalTutor.setVisible(false);
         } else if (tipoUsuario == 2)
-            modelo.cargarAlumnos();
+            modelo.cargarAlumnosDirector();
         vistaSuperUsuario.setVisible(false);
         vistaAlumnos.setVisible(true);
     }
@@ -198,7 +199,8 @@ public class Controlador {
     }
 
     public void eliminarPracticas() {
-        modelo.eliminarPracticas();
+        JTable tabla = vistaPracticas.getTable();
+        modelo.eliminarPracticas(tabla.getSelectedRow());
     }
 
     public void cerrarTutores() {
@@ -265,7 +267,7 @@ public class Controlador {
     }
 
     public void cambiarGrupo() {
-        modelo.cambiarGrupoTutor();
+        modelo.cambiarGrupoTutor((Modelo.ComboItem) vistaPrincipalTutor.getCmbGrupos().getSelectedItem());
     }
 
     public void mostrarRegistro() {

@@ -12,13 +12,15 @@ import java.awt.*;
 public class VistaPrincipalTutor extends JFrame implements Vista {
 
     private JPanel contentPane;
+
     private Controlador controlador;
+    private Modelo modelo;
 
     private JLabel lblBienvenido;
     private JLabel lblNumeroAsignados;
     private JLabel lblNumeroPorAsignar;
     private JTable table;
-    private JComboBox comboBox;
+    private JComboBox cmbGrupos;
 
 
     public VistaPrincipalTutor() {
@@ -36,8 +38,8 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         setContentPane(contentPane);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        comboBox = new JComboBox();
-        comboBox.addActionListener(e -> controlador.cambiarGrupo());
+        cmbGrupos = new JComboBox();
+        cmbGrupos.addActionListener(e -> controlador.cambiarGrupo());
 
         JLabel lblGrupo = new JLabel("Grupo:");
 
@@ -104,7 +106,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
                                                 .addGroup(gl_contentPane.createSequentialGroup()
                                                         .addComponent(lblGrupo)
                                                         .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(cmbGrupos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                         .addGap(18)
                                                         .addComponent(lblBienvenido))))
                                 .addGap(28))
@@ -115,7 +117,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
                                 .addContainerGap()
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblGrupo)
-                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cmbGrupos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lblBienvenido)
                                         .addComponent(btnConfig))
                                 .addGap(18)
@@ -153,19 +155,29 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         return lblBienvenido;
     }
 
-    public JComboBox getComboBox() {
-        return comboBox;
-    }
-
-    public JTable getTable() {
-        return table;
-    }
-
     public JLabel getLblNumeroAsignados() {
         return lblNumeroAsignados;
     }
 
     public JLabel getLblNumeroPorAsignar() {
         return lblNumeroPorAsignar;
+    }
+
+    public void cargarGrupos() {
+        cmbGrupos.setModel(modelo.getModeloGrupos());
+    }
+
+    public void cargarTabla() {
+        lblNumeroAsignados.setText(Integer.toString(modelo.getNumeroAsignados()));
+        lblNumeroPorAsignar.setText(Integer.toString(modelo.getNumeroPorAsignar()));
+        table.setModel(modelo.getTablaPracticasTutor());
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
+
+    public JComboBox getCmbGrupos() {
+        return cmbGrupos;
     }
 }

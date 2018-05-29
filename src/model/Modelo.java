@@ -53,7 +53,21 @@ public class Modelo {
     private int codGrupo;
     private Properties propiedades;
     private FileInputStream entrada;
+
+    private int numeroAsignados;
+    private int numeroPorAsignar;
+    private int clasesPorAsignar;
+    private DefaultComboBoxModel modeloGrupos;
+    private DefaultComboBoxModel modeloCmbAlumnos;
+    private DefaultComboBoxModel modeloCmbEmpresas;
     private DefaultTableModel tablaAlumnos;
+    private DefaultTableModel tablaPracticas;
+    private DefaultTableModel tablaPracticasTutor;
+    private DefaultTableModel tablaDashboardDirector;
+    private DefaultTableModel tablaTutores;
+    private DefaultTableModel tablaGrupos;
+    private DefaultTableModel tablaEmpresas;
+    private DefaultTableModel tablaPersonal;
 
     public Modelo(VistaLogin vistaLogin) {
         FICHERO = "config.ini";
@@ -238,35 +252,33 @@ public class Modelo {
         nombreUsuario = null;
     }
 
-    public DefaultTableModel modeloAlumnos() {
+    public void cargarAlumnosTutor() {
         String[] arrayNombres = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;");
             preparedStatement.setInt(1, codGrupo);
-            return crearModelo(arrayNombres, preparedStatement);
+            tablaAlumnos = crearModelo(arrayNombres, preparedStatement);
+            vistaAlumnos.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     public void cargarPracticas() {
         String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado", "N. Matrícula", "N. Convenio"};
-        JTable tabla = vistaPracticas.getTable();
         try {
             switch (tipoUsuario) {
                 case 0:
                     PreparedStatement stmtTutor = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
                     stmtTutor.setInt(1, codGrupo);
-                    tabla.setModel(crearModelo(arrayNombres, stmtTutor));
+                    tablaPracticas = crearModelo(arrayNombres, stmtTutor);
                     break;
                 case 1:
                     PreparedStatement stmtDirector = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;");
-                    tabla.setModel(crearModelo(arrayNombres, stmtDirector));
+                    tablaPracticas = crearModelo(arrayNombres, stmtDirector);
                     break;
             }
-            tabla.removeColumn(tabla.getColumnModel().getColumn(9));
-            tabla.removeColumn(tabla.getColumnModel().getColumn(9));
+            vistaPracticas.cargarTablas();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -296,8 +308,8 @@ public class Modelo {
     }
 
     public void mostrarGrupoTutor() {
-        vistaPrincipalTutor.getComboBox().setModel(new DefaultComboBoxModel(new Modelo.ComboItem[]{}));
         try {
+            Vector grupos = new Vector();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;");
             preparedStatement.setString(1, nombreUsuario);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -306,19 +318,19 @@ public class Modelo {
                 if (contador == 0) {
                     codGrupo = resultSet.getInt(2);
                 }
-                vistaPrincipalTutor.getComboBox().addItem(new ComboItem(resultSet.getString(1), resultSet.getString(2)));
+                grupos.add(new ComboItem(resultSet.getString(1), resultSet.getString(2)));
                 contador++;
             }
+            modeloGrupos = new DefaultComboBoxModel(grupos);
+            vistaPrincipalTutor.cargarGrupos();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void cambiarGrupoTutor() {
-        ComboItem comboItem = (ComboItem) vistaPrincipalTutor.getComboBox().getSelectedItem();
-        codGrupo = Integer.parseInt(comboItem.value);
+    public void cambiarGrupoTutor(ComboItem seleccionado) {
+        codGrupo = Integer.parseInt(seleccionado.value);
         mostrarPracticasTutor();
-
     }
 
     public void mostrarPracticasTutor() {
@@ -334,8 +346,8 @@ public class Modelo {
             Vector<Vector<Object>> data = new Vector<>();
             boolean asignadasBool = true;
             boolean porAsignarBool = true;
-            int numeroAsignados = 0;
-            int numeroPorAsignar = 0;
+            numeroAsignados = 0;
+            numeroPorAsignar = 0;
             while (asignadasBool || porAsignarBool) {
                 Vector<Object> vector = new Vector<>();
                 if (asignadas.next()) {
@@ -357,9 +369,8 @@ public class Modelo {
                     data.add(vector);
                 }
             }
-            vistaPrincipalTutor.getLblNumeroAsignados().setText(Integer.toString(numeroAsignados));
-            vistaPrincipalTutor.getLblNumeroPorAsignar().setText(Integer.toString(numeroPorAsignar));
-            vistaPrincipalTutor.getTable().setModel(new DefaultTableModel(data, nombreColumnas));
+            tablaPracticasTutor = new DefaultTableModel(data, nombreColumnas);
+            vistaPrincipalTutor.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -373,8 +384,8 @@ public class Modelo {
         try {
             PreparedStatement stmtCodigoTutores = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO;");
             ResultSet resultSet = stmtCodigoTutores.executeQuery();
-            int alumnosPorAsignar = 0;
-            int clasesPorAsignar = 0;
+            numeroPorAsignar = 0;
+            clasesPorAsignar = 0;
             while (resultSet.next()) {
                 Vector<Object> vector = new Vector<>();
                 PreparedStatement stmtFilas = connection.prepareStatement("SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?;");
@@ -387,16 +398,15 @@ public class Modelo {
                     vector.add(resultSetFilas.getString(1));
                     vector.add(resultSetFilas.getObject(2));
                     int alumnosPorAsignarGrupo = resultSetSinAsignar.getInt(1);
-                    alumnosPorAsignar += alumnosPorAsignarGrupo;
+                    numeroPorAsignar += alumnosPorAsignarGrupo;
                     vector.add(alumnosPorAsignarGrupo);
                     if (alumnosPorAsignarGrupo > 0)
                         clasesPorAsignar++;
                 }
                 data.add(vector);
             }
-            vistaPrincipalAdministrativo.getLblAlumnosPorAsignar().setText(Integer.toString(alumnosPorAsignar));
-            vistaPrincipalAdministrativo.getLblClases().setText(Integer.toString(clasesPorAsignar));
-            vistaPrincipalAdministrativo.getTable().setModel(new DefaultTableModel(data, nombreColumnas));
+            tablaDashboardDirector = new DefaultTableModel(data, nombreColumnas);
+            vistaPrincipalAdministrativo.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -405,7 +415,8 @@ public class Modelo {
     public void cargarTutores() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
-            vistaTutores.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 0;")));
+            tablaTutores = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 0;"));
+            vistaTutores.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -414,7 +425,8 @@ public class Modelo {
     public void cargarGrupos() {
         String[] nombreColumnas = {"Código", "Nombre", "Nombre del Ciclo", "Tutor"};
         try {
-            vistaGrupos.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT COD_GRUPO, NOM_GRUPO, NOM_CICLO, NOMBRE FROM GRUPO, CICLO, USERS WHERE CICLO.CLAVE_CICLO = GRUPO.CLAVE_CICLO AND GRUPO.USR = USERS.USR;")));
+            tablaGrupos = crearModelo(nombreColumnas, connection.prepareStatement("SELECT COD_GRUPO, NOM_GRUPO, NOM_CICLO, NOMBRE FROM GRUPO, CICLO, USERS WHERE CICLO.CLAVE_CICLO = GRUPO.CLAVE_CICLO AND GRUPO.USR = USERS.USR;"));
+            vistaGrupos.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -423,7 +435,8 @@ public class Modelo {
     public void cargarEmpresas() {
         String[] nombreColumnas = {"N. Convenio", "Nombre", "F. Firma", "Dirección", "Localidad", "Representante", "Mail"};
         try {
-            vistaEmpresa.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_CONV, NOM_EMPR, F_FIRMA, DIRECCION, LOCALIDAD, REPR_EMPR, CORREO_EMPR FROM EMPRESA;")));
+            tablaEmpresas = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_CONV, NOM_EMPR, F_FIRMA, DIRECCION, LOCALIDAD, REPR_EMPR, CORREO_EMPR FROM EMPRESA;"));
+            vistaEmpresa.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -432,18 +445,19 @@ public class Modelo {
     public void cargarPersonal() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
-            vistaPersonal.getTable().setModel(crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 1;")));
+            tablaPersonal = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 1;"));
+            vistaPersonal.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     //Carga la tabla de almunos
-    public void cargarAlumnos() {
+    public void cargarAlumnosDirector() {
         String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
             tablaAlumnos = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;"));
-            vistaAlumnos.getTable().setModel(tablaAlumnos);
+            vistaAlumnos.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -453,8 +467,8 @@ public class Modelo {
      * Popula los combo box de asignar prácticas
      */
     public void cargarAsignarPracticas() {
-        vistaAsignarPracticas.getCmbAlumno().setModel(new DefaultComboBoxModel(new Modelo.ComboItem[]{}));
-        vistaAsignarPracticas.getCmbEmpresa().setModel(new DefaultComboBoxModel(new Modelo.ComboItem[]{}));
+        Vector alumnos = new Vector();
+        Vector empresas = new Vector();
         try {
             PreparedStatement stmtAlumnos = null;
             switch (tipoUsuario) {
@@ -468,13 +482,16 @@ public class Modelo {
             }
             ResultSet resultSetAlumnos = stmtAlumnos.executeQuery();
             while (resultSetAlumnos.next()) {
-                vistaAsignarPracticas.getCmbAlumno().addItem(new ComboItem(resultSetAlumnos.getString(1), resultSetAlumnos.getString(2)));
+                alumnos.add(new ComboItem(resultSetAlumnos.getString(1), resultSetAlumnos.getString(2)));
             }
             PreparedStatement stmtEmpresas = connection.prepareStatement("SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;");
             ResultSet resultSetEmpresas = stmtEmpresas.executeQuery();
             while (resultSetEmpresas.next()) {
-                vistaAsignarPracticas.getCmbEmpresa().addItem(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
+                empresas.add(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
             }
+            modeloCmbAlumnos = new DefaultComboBoxModel(alumnos);
+            modeloCmbEmpresas = new DefaultComboBoxModel(empresas);
+            vistaAsignarPracticas.cargarCmbs();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -502,19 +519,17 @@ public class Modelo {
             preparedStatement.setBoolean(8, erasmus);
             preparedStatement.setString(9, estado);
             preparedStatement.executeUpdate();
-            DefaultTableModel modelo = (DefaultTableModel) vistaPracticas.getTable().getModel();
-            modelo.addRow(new String[]{nombreEstudiante, nombreEmpresa, tutorEmpresa, fechaInicioString, fechaFinString, horario, localizacion, Boolean.toString(erasmus), estado, Integer.toString(numMatEstudiante), Integer.toString(numConvEmpresa)});
+            tablaPracticas.addRow(new String[]{nombreEstudiante, nombreEmpresa, tutorEmpresa, fechaInicioString, fechaFinString, horario, localizacion, Boolean.toString(erasmus), estado, Integer.toString(numMatEstudiante), Integer.toString(numConvEmpresa)});
+            vistaPracticas.cargarTablas();
             vistaAsignarPracticas.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void eliminarPracticas() {
-        DefaultTableModel modelo = (DefaultTableModel) vistaPracticas.getTable().getModel();
-        JTable tabla = vistaPracticas.getTable();
-        Object numeroMatricula = modelo.getValueAt(tabla.getSelectedRow(), 9);
-        Object numeroConvenio = modelo.getValueAt(tabla.getSelectedRow(), 10);
+    public void eliminarPracticas(int fila) {
+        Object numeroMatricula = tablaPracticas.getValueAt(fila, 9);
+        Object numeroConvenio = tablaPracticas.getValueAt(fila, 10);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;");
             if (numeroMatricula instanceof String && numeroConvenio instanceof String) {
@@ -526,7 +541,8 @@ public class Modelo {
                 preparedStatement.setInt(2, (Integer) numeroConvenio);
             }
             preparedStatement.executeUpdate();
-            modelo.removeRow(tabla.getSelectedRow());
+            tablaPracticas.removeRow(fila);
+            vistaPracticas.cargarTablas();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -615,6 +631,62 @@ public class Modelo {
 
     public void setVistaPracticas(VistaPracticas vistaPracticas) {
         this.vistaPracticas = vistaPracticas;
+    }
+
+    public DefaultTableModel getTablaAlumnos() {
+        return tablaAlumnos;
+    }
+
+    public DefaultTableModel getTablaPracticas() {
+        return tablaPracticas;
+    }
+
+    public DefaultComboBoxModel getModeloGrupos() {
+        return modeloGrupos;
+    }
+
+    public DefaultTableModel getTablaPracticasTutor() {
+        return tablaPracticasTutor;
+    }
+
+    public int getNumeroAsignados() {
+        return numeroAsignados;
+    }
+
+    public int getNumeroPorAsignar() {
+        return numeroPorAsignar;
+    }
+
+    public int getClasesPorAsignar() {
+        return clasesPorAsignar;
+    }
+
+    public DefaultTableModel getTablaDashboardDirector() {
+        return tablaDashboardDirector;
+    }
+
+    public DefaultTableModel getTablaTutores() {
+        return tablaTutores;
+    }
+
+    public DefaultTableModel getTablaGrupos() {
+        return tablaGrupos;
+    }
+
+    public DefaultTableModel getTablaEmpresas() {
+        return tablaEmpresas;
+    }
+
+    public DefaultTableModel getTablaPersonal() {
+        return tablaPersonal;
+    }
+
+    public DefaultComboBoxModel getModeloCmbAlumnos() {
+        return modeloCmbAlumnos;
+    }
+
+    public DefaultComboBoxModel getModeloCmbEmpresas() {
+        return modeloCmbEmpresas;
     }
 
     //Clase interna para los objetos de las comboBoxes

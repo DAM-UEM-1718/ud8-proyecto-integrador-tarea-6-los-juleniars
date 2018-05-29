@@ -1,30 +1,25 @@
 package view;
 
+import controller.Controlador;
+import model.Modelo;
+
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.DefaultTableModel;
-
-import controller.Controlador;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VistaPersonal extends JFrame implements Vista {
 
+    private Controlador controlador;
+    private Modelo modelo;
+
     private JPanel contentPane;
     private JTable table;
-    private Controlador controlador;
     private JButton btnAnadirPersonal;
     private JButton btnEliminarTutor;
     private JButton btnVolver;
 
-
-    public JTable getTable() {
-        return table;
-    }
 
     public VistaPersonal() {
         try {
@@ -92,8 +87,20 @@ public class VistaPersonal extends JFrame implements Vista {
         contentPane.setLayout(gl_contentPane);
     }
 
+    public JTable getTable() {
+        return table;
+    }
+
+    public void cargarTabla() {
+        table.setModel(modelo.getTablaPersonal());
+    }
+
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 }

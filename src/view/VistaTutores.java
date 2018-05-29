@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controlador;
+import model.Modelo;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -11,9 +12,11 @@ import java.awt.*;
 
 public class VistaTutores extends JFrame implements Vista {
 
+    private Controlador controlador;
+    private Modelo modelo;
+
     private JPanel contentPane;
     private JTable table;
-    private Controlador controlador;
     private JButton btnAnadirTutor;
     private JButton btnEliminarTutor;
     private JButton btnVolver;
@@ -85,12 +88,17 @@ public class VistaTutores extends JFrame implements Vista {
         contentPane.setLayout(gl_contentPane);
     }
 
+    public void cargarTabla() {
+        table.setModel(modelo.getTablaTutores());
+    }
+
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
     }
 
-    public JTable getTable() {
-        return table;
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 }

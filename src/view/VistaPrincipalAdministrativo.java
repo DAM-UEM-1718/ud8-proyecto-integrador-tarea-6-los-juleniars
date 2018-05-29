@@ -1,21 +1,21 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import controller.Controlador;
+import model.Modelo;
 
-import java.awt.*;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class VistaPrincipalAdministrativo extends JFrame implements Vista {
 
-    private JPanel contentPane;
     private Controlador controlador;
+    private Modelo modelo;
+
+    private JPanel contentPane;
     private JTable table;
 
     private JLabel lblBienvenido;
@@ -184,10 +184,6 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         return lblBienvenido;
     }
 
-    public JTable getTable() {
-        return table;
-    }
-
     public JLabel getLblNumeroAlumnos() {
         return lblNumeroAlumnos;
     }
@@ -198,5 +194,15 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
 
     public JLabel getLblClases() {
         return lblClases;
+    }
+
+    public void cargarTabla() {
+        lblAlumnosPorAsignar.setText(Integer.toString(modelo.getNumeroPorAsignar()));
+        lblClases.setText(Integer.toString(modelo.getClasesPorAsignar()));
+        table.setModel(modelo.getTablaDashboardDirector());
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 }
