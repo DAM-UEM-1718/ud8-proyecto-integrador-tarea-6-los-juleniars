@@ -16,19 +16,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
-import java.util.Arrays;
+import java.util.*;
 import java.util.Date;
-import java.util.Properties;
-import java.util.Vector;
 
+/**
+ * @author Los Juleniars
+ */
 public class Modelo {
 
     private final String FICHERO;
 
     private VistaAlumnos vistaAlumnos;
     private VistaAsignarPracticas vistaAsignarPracticas;
+    private VistaModificarPracticas vistaModificarPracticas;
     private VistaLogin vistaLogin;
     private VistaConfiguracion vistaConfiguracion;
     private VistaConfigFichero vistaConfigFichero;
@@ -269,12 +270,12 @@ public class Modelo {
         try {
             switch (tipoUsuario) {
                 case 0:
-                    PreparedStatement stmtTutor = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
+                    PreparedStatement stmtTutor = connection.prepareStatement("SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
                     stmtTutor.setInt(1, codGrupo);
                     tablaPracticas = crearModelo(arrayNombres, stmtTutor);
                     break;
                 case 1:
-                    PreparedStatement stmtDirector = connection.prepareStatement("SELECT ESTUDIANTE.NOM, NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;");
+                    PreparedStatement stmtDirector = connection.prepareStatement("SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;");
                     tablaPracticas = crearModelo(arrayNombres, stmtDirector);
                     break;
             }
@@ -299,7 +300,12 @@ public class Modelo {
             data.add(vector);
         }
 
-        return new DefaultTableModel(data, nombreColumnas);
+        return new DefaultTableModel(data, nombreColumnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
     }
 
@@ -500,33 +506,35 @@ public class Modelo {
     /**
      * Asigna las prácticas al alumno seleccionado y las inserta en la base de datos
      */
-    public void asignarPracticas(ComboItem comboEstudiante, ComboItem comboEmpresa, String fechaInicioString, String fechaFinString, String tutorEmpresa, String horario, String localizacion, boolean erasmus, String estado) {
+    public void asignarPracticas(ComboItem comboEstudiante, ComboItem comboEmpresa, Date fechaInicio, Date fechaFin, String tutorEmpresa, String horario, String localizacion, boolean erasmus, String estado) {
         String nombreEstudiante = comboEstudiante.getKey();
         int numMatEstudiante = Integer.parseInt(comboEstudiante.getValue());
         String nombreEmpresa = comboEmpresa.getKey();
         int numConvEmpresa = Integer.parseInt(comboEmpresa.getValue());
         try {
-            Date fechaInicio = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioString);
-            Date fechaFin = new SimpleDateFormat("dd/MM/yyyy").parse(fechaFinString);
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
             preparedStatement.setInt(1, numMatEstudiante);
             preparedStatement.setInt(2, numConvEmpresa);
             preparedStatement.setString(3, tutorEmpresa);
-            preparedStatement.setObject(4, fechaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            preparedStatement.setObject(5, fechaFin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            preparedStatement.setDate(4, new java.sql.Date(fechaInicio.getTime()));
+            preparedStatement.setDate(5, new java.sql.Date(fechaFin.getTime()));
             preparedStatement.setString(6, horario);
             preparedStatement.setString(7, localizacion);
             preparedStatement.setBoolean(8, erasmus);
             preparedStatement.setString(9, estado);
             preparedStatement.executeUpdate();
-            tablaPracticas.addRow(new String[]{nombreEstudiante, nombreEmpresa, tutorEmpresa, fechaInicioString, fechaFinString, horario, localizacion, Boolean.toString(erasmus), estado, Integer.toString(numMatEstudiante), Integer.toString(numConvEmpresa)});
-            vistaPracticas.cargarTablas();
+            cargarPracticas();
             vistaAsignarPracticas.setVisible(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Elimina las prácticas seleccionadas
+     *
+     * @param fila fila a eliminar
+     */
     public void eliminarPracticas(int fila) {
         Object numeroMatricula = tablaPracticas.getValueAt(fila, 9);
         Object numeroConvenio = tablaPracticas.getValueAt(fila, 10);
@@ -541,9 +549,27 @@ public class Modelo {
                 preparedStatement.setInt(2, (Integer) numeroConvenio);
             }
             preparedStatement.executeUpdate();
-            tablaPracticas.removeRow(fila);
-            vistaPracticas.cargarTablas();
+            cargarPracticas();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modificarPracticas(int fila, int numMat, int numConv, Date fechaInicio, Date fechaFin, String tutorEmpresa, String horario, String localizacion, boolean erasmus, String estado) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;");
+            preparedStatement.setDate(1, new java.sql.Date(fechaInicio.getTime()));
+            preparedStatement.setDate(2, new java.sql.Date(fechaFin.getTime()));
+            preparedStatement.setString(3, tutorEmpresa);
+            preparedStatement.setString(4, horario);
+            preparedStatement.setString(5, localizacion);
+            preparedStatement.setBoolean(6, erasmus);
+            preparedStatement.setString(7, estado);
+            preparedStatement.setInt(8, numMat);
+            preparedStatement.setInt(9, numConv);
+            preparedStatement.executeUpdate();
+            cargarPracticas();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -687,6 +713,10 @@ public class Modelo {
 
     public DefaultComboBoxModel getModeloCmbEmpresas() {
         return modeloCmbEmpresas;
+    }
+
+    public void setVistaModificarPracticas(VistaModificarPracticas vistaModificarPracticas) {
+        this.vistaModificarPracticas = vistaModificarPracticas;
     }
 
     //Clase interna para los objetos de las comboBoxes

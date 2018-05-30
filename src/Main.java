@@ -12,6 +12,7 @@ public class Main {
         VistaAnadirAdministrativo vistaAnadirAdministrativo = new VistaAnadirAdministrativo();
         VistaAnadirEmpresa vistaAnadirEmpresa = new VistaAnadirEmpresa();
         VistaAsignarPracticas vistaAsignarPracticas = new VistaAsignarPracticas();
+        VistaModificarPracticas vistaModificarPracticas = new VistaModificarPracticas();
         VistaConfigFichero vistaConfigFichero = new VistaConfigFichero();
         VistaConfiguracion vistaConfiguracion = new VistaConfiguracion();
         VistaEmpresa vistaEmpresa = new VistaEmpresa();
@@ -36,6 +37,7 @@ public class Main {
         vistaAnadirAdministrativo.setControlador(controlador);
         vistaAnadirEmpresa.setControlador(controlador);
         vistaAsignarPracticas.setControlador(controlador);
+        vistaModificarPracticas.setControlador(controlador);
         vistaConfigFichero.setControlador(controlador);
         vistaConfiguracion.setControlador(controlador);
         vistaEmpresa.setControlador(controlador);
@@ -58,6 +60,7 @@ public class Main {
         controlador.setVistaAnadirAdministrativo(vistaAnadirAdministrativo);
         controlador.setVistaAnadirEmpresa(vistaAnadirEmpresa);
         controlador.setVistaAsignarPracticas(vistaAsignarPracticas);
+        controlador.setVistaModificarPracticas(vistaModificarPracticas);
         controlador.setVistaConfigFichero(vistaConfigFichero);
         controlador.setVistaConfiguracion(vistaConfiguracion);
         controlador.setVistaEmpresa(vistaEmpresa);
@@ -83,6 +86,7 @@ public class Main {
         //Asignamos el modelo a las vistas
         vistaAlumnos.setModelo(modelo);
         vistaAsignarPracticas.setModelo(modelo);
+        vistaModificarPracticas.setModelo(modelo);
         vistaEmpresa.setModelo(modelo);
         vistaGrupos.setModelo(modelo);
         vistaPersonal.setModelo(modelo);
@@ -97,6 +101,7 @@ public class Main {
         //Asignamos las vistas al modelo
         modelo.setVistaAlumnos(vistaAlumnos);
         modelo.setVistaAsignarPracticas(vistaAsignarPracticas);
+        modelo.setVistaModificarPracticas(vistaModificarPracticas);
         modelo.setVistaLogin(vistaLogin);
         modelo.setVistaConfigFichero(vistaConfigFichero);
         modelo.setVistaConfiguracion(vistaConfiguracion);

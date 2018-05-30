@@ -1,6 +1,8 @@
 package view;
 
+import com.toedter.calendar.JDateChooser;
 import controller.Controlador;
+import model.Modelo;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -9,48 +11,44 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.util.Date;
 
 public class VistaModificarPracticas extends JDialog implements Vista {
 
     private final JPanel contentPanel = new JPanel();
     private Controlador controlador;
-    private JTextField txtInicio;
-    private JTextField txtFin;
+    private Modelo modelo;
     private JTextField txtTutorEmpresa;
     private JTextField txtHorario;
     private JTextField txtLocalizacion;
-
-    private JComboBox cmbAlumno;
-    private JComboBox cmbEmpresa;
     private JTextField txtEstado;
     private JCheckBox chckbxErasmus;
     private JButton btnOK;
+    private JLabel lblAlumno;
+    private JLabel lblEmpresa;
+    private JDateChooser dateInicio;
+    private JDateChooser dateFin;
+
+
+    private int numMat;
+    private int numConv;
+    private int fila;
 
     public VistaModificarPracticas() {
         setTitle("Modificar Prácticas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAsignarPracticas.class.getResource("/img/uem.png")));
-        setBounds(100, 100, 450, 253);
+        setBounds(100, 100, 450, 236);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-        cmbAlumno = new JComboBox();
+        lblAlumno = new JLabel("Alumno:");
 
-        JLabel lblAlumno = new JLabel("Alumno");
-
-        JLabel lblEmpresa = new JLabel("Empresa");
-
-        cmbEmpresa = new JComboBox();
+        lblEmpresa = new JLabel("Empresa:");
 
         JLabel lblInicio = new JLabel("Fecha Inicio:");
 
-        txtInicio = new JTextField();
-        txtInicio.setColumns(10);
-
         JLabel lblFin = new JLabel("Fecha Fin:");
-
-        txtFin = new JTextField();
-        txtFin.setColumns(10);
 
         JLabel lblTutorEmpresa = new JLabel("Tutor Empresa:");
 
@@ -73,6 +71,13 @@ public class VistaModificarPracticas extends JDialog implements Vista {
 
         txtEstado = new JTextField();
         txtEstado.setColumns(10);
+
+        dateInicio = new JDateChooser();
+        dateFin = new JDateChooser();
+
+        dateInicio.setDate(new Date());
+        dateFin.setDate(new Date());
+
         GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
         gl_contentPanel.setHorizontalGroup(
                 gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -80,89 +85,81 @@ public class VistaModificarPracticas extends JDialog implements Vista {
                                 .addContainerGap()
                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_contentPanel.createSequentialGroup()
+                                                .addComponent(lblAlumno)
+                                                .addPreferredGap(ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                                                .addComponent(lblEmpresa)
+                                                .addGap(156))
+                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                .addGroup(gl_contentPanel.createSequentialGroup()
+                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                                .addComponent(lblTutorEmpresa)
+                                                                .addComponent(lblHorario, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
+                                                        .addGap(12))
+                                                .addGap(0)
                                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-                                                        .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addComponent(lblAlumno)
-                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                                .addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addComponent(lblInicio)
-                                                                .addPreferredGap(ComponentPlacement.RELATED)
-                                                                .addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addComponent(lblFin, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(4)
-                                                                .addComponent(txtFin, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(31)
+                                                        .addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18)
                                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-                                                        .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addComponent(lblHorario, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18)
-                                                                .addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-                                                                .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                        .addComponent(lblTutorEmpresa)
-                                                                        .addPreferredGap(ComponentPlacement.RELATED)
-                                                                        .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
-                                                                .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                        .addComponent(lblEmpresa)
-                                                                        .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                        .addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+                                                        .addComponent(lblInicio, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(lblFin, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(dateInicio, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(dateFin, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(29))
                                         .addGroup(gl_contentPanel.createSequentialGroup()
                                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(lblLocalizacion)
-                                                        .addComponent(lblEstado))
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
                                                         .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18)
-                                                                .addComponent(chckbxErasmus))
-                                                        .addComponent(txtEstado))))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                .addComponent(lblLocalizacion)
+                                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+                                                                                .addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                                                                                .addComponent(chckbxErasmus))
+                                                                        .addComponent(txtEstado, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
+                                                        .addComponent(lblEstado))
+                                                .addGap(148))))
         );
         gl_contentPanel.setVerticalGroup(
                 gl_contentPanel.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPanel.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(lblAlumno)
+                                        .addComponent(lblEmpresa))
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
                                         .addGroup(gl_contentPanel.createSequentialGroup()
-                                                .addContainerGap()
                                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-                                                        .addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(lblAlumno)
-                                                        .addComponent(lblEmpresa)
-                                                        .addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-                                                                .addComponent(lblInicio)
-                                                                .addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(lblTutorEmpresa)
                                                         .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-                                                        .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addGap(3)
-                                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-                                                                        .addComponent(lblHorario)
-                                                                        .addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                                                        .addGroup(gl_contentPanel.createSequentialGroup()
-                                                                .addGap(3)
-                                                                .addComponent(lblFin))
-                                                        .addComponent(txtFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(6)
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(txtHorario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblHorario)))
                                         .addGroup(gl_contentPanel.createSequentialGroup()
-                                                .addGap(45)
-                                                .addComponent(lblTutorEmpresa)))
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+                                                        .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                .addGap(6)
+                                                                .addComponent(lblInicio))
+                                                        .addComponent(dateInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(gl_contentPanel.createSequentialGroup()
+                                                        .addPreferredGap(ComponentPlacement.RELATED)
+                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+                                                                .addComponent(lblFin)
+                                                                .addComponent(dateFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(18)
-                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblLocalizacion)
-                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-                                                .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(chckbxErasmus)))
+                                        .addComponent(txtLocalizacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(chckbxErasmus))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblEstado)
                                         .addComponent(txtEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(127))
         );
         contentPanel.setLayout(gl_contentPanel);
         {
@@ -171,7 +168,7 @@ public class VistaModificarPracticas extends JDialog implements Vista {
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 btnOK = new JButton("Modificar");
-                btnOK.addActionListener(e -> controlador.asignarPracticas());
+                btnOK.addActionListener(e -> controlador.modificarPracticas());
                 btnOK.setActionCommand("OK");
                 btnOK.setEnabled(false);
                 buttonPane.add(btnOK);
@@ -179,7 +176,7 @@ public class VistaModificarPracticas extends JDialog implements Vista {
             }
             {
                 JButton cancelButton = new JButton("Cancelar");
-                cancelButton.addActionListener(e -> controlador.cerrarAsignarPracticas());
+                cancelButton.addActionListener(e -> controlador.cerrarModificarPracticas());
                 cancelButton.setActionCommand("Cancel");
                 buttonPane.add(cancelButton);
             }
@@ -202,19 +199,32 @@ public class VistaModificarPracticas extends JDialog implements Vista {
 
         };
         txtEstado.getDocument().addDocumentListener(documentListener);
-        txtFin.getDocument().addDocumentListener(documentListener);
         txtHorario.getDocument().addDocumentListener(documentListener);
-        txtInicio.getDocument().addDocumentListener(documentListener);
         txtLocalizacion.getDocument().addDocumentListener(documentListener);
         txtTutorEmpresa.getDocument().addDocumentListener(documentListener);
     }
 
     public void changed() {
-        if (txtEstado.getText().equals("") || txtFin.getText().equals("") || txtHorario.getText().equals("") || txtInicio.getText().equals("") || txtLocalizacion.getText().equals("") || txtLocalizacion.getText().equals("")) {
+        if (txtEstado.getText().equals("") || dateFin.getDate() == null || txtHorario.getText().equals("") || dateInicio.getDate() == null || txtLocalizacion.getText().equals("") || txtLocalizacion.getText().equals("")) {
             btnOK.setEnabled(false);
         } else {
             btnOK.setEnabled(true);
         }
+    }
+
+    public void cargarDatos(int numMat, int numConv, String nombreAlumno, String nombreEmpresa, String tutorEmpresa, Date fechaInicio, Date fechaFin, String horario, String localizacion, boolean erasmus, String estado, int fila) {
+        this.numMat = numMat;
+        this.numConv = numConv;
+        this.fila = fila;
+        lblAlumno.setText("Alumno: " + nombreAlumno);
+        lblEmpresa.setText("Empresa: " + nombreEmpresa);
+        txtTutorEmpresa.setText(tutorEmpresa);
+        dateInicio.setDate(fechaInicio);
+        dateFin.setDate(fechaFin);
+        txtHorario.setText(horario);
+        txtLocalizacion.setText(localizacion);
+        chckbxErasmus.setSelected(erasmus);
+        txtEstado.setText(estado);
     }
 
     @Override
@@ -222,20 +232,12 @@ public class VistaModificarPracticas extends JDialog implements Vista {
         this.controlador = controlador;
     }
 
-    public JComboBox getCmbAlumno() {
-        return cmbAlumno;
+    public JDateChooser getDateInicio() {
+        return dateInicio;
     }
 
-    public JComboBox getCmbEmpresa() {
-        return cmbEmpresa;
-    }
-
-    public JTextField getTxtInicio() {
-        return txtInicio;
-    }
-
-    public JTextField getTxtFin() {
-        return txtFin;
+    public JDateChooser getDateFin() {
+        return dateFin;
     }
 
     public JTextField getTxtTutorEmpresa() {
@@ -256,5 +258,21 @@ public class VistaModificarPracticas extends JDialog implements Vista {
 
     public JCheckBox getChckbxErasmus() {
         return chckbxErasmus;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getNumMat() {
+        return numMat;
+    }
+
+    public int getNumConv() {
+        return numConv;
+    }
+
+    public int getFila() {
+        return fila;
     }
 }

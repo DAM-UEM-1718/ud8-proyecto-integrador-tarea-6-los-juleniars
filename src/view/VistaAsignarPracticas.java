@@ -1,5 +1,6 @@
 package view;
 
+import com.toedter.calendar.JDateChooser;
 import controller.Controlador;
 import model.Modelo;
 
@@ -7,15 +8,19 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.util.Date;
 
 public class VistaAsignarPracticas extends JDialog implements Vista {
 
     private final JPanel contentPanel = new JPanel();
     private Controlador controlador;
     private Modelo modelo;
-    private JTextField txtInicio;
-    private JTextField txtFin;
+
+    private JDateChooser dateInicio;
+    private JDateChooser dateFin;
     private JTextField txtTutorEmpresa;
     private JTextField txtHorario;
     private JTextField txtLocalizacion;
@@ -24,6 +29,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
     private JComboBox cmbEmpresa;
     private JTextField txtEstado;
     private JCheckBox chckbxErasmus;
+    private JButton btnAsignar;
 
     public VistaAsignarPracticas() {
         setTitle("Asignar Prácticas");
@@ -43,13 +49,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
 
         JLabel lblInicio = new JLabel("Fecha Inicio:");
 
-        txtInicio = new JTextField();
-        txtInicio.setColumns(10);
-
         JLabel lblFin = new JLabel("Fecha Fin:");
-
-        txtFin = new JTextField();
-        txtFin.setColumns(10);
 
         JLabel lblTutorEmpresa = new JLabel("Tutor Empresa:");
 
@@ -72,6 +72,13 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
 
         txtEstado = new JTextField();
         txtEstado.setColumns(10);
+
+        dateInicio = new JDateChooser();
+
+        dateFin = new JDateChooser();
+
+        dateInicio.setDate(new Date());
+        dateFin.setDate(new Date());
         GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
         gl_contentPanel.setHorizontalGroup(
                 gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -86,13 +93,13 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
                                                                 .addComponent(cmbAlumno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(gl_contentPanel.createSequentialGroup()
                                                                 .addComponent(lblInicio)
-                                                                .addPreferredGap(ComponentPlacement.RELATED)
-                                                                .addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                                .addComponent(dateInicio, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
                                                         .addGroup(gl_contentPanel.createSequentialGroup()
                                                                 .addComponent(lblFin, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(4)
-                                                                .addComponent(txtFin, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(31)
+                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                                .addComponent(dateFin, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+                                                .addGap(30)
                                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
                                                         .addGroup(gl_contentPanel.createSequentialGroup()
                                                                 .addComponent(lblHorario, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
@@ -118,7 +125,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
                                                                 .addGap(18)
                                                                 .addComponent(chckbxErasmus))
                                                         .addComponent(txtEstado))))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())
         );
         gl_contentPanel.setVerticalGroup(
                 gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -132,11 +139,13 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
                                                         .addComponent(lblEmpresa)
                                                         .addComponent(cmbEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-                                                                .addComponent(lblInicio)
-                                                                .addComponent(txtInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+                                                        .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+                                                                .addComponent(txtTutorEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                .addGroup(gl_contentPanel.createSequentialGroup()
+                                                                        .addGap(6)
+                                                                        .addComponent(lblInicio)))
+                                                        .addComponent(dateInicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
                                                         .addGroup(gl_contentPanel.createSequentialGroup()
@@ -147,11 +156,11 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
                                                         .addGroup(gl_contentPanel.createSequentialGroup()
                                                                 .addGap(3)
                                                                 .addComponent(lblFin))
-                                                        .addComponent(txtFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                                        .addComponent(dateFin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(gl_contentPanel.createSequentialGroup()
                                                 .addGap(45)
                                                 .addComponent(lblTutorEmpresa)))
-                                .addGap(18)
+                                .addGap(10)
                                 .addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
                                         .addComponent(lblLocalizacion)
                                         .addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
@@ -169,11 +178,12 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
-                JButton okButton = new JButton("Asignar");
-                okButton.addActionListener(e -> controlador.asignarPracticas());
-                okButton.setActionCommand("OK");
-                buttonPane.add(okButton);
-                getRootPane().setDefaultButton(okButton);
+                btnAsignar = new JButton("Asignar");
+                btnAsignar.setEnabled(false);
+                btnAsignar.addActionListener(e -> controlador.asignarPracticas());
+                btnAsignar.setActionCommand("OK");
+                buttonPane.add(btnAsignar);
+                getRootPane().setDefaultButton(btnAsignar);
             }
             {
                 JButton cancelButton = new JButton("Cancelar");
@@ -184,6 +194,44 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
         }
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        DocumentListener documentListener = new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+        };
+        txtEstado.getDocument().addDocumentListener(documentListener);
+        txtHorario.getDocument().addDocumentListener(documentListener);
+        txtLocalizacion.getDocument().addDocumentListener(documentListener);
+        txtTutorEmpresa.getDocument().addDocumentListener(documentListener);
+    }
+
+    public void limpiarCampos() {
+        cmbAlumno.setSelectedIndex(0);
+        cmbEmpresa.setSelectedIndex(0);
+        txtLocalizacion.setText("");
+        dateInicio.setDate(new Date());
+        dateFin.setDate(new Date());
+        txtHorario.setText("");
+        txtTutorEmpresa.setText("");
+        txtEstado.setText("");
+        chckbxErasmus.setSelected(false);
+    }
+
+    public void changed() {
+        if (txtEstado.getText().equals("") || dateFin.getDate() == null || txtHorario.getText().equals("") || dateFin.getDate() == null || txtLocalizacion.getText().equals("") || txtLocalizacion.getText().equals("")) {
+            btnAsignar.setEnabled(false);
+        } else {
+            btnAsignar.setEnabled(true);
+        }
     }
 
     public void cargarCmbs() {
@@ -204,12 +252,12 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
         return cmbEmpresa;
     }
 
-    public JTextField getTxtInicio() {
-        return txtInicio;
+    public JDateChooser getDateInicio() {
+        return dateInicio;
     }
 
-    public JTextField getTxtFin() {
-        return txtFin;
+    public JDateChooser getDateFin() {
+        return dateFin;
     }
 
     public JTextField getTxtTutorEmpresa() {

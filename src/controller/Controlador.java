@@ -2,16 +2,21 @@ package controller;
 
 import model.Modelo;
 import view.*;
-import javax.swing.*;
 
+import javax.swing.table.DefaultTableModel;
+import java.util.Date;
+
+/**
+ * @author Los Juleniars
+ */
 public class Controlador {
-
 
     private VistaAlumnos vistaAlumnos;
     private VistaAnadirTutor vistaAnadirTutor;
     private VistaAnadirAdministrativo vistaAnadirAdministrativo;
     private VistaAnadirEmpresa vistaAnadirEmpresa;
     private VistaAsignarPracticas vistaAsignarPracticas;
+    private VistaModificarPracticas vistaModificarPracticas;
     private VistaConfigFichero vistaConfigFichero;
     private VistaConfiguracion vistaConfiguracion;
     private VistaEmpresa vistaEmpresa;
@@ -185,22 +190,73 @@ public class Controlador {
         vistaAsignarPracticas.setVisible(false);
     }
 
+    /**
+     * Coge los datos introducidos y llama al métofo asignarPracticas del modelo
+     */
     public void asignarPracticas() {
         Modelo.ComboItem estudiante = (Modelo.ComboItem) vistaAsignarPracticas.getCmbAlumno().getModel().getSelectedItem();
         Modelo.ComboItem empresa = (Modelo.ComboItem) vistaAsignarPracticas.getCmbEmpresa().getModel().getSelectedItem();
-        String fechaInicio = vistaAsignarPracticas.getTxtInicio().getText();
-        String fechafin = vistaAsignarPracticas.getTxtFin().getText();
+        Date fechaInicio = vistaAsignarPracticas.getDateInicio().getDate();
+        Date fechafin = vistaAsignarPracticas.getDateFin().getDate();
         String tutorEmpresa = vistaAsignarPracticas.getTxtTutorEmpresa().getText();
         String horario = vistaAsignarPracticas.getTxtHorario().getText();
         String localizacion = vistaAsignarPracticas.getTxtLocalizacion().getText();
         boolean erasmus = vistaAsignarPracticas.getChckbxErasmus().isSelected();
         String estado = vistaAsignarPracticas.getTxtEstado().getText();
         modelo.asignarPracticas(estudiante, empresa, fechaInicio, fechafin, tutorEmpresa, horario, localizacion, erasmus, estado);
+        vistaAsignarPracticas.limpiarCampos();
     }
 
+    /**
+     * Coge la fila seleccionada y llama al método eliminarPracticas del modelo para eliminarla
+     */
     public void eliminarPracticas() {
-        JTable tabla = vistaPracticas.getTable();
-        modelo.eliminarPracticas(tabla.getSelectedRow());
+        modelo.eliminarPracticas(vistaPracticas.getTable().getSelectedRow());
+    }
+
+    public void mostrarModificarPracticas() {
+        DefaultTableModel tablaPracticas = (DefaultTableModel) vistaPracticas.getTable().getModel();
+        int fila = vistaPracticas.getTable().getSelectedRow();
+        String nombreAlumno = (String) tablaPracticas.getValueAt(fila, 0);
+        String nombreEmpresa = (String) tablaPracticas.getValueAt(fila, 1);
+        String tutorEmpresa = (String) tablaPracticas.getValueAt(fila, 2);
+        Date fechaInicio = (Date) tablaPracticas.getValueAt(fila, 3);
+        Date fechaFin = (Date) tablaPracticas.getValueAt(fila, 4);
+        String horario = (String) tablaPracticas.getValueAt(fila, 5);
+        String localizacion = (String) tablaPracticas.getValueAt(fila, 6);
+        boolean erasmus = (Boolean) tablaPracticas.getValueAt(fila, 7);
+        String estado = (String) tablaPracticas.getValueAt(fila, 8);
+        int numMat;
+        int numConv;
+        if (tablaPracticas.getValueAt(fila, 9) instanceof String) {
+            numMat = Integer.parseInt((String) tablaPracticas.getValueAt(fila, 9));
+            numConv = Integer.parseInt((String) tablaPracticas.getValueAt(fila, 10));
+        } else {
+            numMat = (Integer) tablaPracticas.getValueAt(fila, 9);
+            numConv = (Integer) tablaPracticas.getValueAt(fila, 10);
+        }
+        vistaModificarPracticas.cargarDatos(numMat, numConv, nombreAlumno, nombreEmpresa, tutorEmpresa, fechaInicio, fechaFin, horario, localizacion, erasmus, estado, fila);
+        vistaModificarPracticas.setVisible(true);
+    }
+
+    public void cerrarModificarPracticas() {
+        vistaModificarPracticas.setVisible(false);
+    }
+
+    public void modificarPracticas() {
+        //TODO: Modificar prácticas
+        int fila = vistaModificarPracticas.getFila();
+        int numMat = vistaModificarPracticas.getNumMat();
+        int numConv = vistaModificarPracticas.getNumConv();
+        Date fechaInicio = vistaModificarPracticas.getDateInicio().getDate();
+        Date fechafin = vistaModificarPracticas.getDateFin().getDate();
+        String tutorEmpresa = vistaModificarPracticas.getTxtTutorEmpresa().getText();
+        String horario = vistaModificarPracticas.getTxtHorario().getText();
+        String localizacion = vistaModificarPracticas.getTxtLocalizacion().getText();
+        boolean erasmus = vistaModificarPracticas.getChckbxErasmus().isSelected();
+        String estado = vistaModificarPracticas.getTxtEstado().getText();
+        modelo.modificarPracticas(fila, numMat, numConv, fechaInicio, fechafin, tutorEmpresa, horario, localizacion, erasmus, estado);
+        vistaModificarPracticas.setVisible(false);
     }
 
     public void cerrarTutores() {
@@ -371,5 +427,9 @@ public class Controlador {
 
     public void setVistaConfigFichero(VistaConfigFichero vistaConfigFichero) {
         this.vistaConfigFichero = vistaConfigFichero;
+    }
+
+    public void setVistaModificarPracticas(VistaModificarPracticas vistaModificarPracticas) {
+        this.vistaModificarPracticas = vistaModificarPracticas;
     }
 }

@@ -1,22 +1,21 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import javax.swing.GroupLayout.Alignment;
-
 import controller.Controlador;
 import model.Modelo;
 
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class VistaPracticas extends JFrame implements Vista {
 
     private JPanel contentPane;
     private JTable table;
     private JTextField txtEmpresa;
+    private JButton btnModificar;
+    private JButton btnEliminarPracticas;
 
     private Controlador controlador;
     private Modelo modelo;
@@ -53,15 +52,19 @@ public class VistaPracticas extends JFrame implements Vista {
         JButton btnAsignar = new JButton("Asignar Prácticas");
         btnAsignar.addActionListener(e -> controlador.mostrarAsignarPracticas());
 
-        JButton btnEliminarPracticas = new JButton("Eliminar Prácticas");
-        btnEliminarPracticas.addActionListener(e -> {
-            controlador.eliminarPracticas();
-        });
+        btnEliminarPracticas = new JButton("Eliminar Prácticas");
+        btnEliminarPracticas.setEnabled(false);
+        btnEliminarPracticas.addActionListener(e -> controlador.eliminarPracticas());
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> controlador.cerrarPracticas());
 
         JComboBox comboBox = new JComboBox();
+
+        btnModificar = new JButton("Modificar");
+        btnModificar.setEnabled(false);
+        btnModificar.addActionListener(e -> controlador.mostrarModificarPracticas());
+
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -86,7 +89,9 @@ public class VistaPracticas extends JFrame implements Vista {
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnAsignar)
                                                 .addGap(18)
-                                                .addComponent(btnEliminarPracticas)))
+                                                .addComponent(btnEliminarPracticas)
+                                                .addGap(18)
+                                                .addComponent(btnModificar)))
                                 .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
@@ -109,26 +114,22 @@ public class VistaPracticas extends JFrame implements Vista {
                                 .addPreferredGap(ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnAsignar)
-                                        .addComponent(btnEliminarPracticas))
+                                        .addComponent(btnEliminarPracticas)
+                                        .addComponent(btnModificar))
                                 .addContainerGap())
         );
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        /*table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{"Iv\u00E1n Hern\u00E1ndez", "Apple Espa\u00F1a S.A.", null, null, null, null, null, null, null},
-        		{"V\u00EDctorJim\u00E9nez", "Facebook Inc.", null, null, null, null, null, null, null},
-        		{"Andr\u00E9s Murillas", "Twitter Inc.", null, null, null, null, null, null, null},
-        	},
-        	new String[] {
-        		"Alumnos", "Empresa", "Fecha Inicio", "Fecha Fin", "Tutor Empresa", "Horario", "Localizaci\u00F3n", "Erasmus", "Estado"
-        	}
-        ));
-        table.getColumnModel().getColumn(0).setPreferredWidth(91);
-        table.getColumnModel().getColumn(1).setPreferredWidth(116);*/
+        table.getSelectionModel().addListSelectionListener(evento -> changed());
+
         scrollPane.setViewportView(table);
         contentPane.setLayout(gl_contentPane);
+    }
+
+    private void changed() {
+        btnModificar.setEnabled(!table.getSelectionModel().isSelectionEmpty());
+        btnEliminarPracticas.setEnabled(!table.getSelectionModel().isSelectionEmpty());
     }
 
     @Override
@@ -149,5 +150,4 @@ public class VistaPracticas extends JFrame implements Vista {
     public void setModelo(Modelo modelo) {
         this.modelo = modelo;
     }
-
 }
