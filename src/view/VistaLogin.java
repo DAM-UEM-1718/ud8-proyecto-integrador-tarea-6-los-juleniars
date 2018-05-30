@@ -26,15 +26,8 @@ public class VistaLogin extends JFrame implements Vista {
     private JButton btnConfig;
     private JLabel lblUsuario;
     private JLabel lblContrasea;
+    private JLabel lblAviso;
 
-
-    public JTextField getTxtUsuario() {
-        return txtUsuario;
-    }
-
-    public JPasswordField getPswContrasena() {
-        return pswContrasena;
-    }
 
     public VistaLogin() {
         try {
@@ -106,10 +99,17 @@ public class VistaLogin extends JFrame implements Vista {
         btnRegistro.addActionListener(e -> controlador.mostrarRegistro());
 
         btnConfig = new JButton("");
+
+        lblAviso = new JLabel("");
+        lblAviso.setForeground(Color.RED);
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                gl_contentPane.createParallelGroup(Alignment.TRAILING)
                         .addGroup(gl_contentPane.createSequentialGroup()
+                                .addContainerGap(440, Short.MAX_VALUE)
+                                .addComponent(btnConfig)
+                                .addContainerGap())
+                        .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
                                 .addGap(108)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
                                         .addComponent(btnRegistro)
@@ -125,12 +125,9 @@ public class VistaLogin extends JFrame implements Vista {
                                                 .addGroup(gl_contentPane.createSequentialGroup()
                                                         .addComponent(btnRecuperarContrasea)
                                                         .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(btnIniciarSesin))))
+                                                        .addComponent(btnIniciarSesin))
+                                                .addComponent(lblAviso, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addContainerGap(93, Short.MAX_VALUE))
-                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-                                .addContainerGap(376, Short.MAX_VALUE)
-                                .addComponent(btnConfig)
-                                .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -145,13 +142,15 @@ public class VistaLogin extends JFrame implements Vista {
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblContrasea)
                                         .addComponent(pswContrasena, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-                                .addGap(34)
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addComponent(lblAviso, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .addGap(2)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnRecuperarContrasea)
                                         .addComponent(btnIniciarSesin))
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(btnRegistro)
-                                .addContainerGap(48, Short.MAX_VALUE))
+                                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         BufferedImage icono = null;
@@ -170,6 +169,14 @@ public class VistaLogin extends JFrame implements Vista {
 
     }
 
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public JPasswordField getPswContrasena() {
+        return pswContrasena;
+    }
+
     public void sesionIniciada() {
         //JOptionPane.showMessageDialog(null, "Sesión iniciada");
         limpiarCampos();
@@ -186,7 +193,7 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     public void errorInicioSesion() {
-        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+        lblAviso.setText("Usuario o contraseña incorrectos.");
     }
 
     public void errorGenerarContrasena() {
@@ -202,6 +209,7 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     private void limpiarCampos() {
+        lblAviso.setText("");
         txtUsuario.setText("");
         pswContrasena.setText("");
     }
