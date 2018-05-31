@@ -387,15 +387,15 @@ public class Controlador {
     }
 
     public void mostrarConfigFichero() {
+        vistaConfigFichero.setConfiguracion();
         vistaConfigFichero.setVisible(true);
     }
 
     public void escribirFichero() {
         String user = vistaConfigFichero.getTxtUser();
         String password = vistaConfigFichero.getPswContrasena();
-        String url = vistaConfigFichero.getTxtHost();
+        String url = vistaConfigFichero.getTxtUrl();
         modelo.escribirConfiguracion(user, password, url);
-        vistaConfigFichero.limpiarCampos();
         vistaConfigFichero.setVisible(false);
     }
 

@@ -722,6 +722,18 @@ public class Modelo {
         this.vistaModificarPracticas = vistaModificarPracticas;
     }
 
+    public String getUSER() {
+        return USER;
+    }
+
+    public String getPASSWORD() {
+        return PASSWORD;
+    }
+
+    public String getURL() {
+        return URL;
+    }
+
     //Clase interna para los objetos de las comboBoxes
     public class ComboItem {
         private String key;

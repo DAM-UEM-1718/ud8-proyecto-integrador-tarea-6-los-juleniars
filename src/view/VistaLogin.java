@@ -207,7 +207,7 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     public void errorConexion() {
-        JOptionPane.showMessageDialog(null, "No ha sido posible conectarse a la base de datos.");
+        lblAviso.setText("No ha sido posible conectarse a la base de datos.");
     }
 
     private void limpiarCampos() {

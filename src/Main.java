@@ -86,6 +86,7 @@ public class Main {
         //Asignamos el modelo a las vistas
         vistaAlumnos.setModelo(modelo);
         vistaAsignarPracticas.setModelo(modelo);
+        vistaConfigFichero.setModelo(modelo);
         vistaModificarPracticas.setModelo(modelo);
         vistaEmpresa.setModelo(modelo);
         vistaGrupos.setModelo(modelo);

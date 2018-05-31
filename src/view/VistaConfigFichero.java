@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controlador;
+import model.Modelo;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -12,9 +13,11 @@ import java.awt.*;
 public class VistaConfigFichero extends JFrame implements Vista {
 
     private Controlador controlador;
+    private Modelo modelo;
+
     private JPanel contentPane;
     private JTextField txtUser;
-    private JTextField txtHost;
+    private JTextField txtUrl;
     private JPasswordField pswContrasena;
     private JButton btnAceptar;
 
@@ -33,13 +36,13 @@ public class VistaConfigFichero extends JFrame implements Vista {
 
         JLabel lblContrasea = new JLabel("Contraseña");
 
-        JLabel lblHostMysql = new JLabel("Host MySQL");
+        JLabel lblHostMysql = new JLabel("URL MySQL");
 
         txtUser = new JTextField();
         txtUser.setColumns(10);
 
-        txtHost = new JTextField();
-        txtHost.setColumns(10);
+        txtUrl = new JTextField();
+        txtUrl.setColumns(10);
 
         pswContrasena = new JPasswordField();
 
@@ -58,7 +61,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
                                                         .addComponent(lblHostMysql))
                                                 .addGap(62)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(txtHost, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtUrl, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
                                                                         .addComponent(pswContrasena, Alignment.LEADING)
@@ -83,7 +86,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
                                 .addGap(18)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(lblHostMysql)
-                                        .addComponent(txtHost, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtUrl, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
                                 .addComponent(btnAceptar)
                                 .addGap(57))
@@ -108,33 +111,38 @@ public class VistaConfigFichero extends JFrame implements Vista {
         };
         txtUser.getDocument().addDocumentListener(documentListener);
         pswContrasena.getDocument().addDocumentListener(documentListener);
-        txtHost.getDocument().addDocumentListener(documentListener);
+        txtUrl.getDocument().addDocumentListener(documentListener);
+    }
+
+    public void setConfiguracion(){
+        txtUser.setText(modelo.getUSER());
+        pswContrasena.setText(modelo.getPASSWORD());
+        txtUrl.setText(modelo.getURL());
     }
 
     public String getTxtUser() {
         return txtUser.getText();
     }
 
-    public String getTxtHost() {
-        return txtHost.getText();
+    public String getTxtUrl() {
+        return txtUrl.getText();
     }
 
     public String getPswContrasena() {
         return new String(pswContrasena.getPassword());
     }
 
-    public void limpiarCampos() {
-        txtHost.setText("");
-        txtUser.setText("");
-        pswContrasena.setText("");
-    }
 
     private void changed() {
-        if (txtUser.getText().equals("") || txtHost.getText().equals("") || new String(pswContrasena.getPassword()).equals("")) {
+        if (txtUser.getText().equals("") || txtUrl.getText().equals("") || new String(pswContrasena.getPassword()).equals("")) {
             btnAceptar.setEnabled(false);
         } else {
             btnAceptar.setEnabled(true);
         }
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 
     @Override
