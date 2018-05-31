@@ -180,20 +180,8 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
-    public JLabel getLblBienvenido() {
-        return lblBienvenido;
-    }
-
-    public JLabel getLblNumeroAlumnos() {
-        return lblNumeroAlumnos;
-    }
-
-    public JLabel getLblAlumnosPorAsignar() {
-        return lblAlumnosPorAsignar;
-    }
-
-    public JLabel getLblClases() {
-        return lblClases;
+    public void setLblBienvenido() {
+        lblBienvenido.setText("Bienvenido " + modelo.getNombreUsuarioFormal());
     }
 
     public void cargarTabla() {

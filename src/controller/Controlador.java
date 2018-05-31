@@ -66,13 +66,13 @@ public class Controlador {
             case 0:
                 modelo.mostrarGrupoTutor();
                 modelo.mostrarPracticasTutor();
-                vistaPrincipalTutor.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
+                vistaPrincipalTutor.setLblBienvenido();
                 vistaPrincipalTutor.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 1:
                 modelo.mostrarDashboardDirector();
-                vistaPrincipalAdministrativo.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
+                vistaPrincipalAdministrativo.setLblBienvenido();
                 vistaPrincipalAdministrativo.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
