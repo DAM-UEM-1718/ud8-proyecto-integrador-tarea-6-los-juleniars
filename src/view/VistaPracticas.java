@@ -8,6 +8,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Date;
 
 public class VistaPracticas extends JFrame implements Vista {
 
@@ -143,8 +144,64 @@ public class VistaPracticas extends JFrame implements Vista {
         table.removeColumn(table.getColumnModel().getColumn(9));
     }
 
-    public JTable getTable() {
-        return table;
+    public int getFilaSeleccionada() {
+        return table.getSelectedRow();
+    }
+
+    public String getNombreAlumnoSeleccionado() {
+        return (String) table.getModel().getValueAt(table.getSelectedRow(), 0);
+    }
+
+    public String getNombreEmpresaSeleccionada() {
+        return (String) table.getModel().getValueAt(table.getSelectedRow(), 1);
+    }
+
+    public String getTutorEmpresaSeleccionado() {
+        return (String) table.getModel().getValueAt(table.getSelectedRow(), 2);
+    }
+
+    public Date getFechaInicioSeleccionada() {
+        return (Date) table.getModel().getValueAt(table.getSelectedRow(), 3);
+    }
+
+    public Date getFechaFinSeleccionada() {
+        return (Date) table.getModel().getValueAt(table.getSelectedRow(), 4);
+    }
+
+    public String getHorarioSeleccionado() {
+        return (String) table.getModel().getValueAt(table.getSelectedRow(), 5);
+    }
+
+    public String getLocalizacionSeleccionada() {
+        return (String) table.getModel().getValueAt(table.getSelectedRow(), 6);
+    }
+
+    public boolean getErasmusSeleccionada() {
+        return (Boolean) table.getModel().getValueAt(table.getSelectedRow(), 7);
+    }
+
+    public String getEstadoSeleccionado() {
+        return (String) table.getModel().getValueAt(table.getSelectedRow(), 8);
+    }
+
+    public int getNumMatSeleccionado() {
+        int numMat;
+        if (table.getModel().getValueAt(table.getSelectedRow(), 9) instanceof String) {
+            numMat = Integer.parseInt((String) table.getModel().getValueAt(table.getSelectedRow(), 9));
+        } else {
+            numMat = (Integer) table.getModel().getValueAt(table.getSelectedRow(), 9);
+        }
+        return numMat;
+    }
+
+    public int getNumConvSeleccionado() {
+        int numMat;
+        if (table.getModel().getValueAt(table.getSelectedRow(), 10) instanceof String) {
+            numMat = Integer.parseInt((String) table.getModel().getValueAt(table.getSelectedRow(), 10));
+        } else {
+            numMat = (Integer) table.getModel().getValueAt(table.getSelectedRow(), 10);
+        }
+        return numMat;
     }
 
     public void setModelo(Modelo modelo) {

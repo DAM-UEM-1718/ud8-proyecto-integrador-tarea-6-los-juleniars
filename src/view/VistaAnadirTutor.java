@@ -89,11 +89,11 @@ public class VistaAnadirTutor extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
-    public JTextField getTxtMail() {
-        return txtMail;
+    public String getTxtMail() {
+        return txtMail.getText();
     }
 
-    public JTextField getTxtExpediente() {
-        return txtExpediente;
+    public String getTxtExpediente() {
+        return txtExpediente.getText();
     }
 }

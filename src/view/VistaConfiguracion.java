@@ -159,11 +159,15 @@ public class VistaConfiguracion extends JFrame implements Vista {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    public JPasswordField getPswContrasena() {
-        return pswContrasena;
+    public void errorContrasenas() {
+        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.");
     }
 
-    public JPasswordField getPswConfirmarContrasena() {
-        return pswConfirmarContrasena;
+    public String getPswContrasena() {
+        return new String(pswContrasena.getPassword());
+    }
+
+    public String getPswConfirmarContrasena() {
+        return new String(pswConfirmarContrasena.getPassword());
     }
 }

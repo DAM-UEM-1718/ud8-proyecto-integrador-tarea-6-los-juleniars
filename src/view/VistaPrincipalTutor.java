@@ -177,7 +177,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         this.modelo = modelo;
     }
 
-    public JComboBox getCmbGrupos() {
-        return cmbGrupos;
+    public Modelo.ComboItem getCmbGrupos() {
+        return (Modelo.ComboItem) cmbGrupos.getSelectedItem();
     }
 }

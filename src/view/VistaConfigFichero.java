@@ -111,16 +111,16 @@ public class VistaConfigFichero extends JFrame implements Vista {
         txtHost.getDocument().addDocumentListener(documentListener);
     }
 
-    public JTextField getTxtUser() {
-        return txtUser;
+    public String getTxtUser() {
+        return txtUser.getText();
     }
 
-    public JTextField getTxtHost() {
-        return txtHost;
+    public String getTxtHost() {
+        return txtHost.getText();
     }
 
-    public JPasswordField getPswContrasena() {
-        return pswContrasena;
+    public String getPswContrasena() {
+        return new String(pswContrasena.getPassword());
     }
 
     public void limpiarCampos() {

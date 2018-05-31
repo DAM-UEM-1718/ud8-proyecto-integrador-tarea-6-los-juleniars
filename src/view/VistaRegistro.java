@@ -232,27 +232,27 @@ public class VistaRegistro extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
-    public JTextField getTxtNombre() {
-        return txtNombre;
+    public String getTxtNombre() {
+        return txtNombre.getText();
     }
 
-    public JTextField getTxtUser() {
-        return txtUser;
+    public String getTxtUser() {
+        return txtUser.getText();
     }
 
-    public JTextField getTxtMail() {
-        return txtMail;
+    public String getTxtMail() {
+        return txtMail.getText();
     }
 
-    public JTextField getTxtNIF() {
-        return txtNIF;
+    public String getTxtNIF() {
+        return txtNIF.getText();
     }
 
-    public JPasswordField getPswContrasena() {
-        return pswContrasena;
+    public String getPswContrasena() {
+        return new String(pswContrasena.getPassword());
     }
 
-    public JPasswordField getPswConfirmar() {
-        return pswConfirmar;
+    public String getPswConfirmar() {
+        return new String(pswConfirmar.getPassword());
     }
 }

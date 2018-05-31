@@ -232,32 +232,32 @@ public class VistaModificarPracticas extends JDialog implements Vista {
         this.controlador = controlador;
     }
 
-    public JDateChooser getDateInicio() {
-        return dateInicio;
+    public Date getDateInicio() {
+        return dateInicio.getDate();
     }
 
-    public JDateChooser getDateFin() {
-        return dateFin;
+    public Date getDateFin() {
+        return dateFin.getDate();
     }
 
-    public JTextField getTxtTutorEmpresa() {
-        return txtTutorEmpresa;
+    public String getTxtTutorEmpresa() {
+        return txtTutorEmpresa.getText();
     }
 
-    public JTextField getTxtHorario() {
-        return txtHorario;
+    public String getTxtHorario() {
+        return txtHorario.getText();
     }
 
-    public JTextField getTxtLocalizacion() {
-        return txtLocalizacion;
+    public String getTxtLocalizacion() {
+        return txtLocalizacion.getText();
     }
 
-    public JTextField getTxtEstado() {
-        return txtEstado;
+    public String getTxtEstado() {
+        return txtEstado.getText();
     }
 
-    public JCheckBox getChckbxErasmus() {
-        return chckbxErasmus;
+    public boolean getChckbxErasmus() {
+        return chckbxErasmus.isSelected();
     }
 
     public void setModelo(Modelo modelo) {

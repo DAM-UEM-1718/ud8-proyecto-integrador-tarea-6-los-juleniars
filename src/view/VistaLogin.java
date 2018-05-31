@@ -28,6 +28,8 @@ public class VistaLogin extends JFrame implements Vista {
     private JLabel lblContrasea;
     private JLabel lblAviso;
 
+    private boolean conectado;
+
 
     public VistaLogin() {
         try {
@@ -169,12 +171,12 @@ public class VistaLogin extends JFrame implements Vista {
 
     }
 
-    public JTextField getTxtUsuario() {
-        return txtUsuario;
+    public String getTxtUsuario() {
+        return txtUsuario.getText();
     }
 
-    public JPasswordField getPswContrasena() {
-        return pswContrasena;
+    public String getPswContrasena() {
+        return new String(pswContrasena.getPassword());
     }
 
     public void sesionIniciada() {
@@ -215,12 +217,16 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     private void changed() {
-        if (txtUsuario.getText().equals("") || new String(pswContrasena.getPassword()).equals("")) {
+        if (txtUsuario.getText().equals("") || new String(pswContrasena.getPassword()).equals("") || !conectado) {
             btnIniciarSesin.setEnabled(false);
         } else {
             btnIniciarSesin.setEnabled(true);
         }
 
+    }
+
+    public void conectado() {
+        conectado = true;
     }
 
     public void intentosSuperados() {

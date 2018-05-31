@@ -16,9 +16,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Properties;
+import java.util.Vector;
 
 /**
  * @author Los Juleniars
@@ -84,9 +85,11 @@ public class Modelo {
             URL = propiedades.getProperty("url");
             MAILGUN_API_KEY = propiedades.getProperty("mailgun");
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            if (connection != null)
+                vistaLogin.conectado();
         } catch (Exception e) {
             this.vistaLogin.errorConexion();
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

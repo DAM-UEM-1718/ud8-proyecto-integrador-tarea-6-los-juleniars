@@ -3,7 +3,6 @@ package controller;
 import model.Modelo;
 import view.*;
 
-import javax.swing.table.DefaultTableModel;
 import java.util.Date;
 
 /**
@@ -49,7 +48,7 @@ public class Controlador {
     }
 
     public void iniciarSesion() {
-        modelo.iniciarSesion(vistaLogin.getTxtUsuario().getText(), new String(vistaLogin.getPswContrasena().getPassword()));
+        modelo.iniciarSesion(vistaLogin.getTxtUsuario(), vistaLogin.getPswContrasena());
     }
 
     public void mostrarRecuperarContrasena() {
@@ -58,7 +57,7 @@ public class Controlador {
 
     public void recuperarContrasena() {
         vistaRecuperarPswd.setVisible(false);
-        modelo.recuperarContrasena(vistaRecuperarPswd.getTxtNombreUsuario().getText());
+        modelo.recuperarContrasena(vistaRecuperarPswd.getTxtNombreUsuario());
     }
 
     public void mostrarVistaSesion() {
@@ -194,15 +193,15 @@ public class Controlador {
      * Coge los datos introducidos y llama al métofo asignarPracticas del modelo
      */
     public void asignarPracticas() {
-        Modelo.ComboItem estudiante = (Modelo.ComboItem) vistaAsignarPracticas.getCmbAlumno().getModel().getSelectedItem();
-        Modelo.ComboItem empresa = (Modelo.ComboItem) vistaAsignarPracticas.getCmbEmpresa().getModel().getSelectedItem();
-        Date fechaInicio = vistaAsignarPracticas.getDateInicio().getDate();
-        Date fechafin = vistaAsignarPracticas.getDateFin().getDate();
-        String tutorEmpresa = vistaAsignarPracticas.getTxtTutorEmpresa().getText();
-        String horario = vistaAsignarPracticas.getTxtHorario().getText();
-        String localizacion = vistaAsignarPracticas.getTxtLocalizacion().getText();
-        boolean erasmus = vistaAsignarPracticas.getChckbxErasmus().isSelected();
-        String estado = vistaAsignarPracticas.getTxtEstado().getText();
+        Modelo.ComboItem estudiante = (Modelo.ComboItem) vistaAsignarPracticas.getComboItemAlumno();
+        Modelo.ComboItem empresa = (Modelo.ComboItem) vistaAsignarPracticas.getComboItemEmpresa();
+        Date fechaInicio = vistaAsignarPracticas.getDateInicio();
+        Date fechafin = vistaAsignarPracticas.getDateFin();
+        String tutorEmpresa = vistaAsignarPracticas.getTxtTutorEmpresa();
+        String horario = vistaAsignarPracticas.getTxtHorario();
+        String localizacion = vistaAsignarPracticas.getTxtLocalizacion();
+        boolean erasmus = vistaAsignarPracticas.getChckbxErasmus();
+        String estado = vistaAsignarPracticas.getTxtEstado();
         modelo.asignarPracticas(estudiante, empresa, fechaInicio, fechafin, tutorEmpresa, horario, localizacion, erasmus, estado);
         vistaAsignarPracticas.limpiarCampos();
     }
@@ -211,30 +210,22 @@ public class Controlador {
      * Coge la fila seleccionada y llama al método eliminarPracticas del modelo para eliminarla
      */
     public void eliminarPracticas() {
-        modelo.eliminarPracticas(vistaPracticas.getTable().getSelectedRow());
+        modelo.eliminarPracticas(vistaPracticas.getFilaSeleccionada());
     }
 
     public void mostrarModificarPracticas() {
-        DefaultTableModel tablaPracticas = (DefaultTableModel) vistaPracticas.getTable().getModel();
-        int fila = vistaPracticas.getTable().getSelectedRow();
-        String nombreAlumno = (String) tablaPracticas.getValueAt(fila, 0);
-        String nombreEmpresa = (String) tablaPracticas.getValueAt(fila, 1);
-        String tutorEmpresa = (String) tablaPracticas.getValueAt(fila, 2);
-        Date fechaInicio = (Date) tablaPracticas.getValueAt(fila, 3);
-        Date fechaFin = (Date) tablaPracticas.getValueAt(fila, 4);
-        String horario = (String) tablaPracticas.getValueAt(fila, 5);
-        String localizacion = (String) tablaPracticas.getValueAt(fila, 6);
-        boolean erasmus = (Boolean) tablaPracticas.getValueAt(fila, 7);
-        String estado = (String) tablaPracticas.getValueAt(fila, 8);
-        int numMat;
-        int numConv;
-        if (tablaPracticas.getValueAt(fila, 9) instanceof String) {
-            numMat = Integer.parseInt((String) tablaPracticas.getValueAt(fila, 9));
-            numConv = Integer.parseInt((String) tablaPracticas.getValueAt(fila, 10));
-        } else {
-            numMat = (Integer) tablaPracticas.getValueAt(fila, 9);
-            numConv = (Integer) tablaPracticas.getValueAt(fila, 10);
-        }
+        String nombreAlumno = vistaPracticas.getNombreAlumnoSeleccionado();
+        String nombreEmpresa = vistaPracticas.getNombreEmpresaSeleccionada();
+        String tutorEmpresa = vistaPracticas.getTutorEmpresaSeleccionado();
+        Date fechaInicio = vistaPracticas.getFechaInicioSeleccionada();
+        Date fechaFin = vistaPracticas.getFechaFinSeleccionada();
+        String horario = vistaPracticas.getHorarioSeleccionado();
+        String localizacion = vistaPracticas.getLocalizacionSeleccionada();
+        boolean erasmus = vistaPracticas.getErasmusSeleccionada();
+        String estado = vistaPracticas.getEstadoSeleccionado();
+        int numMat = vistaPracticas.getNumMatSeleccionado();
+        int numConv = vistaPracticas.getNumConvSeleccionado();
+        int fila = vistaPracticas.getFilaSeleccionada();
         vistaModificarPracticas.cargarDatos(numMat, numConv, nombreAlumno, nombreEmpresa, tutorEmpresa, fechaInicio, fechaFin, horario, localizacion, erasmus, estado, fila);
         vistaModificarPracticas.setVisible(true);
     }
@@ -244,17 +235,16 @@ public class Controlador {
     }
 
     public void modificarPracticas() {
-        //TODO: Modificar prácticas
         int fila = vistaModificarPracticas.getFila();
         int numMat = vistaModificarPracticas.getNumMat();
         int numConv = vistaModificarPracticas.getNumConv();
-        Date fechaInicio = vistaModificarPracticas.getDateInicio().getDate();
-        Date fechafin = vistaModificarPracticas.getDateFin().getDate();
-        String tutorEmpresa = vistaModificarPracticas.getTxtTutorEmpresa().getText();
-        String horario = vistaModificarPracticas.getTxtHorario().getText();
-        String localizacion = vistaModificarPracticas.getTxtLocalizacion().getText();
-        boolean erasmus = vistaModificarPracticas.getChckbxErasmus().isSelected();
-        String estado = vistaModificarPracticas.getTxtEstado().getText();
+        Date fechaInicio = vistaModificarPracticas.getDateInicio();
+        Date fechafin = vistaModificarPracticas.getDateFin();
+        String tutorEmpresa = vistaModificarPracticas.getTxtTutorEmpresa();
+        String horario = vistaModificarPracticas.getTxtHorario();
+        String localizacion = vistaModificarPracticas.getTxtLocalizacion();
+        boolean erasmus = vistaModificarPracticas.getChckbxErasmus();
+        String estado = vistaModificarPracticas.getTxtEstado();
         modelo.modificarPracticas(fila, numMat, numConv, fechaInicio, fechafin, tutorEmpresa, horario, localizacion, erasmus, estado);
         vistaModificarPracticas.setVisible(false);
     }
@@ -323,7 +313,7 @@ public class Controlador {
     }
 
     public void cambiarGrupo() {
-        modelo.cambiarGrupoTutor((Modelo.ComboItem) vistaPrincipalTutor.getCmbGrupos().getSelectedItem());
+        modelo.cambiarGrupoTutor((Modelo.ComboItem) vistaPrincipalTutor.getCmbGrupos());
     }
 
     public void mostrarRegistro() {
@@ -331,12 +321,12 @@ public class Controlador {
     }
 
     public void registrar() {
-        String nombre = vistaRegistro.getTxtNombre().getText();
-        String usuario = vistaRegistro.getTxtUser().getText();
-        String password = new String(vistaRegistro.getPswContrasena().getPassword());
-        String confimar = new String(vistaRegistro.getPswConfirmar().getPassword());
-        String mail = vistaRegistro.getTxtMail().getText();
-        String nif = vistaRegistro.getTxtNIF().getText();
+        String nombre = vistaRegistro.getTxtNombre();
+        String usuario = vistaRegistro.getTxtUser();
+        String password = vistaRegistro.getPswContrasena();
+        String confimar = vistaRegistro.getPswConfirmar();
+        String mail = vistaRegistro.getTxtMail();
+        String nif = vistaRegistro.getTxtNIF();
         if (password.equals(confimar)) {
             modelo.registroTutor(nombre, usuario, password, mail, nif);
         } else {
@@ -362,12 +352,12 @@ public class Controlador {
     }
 
     public void anadirTutor() {
-        modelo.generarUsuario(vistaAnadirTutor.getTxtExpediente().getText(), vistaAnadirTutor.getTxtMail().getText(), (byte) 0);
+        modelo.generarUsuario(vistaAnadirTutor.getTxtExpediente(), vistaAnadirTutor.getTxtMail(), (byte) 0);
         vistaAnadirTutor.setVisible(false);
     }
 
     public void anadirAdministrativo() {
-        modelo.generarUsuario(vistaAnadirAdministrativo.getTxtExpediente().getText(), vistaAnadirAdministrativo.getTxtMail().getText(), (byte) 1);
+        modelo.generarUsuario(vistaAnadirAdministrativo.getTxtExpediente(), vistaAnadirAdministrativo.getTxtMail(), (byte) 1);
         vistaAnadirAdministrativo.setVisible(false);
     }
 
@@ -377,10 +367,10 @@ public class Controlador {
     }
 
     public void cambiarContrasena() {
-        if (new String(vistaConfiguracion.getPswContrasena().getPassword()).equals(new String(vistaConfiguracion.getPswConfirmarContrasena().getPassword()))) {
-            modelo.cambiarContrasena(new String(vistaConfiguracion.getPswContrasena().getPassword()));
+        if (vistaConfiguracion.getPswContrasena().equals(vistaConfiguracion.getPswConfirmarContrasena())) {
+            modelo.cambiarContrasena(vistaConfiguracion.getPswContrasena());
         } else {
-            vistaConfiguracion.error("Las contraseñas no coinciden.");
+            vistaConfiguracion.errorContrasenas();
         }
     }
 
@@ -401,9 +391,9 @@ public class Controlador {
     }
 
     public void escribirFichero() {
-        String user = vistaConfigFichero.getTxtUser().getText();
-        String password = new String(vistaConfigFichero.getPswContrasena().getPassword());
-        String url = vistaConfigFichero.getTxtHost().getText();
+        String user = vistaConfigFichero.getTxtUser();
+        String password = vistaConfigFichero.getPswContrasena();
+        String url = vistaConfigFichero.getTxtHost();
         modelo.escribirConfiguracion(user, password, url);
         vistaConfigFichero.limpiarCampos();
         vistaConfigFichero.setVisible(false);

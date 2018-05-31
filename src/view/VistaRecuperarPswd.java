@@ -110,7 +110,7 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
     }
 
 
-    public JTextField getTxtNombreUsuario() {
-        return txtNombreUsuario;
+    public String getTxtNombreUsuario() {
+        return txtNombreUsuario.getText();
     }
 }
