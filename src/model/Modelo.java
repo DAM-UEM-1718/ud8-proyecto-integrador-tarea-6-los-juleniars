@@ -567,18 +567,12 @@ public class Modelo {
      * @param fila fila a eliminar
      */
     public void eliminarPracticas(int fila) {
-        Object numeroMatricula = tablaPracticas.getValueAt(fila, 9);
-        Object numeroConvenio = tablaPracticas.getValueAt(fila, 10);
+        int numeroMatricula = (Integer) tablaPracticas.getValueAt(fila, 9);
+        int numeroConvenio = (Integer) tablaPracticas.getValueAt(fila, 10);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarPracticas);
-            if (numeroMatricula instanceof String && numeroConvenio instanceof String) {
-                preparedStatement.setInt(1, Integer.parseInt((String) numeroMatricula));
-                preparedStatement.setInt(2, Integer.parseInt((String) numeroConvenio));
-
-            } else {
-                preparedStatement.setInt(1, (Integer) numeroMatricula);
-                preparedStatement.setInt(2, (Integer) numeroConvenio);
-            }
+            preparedStatement.setInt(1, numeroMatricula);
+            preparedStatement.setInt(2, numeroConvenio);
             preparedStatement.executeUpdate();
             cargarPracticas();
         } catch (SQLException e) {
