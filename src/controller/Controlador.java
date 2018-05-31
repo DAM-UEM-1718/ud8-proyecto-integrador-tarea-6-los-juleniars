@@ -24,6 +24,7 @@ public class Controlador {
     private VistaMensaje vistaMensaje;
     private VistaPersonal vistaPersonal;
     private VistaPracticas vistaPracticas;
+    private VistaPrincipal vistaPrincipal;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaRecuperarPswd vistaRecuperarPswd;
@@ -66,14 +67,15 @@ public class Controlador {
             case 0:
                 modelo.mostrarGrupoTutor();
                 modelo.mostrarPracticasTutor();
-                vistaPrincipalTutor.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
+                vistaPrincipalTutor.setLblBienvenido();
                 vistaPrincipalTutor.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 1:
                 modelo.mostrarDashboardDirector();
-                vistaPrincipalAdministrativo.getLblBienvenido().setText("Bienvenido " + modelo.getNombreUsuario());
-                vistaPrincipalAdministrativo.setVisible(true);
+                vistaPrincipalAdministrativo.setLblBienvenido();
+                //vistaPrincipalAdministrativo.setVisible(true);
+                vistaPrincipal.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 2:
@@ -286,7 +288,8 @@ public class Controlador {
                 vistaPrincipalTutor.setVisible(true);
                 break;
             case 1:
-                vistaPrincipalAdministrativo.setVisible(true);
+                vistaPrincipal.setVisible(true);
+                //vistaPrincipalAdministrativo.setVisible(true);
                 break;
             case 2:
                 vistaSuperUsuario.setVisible(true);
@@ -302,7 +305,8 @@ public class Controlador {
                 vistaPrincipalTutor.setVisible(false);
                 break;
             case 1:
-                vistaPrincipalAdministrativo.setVisible(false);
+                vistaPrincipal.setVisible(false);
+                //vistaPrincipalAdministrativo.setVisible(false);
                 break;
             case 2:
                 vistaSuperUsuario.setVisible(false);
@@ -421,5 +425,9 @@ public class Controlador {
 
     public void setVistaModificarPracticas(VistaModificarPracticas vistaModificarPracticas) {
         this.vistaModificarPracticas = vistaModificarPracticas;
+    }
+
+    public void setVistaPrincipal(VistaPrincipal vistaPrincipal) {
+        this.vistaPrincipal = vistaPrincipal;
     }
 }

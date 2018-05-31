@@ -10,12 +10,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class VistaPrincipalAdministrativo extends JFrame implements Vista {
+public class VistaPrincipalAdministrativo extends JPanel implements Vista {
 
     private Controlador controlador;
     private Modelo modelo;
 
-    private JPanel contentPane;
+    //private JPanel contentPane;
     private JTable table;
 
     private JLabel lblBienvenido;
@@ -29,15 +29,13 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 525, 381);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        //contentPane = new JPanel();
+        setBorder(new EmptyBorder(5, 5, 5, 5));
+        //setContentPane(contentPane);
 
         JButton btnConfig = new JButton("Configuración de Usuario");
         btnConfig.addActionListener(e -> controlador.mostarConfiguracion());
@@ -81,7 +79,7 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
-        GroupLayout gl_contentPane = new GroupLayout(contentPane);
+        GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
@@ -172,7 +170,7 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         table.getColumnModel().getColumn(2).setPreferredWidth(115);
         table.getColumnModel().getColumn(2).setMinWidth(115);
         scrollPane.setViewportView(table);
-        contentPane.setLayout(gl_contentPane);
+        setLayout(gl_contentPane);
     }
 
     @Override
@@ -180,20 +178,8 @@ public class VistaPrincipalAdministrativo extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
-    public JLabel getLblBienvenido() {
-        return lblBienvenido;
-    }
-
-    public JLabel getLblNumeroAlumnos() {
-        return lblNumeroAlumnos;
-    }
-
-    public JLabel getLblAlumnosPorAsignar() {
-        return lblAlumnosPorAsignar;
-    }
-
-    public JLabel getLblClases() {
-        return lblClases;
+    public void setLblBienvenido() {
+        lblBienvenido.setText("Bienvenido " + modelo.getNombreUsuarioFormal());
     }
 
     public void cargarTabla() {

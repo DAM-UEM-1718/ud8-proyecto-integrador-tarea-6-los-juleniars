@@ -7,12 +7,13 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class VistaPracticas extends JFrame implements Vista {
+public class VistaPracticas extends JPanel implements Vista {
 
-    private JPanel contentPane;
     private JTable table;
     private JTextField txtEmpresa;
     private JButton btnModificar;
@@ -28,13 +29,12 @@ public class VistaPracticas extends JFrame implements Vista {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
+        /*setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAlumnos.class.getResource("/img/uem.png")));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
         setBounds(100, 100, 847, 489);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
+        setBorder(new EmptyBorder(5, 5, 5, 5));
+        //setContentPane(contentPane);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
@@ -66,7 +66,7 @@ public class VistaPracticas extends JFrame implements Vista {
         btnModificar.setEnabled(false);
         btnModificar.addActionListener(e -> controlador.mostrarModificarPracticas());
 
-        GroupLayout gl_contentPane = new GroupLayout(contentPane);
+        GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
@@ -125,7 +125,7 @@ public class VistaPracticas extends JFrame implements Vista {
         table.getSelectionModel().addListSelectionListener(evento -> changed());
 
         scrollPane.setViewportView(table);
-        contentPane.setLayout(gl_contentPane);
+        setLayout(gl_contentPane);
     }
 
     private void changed() {
@@ -142,6 +142,32 @@ public class VistaPracticas extends JFrame implements Vista {
         table.setModel(modelo.getTablaPracticas());
         table.removeColumn(table.getColumnModel().getColumn(9));
         table.removeColumn(table.getColumnModel().getColumn(9));
+        coloresTabla();
+    }
+
+    public void coloresTabla() {
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table,
+                                                           Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+
+                Date hoy = new Date();
+                Date fechaInicio = (Date) table.getModel().getValueAt(row, 3);
+                long diff = fechaInicio.getTime() - hoy.getTime();
+                if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 30L) {
+                    setBackground(Color.RED);
+                    setForeground(Color.WHITE);
+                } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 45L) {
+                    setBackground(Color.ORANGE);
+                } else {
+                    setBackground(table.getBackground());
+                    setForeground(table.getForeground());
+                }
+                return this;
+            }
+        });
     }
 
     public int getFilaSeleccionada() {

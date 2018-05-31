@@ -2,6 +2,8 @@ import controller.Controlador;
 import model.Modelo;
 import view.*;
 
+import java.util.HashMap;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -27,6 +29,10 @@ public class Main {
         VistaRegistro vistaRegistro = new VistaRegistro();
         VistaSuperUsuario vistaSuperUsuario = new VistaSuperUsuario();
         VistaTutores vistaTutores = new VistaTutores();
+        HashMap<String, Vista> vistas = new HashMap<>();
+        vistas.put("Prácticas", vistaPracticas);
+        vistas.put("Principal", vistaPrincipalAdministrativo);
+        VistaPrincipal vistaPrincipal = new VistaPrincipal(vistas);
 
         //Creamos el controlador
         Controlador controlador = new Controlador();
@@ -45,6 +51,7 @@ public class Main {
         vistaMensaje.setControlador(controlador);
         vistaPersonal.setControlador(controlador);
         vistaPracticas.setControlador(controlador);
+        vistaPrincipal.setControlador(controlador);
         vistaPrincipalAdministrativo.setControlador(controlador);
         vistaPrincipalTutor.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
@@ -70,6 +77,7 @@ public class Main {
         controlador.setVistaPracticas(vistaPracticas);
         controlador.setVistaLogin(vistaLogin);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
+        controlador.setVistaPrincipal(vistaPrincipal);
         controlador.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
         controlador.setVistaPrincipalTutor(vistaPrincipalTutor);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
