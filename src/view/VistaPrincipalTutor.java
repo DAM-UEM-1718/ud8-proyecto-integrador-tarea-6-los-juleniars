@@ -151,8 +151,8 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
-    public JLabel getLblBienvenido() {
-        return lblBienvenido;
+    public void setLblBienvenido() {
+        lblBienvenido.setText("Bienvenido " + modelo.getNombreUsuarioFormal());
     }
 
     public JLabel getLblNumeroAsignados() {

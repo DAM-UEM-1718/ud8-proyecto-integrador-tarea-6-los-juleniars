@@ -71,11 +71,9 @@ public class Modelo {
     private DefaultTableModel tablaEmpresas;
     private DefaultTableModel tablaPersonal;
 
-    //Queries SQL
+    //Queries SELECT
     private String queryInicioSesion = "SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;";
     private String queryMail = "SELECT MAIL FROM USERS WHERE USR = ?;";
-    private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
-    private String queryInsertarUsuario = "INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);";
     private String queryAlumnosTutor = "SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;";
     private String queryPracticasTutor = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;";
     private String queryPracticasDirector = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;";
@@ -93,11 +91,20 @@ public class Modelo {
     private String queryCargarAsignarPracticasTutor = "SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
     private String queryCargarAsignarPracticasDirector = "SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
     private String queryNombreEmpresas = "SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;";
-    private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
-    private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
     private String queryComprobacionRegistroTutor = "SELECT * FROM USERS WHERE USR = ? OR NIF = ?;";
+
+    //Queries INSERT
+    private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private String queryInsertarUsuario = "INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);";
     private String queryREgistrotutor = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
+
+    //Queries UPDATE
+    private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
+    private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
+
+    //Queries DELETE
+    private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
+
 
     public Modelo(VistaLogin vistaLogin) {
         FICHERO = "config.ini";
@@ -154,15 +161,10 @@ public class Modelo {
                     nombreUsuarioFormal = resultSet.getString("NOMBRE");
                     vistaLogin.sesionIniciada();
                 } else {
-                    intentos++;
-                    if (intentos < 3) {
-                        vistaLogin.errorInicioSesion();
-                    } else {
-                        vistaLogin.intentosSuperados();
-                    }
+                    sumarIntento();
                 }
             } else {
-                vistaLogin.errorInicioSesion();
+                sumarIntento();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -338,10 +340,6 @@ public class Modelo {
             }
         };
 
-    }
-
-    public byte getTipoUsuario() {
-        return tipoUsuario;
     }
 
     public void mostrarGrupoTutor() {
@@ -656,6 +654,42 @@ public class Modelo {
         }
     }
 
+    public void sumarIntento() {
+        intentos++;
+        if (intentos < 3) {
+            vistaLogin.errorInicioSesion();
+        } else {
+            vistaLogin.intentosSuperados();
+        }
+    }
+
+    public String getNombreUsuarioFormal() {
+        return nombreUsuarioFormal;
+    }
+
+    //Clase interna para los objetos de las comboBoxes
+    public class ComboItem {
+        private String key;
+        private String value;
+
+        public ComboItem(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String toString() {
+            return key;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
     public void setVistaTutores(VistaTutores vistaTutores) {
         this.vistaTutores = vistaTutores;
     }
@@ -764,27 +798,8 @@ public class Modelo {
         return URL;
     }
 
-    //Clase interna para los objetos de las comboBoxes
-    public class ComboItem {
-        private String key;
-        private String value;
-
-        public ComboItem(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public String toString() {
-            return key;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getValue() {
-            return value;
-        }
+    public byte getTipoUsuario() {
+        return tipoUsuario;
     }
 
 }

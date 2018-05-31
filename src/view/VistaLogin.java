@@ -231,7 +231,7 @@ public class VistaLogin extends JFrame implements Vista {
 
     public void intentosSuperados() {
         Object[] opciones = {"Aceptar"};
-        int input = JOptionPane.showOptionDialog(null, "Intentos de inicio de sesión superados.", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        int input = JOptionPane.showOptionDialog(null, "Intentos de inicio de sesión superados. La aplicación se va a cerrar.", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         System.exit(0);
 
     }
