@@ -59,9 +59,9 @@ public class Modelo {
     private int numeroAsignados;
     private int numeroPorAsignar;
     private int clasesPorAsignar;
-    private DefaultComboBoxModel modeloGrupos;
-    private DefaultComboBoxModel modeloCmbAlumnos;
-    private DefaultComboBoxModel modeloCmbEmpresas;
+    private DefaultComboBoxModel<ComboItem> modeloGrupos;
+    private DefaultComboBoxModel<ComboItem> modeloCmbAlumnos;
+    private DefaultComboBoxModel<ComboItem> modeloCmbEmpresas;
     private DefaultTableModel tablaAlumnos;
     private DefaultTableModel tablaPracticas;
     private DefaultTableModel tablaPracticasTutor;
@@ -70,6 +70,34 @@ public class Modelo {
     private DefaultTableModel tablaGrupos;
     private DefaultTableModel tablaEmpresas;
     private DefaultTableModel tablaPersonal;
+
+    //Queries SQL
+    private String queryInicioSesion = "SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;";
+    private String queryMail = "SELECT MAIL FROM USERS WHERE USR = ?;";
+    private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
+    private String queryInsertarUsuario = "INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);";
+    private String queryAlumnosTutor = "SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;";
+    private String queryPracticasTutor = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;";
+    private String queryPracticasDirector = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;";
+    private String queryGruposTutor = "SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;";
+    private String queryGruposDirector = "SELECT COD_GRUPO FROM GRUPO;";
+    private String queryAsignadosTutor = "SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
+    private String queryPorAsignarTutor = "SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
+    private String queryFilasDirector = "SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?;";
+    private String querySinAsignarDirector = "SELECT COUNT(*) FROM (SELECT ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE) AND COD_GRUPO=? AND ESTUDIANTE.NUM_MAT=GRUPO_ESTUDIANTE.NUM_MAT) AS CONSULTA;";
+    private String queryTutores = "SELECT NOMBRE, USR, MAIL, NIF FROM USERS WHERE ROLE = 0;";
+    private String queryGrupos = "SELECT COD_GRUPO, NOM_GRUPO, NOM_CICLO, NOMBRE FROM GRUPO, CICLO, USERS WHERE CICLO.CLAVE_CICLO = GRUPO.CLAVE_CICLO AND GRUPO.USR = USERS.USR;";
+    private String queryEmpresas = "SELECT NUM_CONV, NOM_EMPR, F_FIRMA, DIRECCION, LOCALIDAD, REPR_EMPR, CORREO_EMPR FROM EMPRESA;";
+    private String queryDirectores = "SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 1;";
+    private String queryAlumnosDirector = "SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;";
+    private String queryCargarAsignarPracticasTutor = "SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
+    private String queryCargarAsignarPracticasDirector = "SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
+    private String queryNombreEmpresas = "SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;";
+    private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
+    private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
+    private String queryComprobacionRegistroTutor = "SELECT * FROM USERS WHERE USR = ? OR NIF = ?;";
+    private String queryREgistrotutor = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
 
     public Modelo(VistaLogin vistaLogin) {
         FICHERO = "config.ini";
@@ -115,7 +143,7 @@ public class Modelo {
     public void iniciarSesion(String user, String password) {
         try {
             password = hash256(password);
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryInicioSesion);
             preparedStatement.setString(1, user.toLowerCase());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -151,7 +179,7 @@ public class Modelo {
     //Método que genera una nueva contraseña para un usuario, se la envía por mail y la inserta en la base de datos
     public void recuperarContrasena(String user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAIL FROM USERS WHERE USR = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryMail);
             preparedStatement.setString(1, user);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -163,7 +191,7 @@ public class Modelo {
             enviarMail(mail, "Nueva contraseña.", "Se le ha asignado la siguiente contraseña: " + nuevaContrasena);
 
             //Insertar nueva contraseña en la base de datos después de haberla enviado
-            PreparedStatement prstm = connection.prepareStatement("UPDATE USERS SET PWD = ? WHERE USR = ?;");
+            PreparedStatement prstm = connection.prepareStatement(queryCambiarContraseña);
             prstm.setString(1, hashContrasena);
             prstm.setString(2, user);
             int rows = prstm.executeUpdate();
@@ -196,7 +224,7 @@ public class Modelo {
     public void generarUsuario(String expediente, String mail, byte role) {
         try {
             String contrasenaAleatoria = contrasenaAleatoria();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryInsertarUsuario);
             preparedStatement.setString(1, expediente.toLowerCase());
             preparedStatement.setString(2, hash256(contrasenaAleatoria));
             preparedStatement.setInt(3, role);
@@ -223,7 +251,7 @@ public class Modelo {
     public void cambiarContrasena(String nuevaContrasena) {
         try {
             String nuevoHash = hash256(nuevaContrasena);
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE USERS SET PWD = ? WHERE USR = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryCambiarContraseña);
             preparedStatement.setString(1, nuevoHash);
             preparedStatement.setString(2, nombreUsuario);
             preparedStatement.executeUpdate();
@@ -259,7 +287,7 @@ public class Modelo {
     public void cargarAlumnosTutor() {
         String[] arrayNombres = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryAlumnosTutor);
             preparedStatement.setInt(1, codGrupo);
             tablaAlumnos = crearModelo(arrayNombres, preparedStatement);
             vistaAlumnos.cargarTabla();
@@ -273,12 +301,12 @@ public class Modelo {
         try {
             switch (tipoUsuario) {
                 case 0:
-                    PreparedStatement stmtTutor = connection.prepareStatement("SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;");
+                    PreparedStatement stmtTutor = connection.prepareStatement(queryPracticasTutor);
                     stmtTutor.setInt(1, codGrupo);
                     tablaPracticas = crearModelo(arrayNombres, stmtTutor);
                     break;
                 case 1:
-                    PreparedStatement stmtDirector = connection.prepareStatement("SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;");
+                    PreparedStatement stmtDirector = connection.prepareStatement(queryPracticasDirector);
                     tablaPracticas = crearModelo(arrayNombres, stmtDirector);
                     break;
             }
@@ -318,8 +346,8 @@ public class Modelo {
 
     public void mostrarGrupoTutor() {
         try {
-            Vector grupos = new Vector();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;");
+            Vector<ComboItem> grupos = new Vector<>();
+            PreparedStatement preparedStatement = connection.prepareStatement(queryGruposTutor);
             preparedStatement.setString(1, nombreUsuario);
             ResultSet resultSet = preparedStatement.executeQuery();
             int contador = 0;
@@ -330,7 +358,7 @@ public class Modelo {
                 grupos.add(new ComboItem(resultSet.getString(1), resultSet.getString(2)));
                 contador++;
             }
-            modeloGrupos = new DefaultComboBoxModel(grupos);
+            modeloGrupos = new DefaultComboBoxModel<>(grupos);
             vistaPrincipalTutor.cargarGrupos();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -346,10 +374,10 @@ public class Modelo {
         String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
-            PreparedStatement statementAsignadas = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+            PreparedStatement statementAsignadas = connection.prepareStatement(queryAsignadosTutor);
             statementAsignadas.setInt(1, codGrupo);
             ResultSet asignadas = statementAsignadas.executeQuery();
-            PreparedStatement statementPorAsignar = connection.prepareStatement("SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+            PreparedStatement statementPorAsignar = connection.prepareStatement(queryPorAsignarTutor);
             statementPorAsignar.setInt(1, codGrupo);
             ResultSet porAsignar = statementPorAsignar.executeQuery();
             Vector<Vector<Object>> data = new Vector<>();
@@ -385,21 +413,23 @@ public class Modelo {
         }
     }
 
-    //Carga la tabla del Dashboard del director
+    /**
+     * Carga la tabla de la vista principal del direcor
+     */
     public void mostrarDashboardDirector() {
         String[] arrayNombre = {"Grupo", "Tutor", "Alumnos por Asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombre));
         Vector<Vector<Object>> data = new Vector<>();
         try {
-            PreparedStatement stmtCodigoTutores = connection.prepareStatement("SELECT COD_GRUPO FROM GRUPO;");
+            PreparedStatement stmtCodigoTutores = connection.prepareStatement(queryGruposDirector);
             ResultSet resultSet = stmtCodigoTutores.executeQuery();
             numeroPorAsignar = 0;
             clasesPorAsignar = 0;
             while (resultSet.next()) {
                 Vector<Object> vector = new Vector<>();
-                PreparedStatement stmtFilas = connection.prepareStatement("SELECT NOM_GRUPO, NOMBRE FROM GRUPO,USERS WHERE GRUPO.USR=USERS.USR AND ROLE=0 AND COD_GRUPO=?;");
+                PreparedStatement stmtFilas = connection.prepareStatement(queryFilasDirector);
                 stmtFilas.setInt(1, resultSet.getInt(1));
-                PreparedStatement stmtSinAsignar = connection.prepareStatement("SELECT COUNT(*) FROM (SELECT ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE) AND COD_GRUPO=? AND ESTUDIANTE.NUM_MAT=GRUPO_ESTUDIANTE.NUM_MAT) AS CONSULTA;");
+                PreparedStatement stmtSinAsignar = connection.prepareStatement(querySinAsignarDirector);
                 stmtSinAsignar.setInt(1, resultSet.getInt(1));
                 ResultSet resultSetFilas = stmtFilas.executeQuery();
                 ResultSet resultSetSinAsignar = stmtSinAsignar.executeQuery();
@@ -424,7 +454,7 @@ public class Modelo {
     public void cargarTutores() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
-            tablaTutores = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 0;"));
+            tablaTutores = crearModelo(nombreColumnas, connection.prepareStatement(queryTutores));
             vistaTutores.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -434,7 +464,7 @@ public class Modelo {
     public void cargarGrupos() {
         String[] nombreColumnas = {"Código", "Nombre", "Nombre del Ciclo", "Tutor"};
         try {
-            tablaGrupos = crearModelo(nombreColumnas, connection.prepareStatement("SELECT COD_GRUPO, NOM_GRUPO, NOM_CICLO, NOMBRE FROM GRUPO, CICLO, USERS WHERE CICLO.CLAVE_CICLO = GRUPO.CLAVE_CICLO AND GRUPO.USR = USERS.USR;"));
+            tablaGrupos = crearModelo(nombreColumnas, connection.prepareStatement(queryGrupos));
             vistaGrupos.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -444,7 +474,7 @@ public class Modelo {
     public void cargarEmpresas() {
         String[] nombreColumnas = {"N. Convenio", "Nombre", "F. Firma", "Dirección", "Localidad", "Representante", "Mail"};
         try {
-            tablaEmpresas = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_CONV, NOM_EMPR, F_FIRMA, DIRECCION, LOCALIDAD, REPR_EMPR, CORREO_EMPR FROM EMPRESA;"));
+            tablaEmpresas = crearModelo(nombreColumnas, connection.prepareStatement(queryEmpresas));
             vistaEmpresa.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -454,7 +484,7 @@ public class Modelo {
     public void cargarPersonal() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
-            tablaPersonal = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NOMBRE, USR, MAIL,NIF FROM USERS WHERE ROLE = 1;"));
+            tablaPersonal = crearModelo(nombreColumnas, connection.prepareStatement(queryDirectores));
             vistaPersonal.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -465,7 +495,7 @@ public class Modelo {
     public void cargarAlumnosDirector() {
         String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
-            tablaAlumnos = crearModelo(nombreColumnas, connection.prepareStatement("SELECT NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE;"));
+            tablaAlumnos = crearModelo(nombreColumnas, connection.prepareStatement(queryAlumnosDirector));
             vistaAlumnos.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -476,30 +506,30 @@ public class Modelo {
      * Popula los combo box de asignar prácticas
      */
     public void cargarAsignarPracticas() {
-        Vector alumnos = new Vector();
-        Vector empresas = new Vector();
+        Vector<ComboItem> alumnos = new Vector<ComboItem>();
+        Vector<ComboItem> empresas = new Vector<>();
         try {
             PreparedStatement stmtAlumnos = null;
             switch (tipoUsuario) {
                 case 0:
-                    stmtAlumnos = connection.prepareStatement("SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+                    stmtAlumnos = connection.prepareStatement(queryCargarAsignarPracticasTutor);
                     stmtAlumnos.setInt(1, codGrupo);
                     break;
                 case 1:
-                    stmtAlumnos = connection.prepareStatement("SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);");
+                    stmtAlumnos = connection.prepareStatement(queryCargarAsignarPracticasDirector);
                     break;
             }
             ResultSet resultSetAlumnos = stmtAlumnos.executeQuery();
             while (resultSetAlumnos.next()) {
                 alumnos.add(new ComboItem(resultSetAlumnos.getString(1), resultSetAlumnos.getString(2)));
             }
-            PreparedStatement stmtEmpresas = connection.prepareStatement("SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;");
+            PreparedStatement stmtEmpresas = connection.prepareStatement(queryNombreEmpresas);
             ResultSet resultSetEmpresas = stmtEmpresas.executeQuery();
             while (resultSetEmpresas.next()) {
                 empresas.add(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
             }
-            modeloCmbAlumnos = new DefaultComboBoxModel(alumnos);
-            modeloCmbEmpresas = new DefaultComboBoxModel(empresas);
+            modeloCmbAlumnos = new DefaultComboBoxModel<ComboItem>(alumnos);
+            modeloCmbEmpresas = new DefaultComboBoxModel<>(empresas);
             vistaAsignarPracticas.cargarCmbs();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -515,7 +545,7 @@ public class Modelo {
         String nombreEmpresa = comboEmpresa.getKey();
         int numConvEmpresa = Integer.parseInt(comboEmpresa.getValue());
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryAsignarPracticas);
             preparedStatement.setInt(1, numMatEstudiante);
             preparedStatement.setInt(2, numConvEmpresa);
             preparedStatement.setString(3, tutorEmpresa);
@@ -542,7 +572,7 @@ public class Modelo {
         Object numeroMatricula = tablaPracticas.getValueAt(fila, 9);
         Object numeroConvenio = tablaPracticas.getValueAt(fila, 10);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarPracticas);
             if (numeroMatricula instanceof String && numeroConvenio instanceof String) {
                 preparedStatement.setInt(1, Integer.parseInt((String) numeroMatricula));
                 preparedStatement.setInt(2, Integer.parseInt((String) numeroConvenio));
@@ -560,7 +590,7 @@ public class Modelo {
 
     public void modificarPracticas(int fila, int numMat, int numConv, Date fechaInicio, Date fechaFin, String tutorEmpresa, String horario, String localizacion, boolean erasmus, String estado) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(queryModificarPracticas);
             preparedStatement.setDate(1, new java.sql.Date(fechaInicio.getTime()));
             preparedStatement.setDate(2, new java.sql.Date(fechaFin.getTime()));
             preparedStatement.setString(3, tutorEmpresa);
@@ -602,13 +632,13 @@ public class Modelo {
     public void registroTutor(String nombre, String usuario, String password, String mail, String nif) {
         try {
             //Comprobar que el usuario no existe
-            PreparedStatement stmtComprobacion = connection.prepareStatement("SELECT * FROM USERS WHERE USR = ? OR NIF = ?;");
+            PreparedStatement stmtComprobacion = connection.prepareStatement(queryComprobacionRegistroTutor);
             stmtComprobacion.setString(1, usuario);
             stmtComprobacion.setString(2, nif);
             ResultSet resultSet = stmtComprobacion.executeQuery();
             if (!resultSet.next()) {
                 password = hash256(password);
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);");
+                PreparedStatement preparedStatement = connection.prepareStatement(queryREgistrotutor);
                 preparedStatement.setString(1, nombre);
                 preparedStatement.setString(2, usuario);
                 preparedStatement.setString(3, password);
@@ -670,7 +700,7 @@ public class Modelo {
         return tablaPracticas;
     }
 
-    public DefaultComboBoxModel getModeloGrupos() {
+    public DefaultComboBoxModel<ComboItem> getModeloGrupos() {
         return modeloGrupos;
     }
 
@@ -710,11 +740,11 @@ public class Modelo {
         return tablaPersonal;
     }
 
-    public DefaultComboBoxModel getModeloCmbAlumnos() {
+    public DefaultComboBoxModel<ComboItem> getModeloCmbAlumnos() {
         return modeloCmbAlumnos;
     }
 
-    public DefaultComboBoxModel getModeloCmbEmpresas() {
+    public DefaultComboBoxModel<ComboItem> getModeloCmbEmpresas() {
         return modeloCmbEmpresas;
     }
 
