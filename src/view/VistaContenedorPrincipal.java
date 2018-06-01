@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class VistaPrincipal extends JFrame implements Vista {
+public class VistaContenedorPrincipal extends JFrame implements Vista {
 
     private Modelo modelo;
     private Controlador controlador;
 
     private JTabbedPane jTabbedPane;
 
-    public VistaPrincipal(ArrayList<ListaVistas> vistas) {
+    public VistaContenedorPrincipal(ArrayList<ListaVistas> vistas) {
         setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

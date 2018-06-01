@@ -9,9 +9,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class VistaPrincipalTutor extends JFrame implements Vista {
+public class VistaPrincipalTutor extends JPanel implements Vista {
 
-    private JPanel contentPane;
+    //private JPanel contentPane;
 
     private Controlador controlador;
     private Modelo modelo;
@@ -29,13 +29,13 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
+        /*setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalTutor.class.getResource("/img/uem.png")));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
         setBounds(100, 100, 701, 401);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
+        //contentPane = new JPanel();
+        setBorder(new EmptyBorder(5, 5, 5, 5));
+        //setContentPane(contentPane);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         cmbGrupos = new JComboBox();
@@ -70,7 +70,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
 
         JScrollPane scrollPane = new JScrollPane();
-        GroupLayout gl_contentPane = new GroupLayout(contentPane);
+        GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.TRAILING)
                         .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
@@ -143,7 +143,7 @@ public class VistaPrincipalTutor extends JFrame implements Vista {
 
         table = new JTable();
         scrollPane.setViewportView(table);
-        contentPane.setLayout(gl_contentPane);
+        setLayout(gl_contentPane);
     }
 
     @Override

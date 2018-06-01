@@ -157,7 +157,7 @@ public class VistaLogin extends JFrame implements Vista {
 
         BufferedImage icono = null;
         try {
-            Image img = ImageIO.read(getClass().getResource("/img/nut.png"));
+            Image img = ImageIO.read(getClass().getResource("/img/gear.png"));
             btnConfig.setIcon(new ImageIcon(img.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             e.printStackTrace();

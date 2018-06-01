@@ -24,7 +24,8 @@ public class Controlador {
     private VistaMensaje vistaMensaje;
     private VistaPersonal vistaPersonal;
     private VistaPracticas vistaPracticas;
-    private VistaPrincipal vistaPrincipal;
+    private VistaContenedorPrincipal vistaContenedorDirector;
+    private VistaContenedorPrincipal vistaContenedorTutor;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaRecuperarPswd vistaRecuperarPswd;
@@ -68,14 +69,15 @@ public class Controlador {
                 modelo.mostrarGrupoTutor();
                 modelo.mostrarPracticasTutor();
                 vistaPrincipalTutor.setLblBienvenido();
-                vistaPrincipalTutor.setVisible(true);
+                //vistaPrincipalTutor.setVisible(true);
+                vistaContenedorTutor.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 1:
                 modelo.mostrarDashboardDirector();
                 vistaPrincipalAdministrativo.setLblBienvenido();
                 //vistaPrincipalAdministrativo.setVisible(true);
-                vistaPrincipal.setVisible(true);
+                vistaContenedorDirector.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 2:
@@ -285,10 +287,11 @@ public class Controlador {
     private void abrirPanelUsuario() {
         switch (tipoUsuario) {
             case 0:
-                vistaPrincipalTutor.setVisible(true);
+                vistaContenedorTutor.setVisible(true);
+                //vistaPrincipalTutor.setVisible(true);
                 break;
             case 1:
-                vistaPrincipal.setVisible(true);
+                vistaContenedorDirector.setVisible(true);
                 //vistaPrincipalAdministrativo.setVisible(true);
                 break;
             case 2:
@@ -302,10 +305,11 @@ public class Controlador {
     private void cerrarPanelUsuario() {
         switch (tipoUsuario) {
             case 0:
-                vistaPrincipalTutor.setVisible(false);
+                vistaContenedorTutor.setVisible(true);
+                //vistaPrincipalTutor.setVisible(false);
                 break;
             case 1:
-                vistaPrincipal.setVisible(false);
+                vistaContenedorDirector.setVisible(false);
                 //vistaPrincipalAdministrativo.setVisible(false);
                 break;
             case 2:
@@ -427,7 +431,11 @@ public class Controlador {
         this.vistaModificarPracticas = vistaModificarPracticas;
     }
 
-    public void setVistaPrincipal(VistaPrincipal vistaPrincipal) {
-        this.vistaPrincipal = vistaPrincipal;
+    public void setVistaContenedorDirector(VistaContenedorPrincipal vistaContenedorDirector) {
+        this.vistaContenedorDirector = vistaContenedorDirector;
+    }
+
+    public void setVistaContenedorTutor(VistaContenedorPrincipal vistaContenedorTutor) {
+        this.vistaContenedorTutor = vistaContenedorTutor;
     }
 }

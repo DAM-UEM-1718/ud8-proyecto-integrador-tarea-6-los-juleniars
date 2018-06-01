@@ -29,13 +29,21 @@ public class Main {
         VistaRegistro vistaRegistro = new VistaRegistro();
         VistaSuperUsuario vistaSuperUsuario = new VistaSuperUsuario();
         VistaTutores vistaTutores = new VistaTutores();
-        ArrayList<ListaVistas> vistas = new ArrayList<>();
-        vistas.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
-        vistas.add(new ListaVistas("Prácticas", vistaPracticas));
-        vistas.add(new ListaVistas("Tutores", vistaTutores));
-        vistas.add(new ListaVistas("Grupos", vistaGrupos));
-        vistas.add(new ListaVistas("Empresas", vistaEmpresa));
-        VistaPrincipal vistaPrincipal = new VistaPrincipal(vistas);
+
+        //Crea el contenedor principal del director
+        ArrayList<ListaVistas> vistasDirector = new ArrayList<>();
+        vistasDirector.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
+        vistasDirector.add(new ListaVistas("Prácticas", vistaPracticas));
+        vistasDirector.add(new ListaVistas("Tutores", vistaTutores));
+        vistasDirector.add(new ListaVistas("Grupos", vistaGrupos));
+        vistasDirector.add(new ListaVistas("Empresas", vistaEmpresa));
+        VistaContenedorPrincipal contenedorDirector = new VistaContenedorPrincipal(vistasDirector);
+
+        //Crea el contenedor principal del tutor
+        ArrayList<ListaVistas> vistasTutor = new ArrayList<>();
+        vistasTutor.add(new ListaVistas("Principal", vistaPrincipalTutor));
+        vistasTutor.add(new ListaVistas("Detalle Prácticas", vistaPracticas));
+        VistaContenedorPrincipal conetenedorTutor = new VistaContenedorPrincipal(vistasTutor);
 
         //Creamos el controlador
         Controlador controlador = new Controlador();
@@ -54,7 +62,8 @@ public class Main {
         vistaMensaje.setControlador(controlador);
         vistaPersonal.setControlador(controlador);
         vistaPracticas.setControlador(controlador);
-        vistaPrincipal.setControlador(controlador);
+        contenedorDirector.setControlador(controlador);
+        conetenedorTutor.setControlador(controlador);
         vistaPrincipalAdministrativo.setControlador(controlador);
         vistaPrincipalTutor.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
@@ -80,7 +89,8 @@ public class Main {
         controlador.setVistaPracticas(vistaPracticas);
         controlador.setVistaLogin(vistaLogin);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
-        controlador.setVistaPrincipal(vistaPrincipal);
+        controlador.setVistaContenedorDirector(contenedorDirector);
+        controlador.setVistaContenedorTutor(conetenedorTutor);
         controlador.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
         controlador.setVistaPrincipalTutor(vistaPrincipalTutor);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
