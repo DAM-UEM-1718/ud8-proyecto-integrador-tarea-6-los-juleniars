@@ -5,6 +5,7 @@ import model.Modelo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VistaPrincipal extends JFrame implements Vista {
@@ -14,7 +15,7 @@ public class VistaPrincipal extends JFrame implements Vista {
 
     private JTabbedPane jTabbedPane;
 
-    public VistaPrincipal(HashMap<String, Vista> vistas) {
+    public VistaPrincipal(ArrayList<ListaVistas> vistas) {
         setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,11 +23,11 @@ public class VistaPrincipal extends JFrame implements Vista {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         jTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        for (String vista : vistas.keySet()) {
-            jTabbedPane.addTab(vista, (Component) vistas.get(vista));
+        for (ListaVistas vista : vistas) {
+            jTabbedPane.addTab(vista.getTitulo(), (Component) vista.getVista());
         }
         jTabbedPane.addChangeListener(e -> {
-            if (jTabbedPane.getTabComponentAt(jTabbedPane.getSelectedIndex()) instanceof VistaPracticas) {
+            if (jTabbedPane.getComponentAt(jTabbedPane.getSelectedIndex()) instanceof VistaPracticas) {
                 controlador.mostrarPracticas();
             }
         });

@@ -139,9 +139,9 @@ public class Controlador {
     }
 
     public void mostrarPracticas() {
-        cerrarPanelUsuario();
+        //cerrarPanelUsuario();
         modelo.cargarPracticas();
-        vistaPracticas.setVisible(true);
+        //vistaPracticas.setVisible(true);
     }
 
     public void mostrarTutores() {

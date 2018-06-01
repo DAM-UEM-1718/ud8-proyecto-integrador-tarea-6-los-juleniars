@@ -2,7 +2,7 @@ import controller.Controlador;
 import model.Modelo;
 import view.*;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -29,9 +29,9 @@ public class Main {
         VistaRegistro vistaRegistro = new VistaRegistro();
         VistaSuperUsuario vistaSuperUsuario = new VistaSuperUsuario();
         VistaTutores vistaTutores = new VistaTutores();
-        HashMap<String, Vista> vistas = new HashMap<>();
-        vistas.put("Prácticas", vistaPracticas);
-        vistas.put("Principal", vistaPrincipalAdministrativo);
+        ArrayList<ListaVistas> vistas = new ArrayList<>();
+        vistas.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
+        vistas.add(new ListaVistas("Prácticas", vistaPracticas));
         VistaPrincipal vistaPrincipal = new VistaPrincipal(vistas);
 
         //Creamos el controlador
