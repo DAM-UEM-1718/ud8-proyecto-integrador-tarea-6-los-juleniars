@@ -13,10 +13,16 @@ public class ListaVistas {
         this.vista = vista;
     }
 
+    /**
+     * @return El título de la vista
+     */
     public String getTitulo() {
         return titulo;
     }
 
+    /**
+     * @return La vista
+     */
     public Vista getVista() {
         return vista;
     }

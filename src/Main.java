@@ -32,6 +32,9 @@ public class Main {
         ArrayList<ListaVistas> vistas = new ArrayList<>();
         vistas.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
         vistas.add(new ListaVistas("Prácticas", vistaPracticas));
+        vistas.add(new ListaVistas("Tutores", vistaTutores));
+        vistas.add(new ListaVistas("Grupos", vistaGrupos));
+        vistas.add(new ListaVistas("Empresas", vistaEmpresa));
         VistaPrincipal vistaPrincipal = new VistaPrincipal(vistas);
 
         //Creamos el controlador

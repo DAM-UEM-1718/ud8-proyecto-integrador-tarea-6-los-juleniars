@@ -6,7 +6,6 @@ import model.Modelo;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class VistaPrincipal extends JFrame implements Vista {
 
@@ -27,8 +26,15 @@ public class VistaPrincipal extends JFrame implements Vista {
             jTabbedPane.addTab(vista.getTitulo(), (Component) vista.getVista());
         }
         jTabbedPane.addChangeListener(e -> {
-            if (jTabbedPane.getComponentAt(jTabbedPane.getSelectedIndex()) instanceof VistaPracticas) {
+            Component vista = jTabbedPane.getComponentAt(jTabbedPane.getSelectedIndex());
+            if (vista instanceof VistaPracticas) {
                 controlador.mostrarPracticas();
+            } else if (vista instanceof VistaTutores) {
+                controlador.mostrarTutores();
+            } else if (vista instanceof VistaEmpresa) {
+                controlador.mostrarEmpresas();
+            } else if (vista instanceof VistaGrupos) {
+                controlador.mostrarGrupos();
             }
         });
         getContentPane().add(jTabbedPane);
