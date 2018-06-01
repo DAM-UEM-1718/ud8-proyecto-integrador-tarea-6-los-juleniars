@@ -53,6 +53,8 @@ public class Modelo {
     private byte tipoUsuario;
     private byte intentos;
     private int codGrupo;
+    private int anoAcademico;
+    private Date fechaLimite;
     private Properties propiedades;
     private FileInputStream entrada;
 
@@ -62,6 +64,7 @@ public class Modelo {
     private DefaultComboBoxModel<ComboItem> modeloGrupos;
     private DefaultComboBoxModel<ComboItem> modeloCmbAlumnos;
     private DefaultComboBoxModel<ComboItem> modeloCmbEmpresas;
+    private DefaultComboBoxModel<Integer> modeloCmbAnos;
     private DefaultTableModel tablaAlumnos;
     private DefaultTableModel tablaPracticas;
     private DefaultTableModel tablaPracticasTutor;
@@ -75,8 +78,8 @@ public class Modelo {
     private String queryInicioSesion = "SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;";
     private String queryMail = "SELECT MAIL FROM USERS WHERE USR = ?;";
     private String queryAlumnosTutor = "SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;";
-    private String queryPracticasTutor = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;";
-    private String queryPracticasDirector = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV;";
+    private String queryPracticasTutor = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV, ANEXO_2, ANEXO_3, ANEXO_4, ANEXO_5 FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;";
+    private String queryPracticasDirector = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV, ANEXO_2, ANEXO_3, ANEXO_4, ANEXO_5 FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ANO_ACADEMICO = ?;";
     private String queryGruposTutor = "SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;";
     private String queryGruposDirector = "SELECT COD_GRUPO FROM GRUPO;";
     private String queryAsignadosTutor = "SELECT NOM, APELL1, APELL2 FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE COD_GRUPO = ? AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND ESTUDIANTE.NUM_MAT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
@@ -92,6 +95,8 @@ public class Modelo {
     private String queryCargarAsignarPracticasDirector = "SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
     private String queryNombreEmpresas = "SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;";
     private String queryComprobacionRegistroTutor = "SELECT * FROM USERS WHERE USR = ? OR NIF = ?;";
+    private String queryAnoAcademico = "SELECT ANO FROM ANO_ACADEMICO;";
+    private String queryFechaLimite = "SELECT FECHA_LIMITE FROM ANO_ACADEMICO WHERE ANO = ?;";
 
     //Queries INSERT
     private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -299,8 +304,13 @@ public class Modelo {
     }
 
     public void cargarPracticas() {
-        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado", "N. Matrícula", "N. Convenio"};
+        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado", "N. Matrícula", "N. Convenio", "Anex. 2", "Anex. 3", "Anex. 4", "Anex. 5"};
         try {
+            PreparedStatement stmtFechaLimite = connection.prepareStatement(queryFechaLimite);
+            stmtFechaLimite.setInt(1, anoAcademico);
+            ResultSet resultSet = stmtFechaLimite.executeQuery();
+            if (resultSet.next())
+                fechaLimite = resultSet.getDate(1);
             switch (tipoUsuario) {
                 case 0:
                     PreparedStatement stmtTutor = connection.prepareStatement(queryPracticasTutor);
@@ -309,6 +319,7 @@ public class Modelo {
                     break;
                 case 1:
                     PreparedStatement stmtDirector = connection.prepareStatement(queryPracticasDirector);
+                    stmtDirector.setInt(1, anoAcademico);
                     tablaPracticas = crearModelo(arrayNombres, stmtDirector);
                     break;
             }
@@ -368,6 +379,10 @@ public class Modelo {
         mostrarPracticasTutor();
     }
 
+    public void cambiarAnoAcademico(int anoAcademico) {
+        this.anoAcademico = anoAcademico;
+    }
+
     public void mostrarPracticasTutor() {
         String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
@@ -409,6 +424,27 @@ public class Modelo {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void cargarAnosAcademicos() {
+        Vector<Integer> anos = new Vector<>();
+        PreparedStatement stmtAnos = null;
+        try {
+            stmtAnos = connection.prepareStatement(queryAnoAcademico);
+            ResultSet resultSetAnos = stmtAnos.executeQuery();
+            if (resultSetAnos.next()) {
+                anos.add(resultSetAnos.getInt(1));
+                anoAcademico = resultSetAnos.getInt(1);
+            }
+            while (resultSetAnos.next()) {
+                anos.add(resultSetAnos.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        modeloCmbAnos = new DefaultComboBoxModel<>(anos);
+        vistaPrincipalAdministrativo.cargarAnoAcademico();
     }
 
     /**
@@ -661,29 +697,6 @@ public class Modelo {
         return nombreUsuarioFormal;
     }
 
-    //Clase interna para los objetos de las comboBoxes
-    public class ComboItem {
-        private String key;
-        private String value;
-
-        public ComboItem(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public String toString() {
-            return key;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     public void setVistaTutores(VistaTutores vistaTutores) {
         this.vistaTutores = vistaTutores;
     }
@@ -794,6 +807,37 @@ public class Modelo {
 
     public byte getTipoUsuario() {
         return tipoUsuario;
+    }
+
+    public DefaultComboBoxModel<Integer> getModeloCmbAnos() {
+        return modeloCmbAnos;
+    }
+
+    public Date getFechaLimite() {
+        return fechaLimite;
+    }
+
+    //Clase interna para los objetos de las comboBoxes
+    public class ComboItem {
+        private String key;
+        private String value;
+
+        public ComboItem(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String toString() {
+            return key;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
 }

@@ -42,7 +42,7 @@ public class Main {
         //Crea el contenedor principal del tutor
         ArrayList<ListaVistas> vistasTutor = new ArrayList<>();
         vistasTutor.add(new ListaVistas("Principal", vistaPrincipalTutor));
-        vistasTutor.add(new ListaVistas("Detalle Prácticas", vistaPracticas));
+        //vistasTutor.add(new ListaVistas("Detalle Prácticas", vistaPracticas));
         VistaContenedorPrincipal conetenedorTutor = new VistaContenedorPrincipal(vistasTutor);
 
         //Creamos el controlador

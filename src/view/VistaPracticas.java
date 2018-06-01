@@ -8,7 +8,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +22,7 @@ public class VistaPracticas extends JPanel implements Vista {
     private JTextField txtEmpresa;
     private JButton btnModificar;
     private JButton btnEliminarPracticas;
+    private JLabel lblFechaLimite;
 
     private Controlador controlador;
     private Modelo modelo;
@@ -57,36 +62,36 @@ public class VistaPracticas extends JPanel implements Vista {
         btnEliminarPracticas.setEnabled(false);
         btnEliminarPracticas.addActionListener(e -> controlador.eliminarPracticas());
 
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(e -> controlador.cerrarPracticas());
-
         JComboBox comboBox = new JComboBox();
 
         btnModificar = new JButton("Modificar");
         btnModificar.setEnabled(false);
         btnModificar.addActionListener(e -> controlador.mostrarModificarPracticas());
 
+        JLabel lblTituloFecha = new JLabel("Fecha Límite");
+
+        lblFechaLimite = new JLabel("");
+
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                                         .addComponent(lblTitulo)
                                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                                 .addGap(10)
                                                                 .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)))
+                                                .addPreferredGap(ComponentPlacement.RELATED, 541, Short.MAX_VALUE)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                                .addPreferredGap(ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
-                                                                .addComponent(btnVolver))
-                                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                                .addGap(18)
-                                                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18)
-                                                                .addComponent(btnBuscar))))
+                                                        .addComponent(lblTituloFecha, Alignment.TRAILING)
+                                                        .addComponent(comboBox, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18)
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(lblFechaLimite)
+                                                        .addComponent(btnBuscar)))
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnAsignar)
                                                 .addGap(18)
@@ -98,13 +103,11 @@ public class VistaPracticas extends JPanel implements Vista {
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addGap(23)
-                                                .addComponent(lblTitulo))
-                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(btnVolver)))
+                                .addGap(23)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(lblTitulo)
+                                        .addComponent(lblTituloFecha)
+                                        .addComponent(lblFechaLimite))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -112,7 +115,7 @@ public class VistaPracticas extends JPanel implements Vista {
                                         .addComponent(btnBuscar))
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnAsignar)
                                         .addComponent(btnEliminarPracticas)
@@ -139,10 +142,24 @@ public class VistaPracticas extends JPanel implements Vista {
     }
 
     public void cargarTablas() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        lblFechaLimite.setText(df.format(modelo.getFechaLimite()));
         table.setModel(modelo.getTablaPracticas());
         table.removeColumn(table.getColumnModel().getColumn(9));
         table.removeColumn(table.getColumnModel().getColumn(9));
         coloresTabla();
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            final TableColumnModel columnModel = table.getColumnModel();
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 300)
+                width = 300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
 
     public void coloresTabla() {
@@ -154,9 +171,15 @@ public class VistaPracticas extends JPanel implements Vista {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
 
                 Date hoy = new Date();
-                Date fechaInicio = (Date) table.getModel().getValueAt(row, 3);
-                long diff = fechaInicio.getTime() - hoy.getTime();
-                if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 30L) {
+                Date fechaLimite = modelo.getFechaLimite();
+                long diff = fechaLimite.getTime() - hoy.getTime();
+                boolean anexo2 = (Boolean) table.getModel().getValueAt(row, 11);
+                boolean anexo3 = (Boolean) table.getModel().getValueAt(row, 12);
+                boolean anexo4 = (Boolean) table.getModel().getValueAt(row, 13);
+                boolean anexo5 = (Boolean) table.getModel().getValueAt(row, 14);
+                if (anexo2 && anexo3 && anexo4 && anexo5) {
+                    setBackground(Color.GREEN);
+                } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 30L) {
                     setBackground(Color.RED);
                     setForeground(Color.WHITE);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 45L) {

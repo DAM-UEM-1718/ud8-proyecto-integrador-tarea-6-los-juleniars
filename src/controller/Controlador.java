@@ -74,6 +74,7 @@ public class Controlador {
                 vistaLogin.setVisible(false);
                 break;
             case 1:
+                modelo.cargarAnosAcademicos();
                 modelo.mostrarDashboardDirector();
                 vistaPrincipalAdministrativo.setLblBienvenido();
                 //vistaPrincipalAdministrativo.setVisible(true);
@@ -321,7 +322,7 @@ public class Controlador {
     }
 
     public void cambiarGrupo() {
-        modelo.cambiarGrupoTutor((Modelo.ComboItem) vistaPrincipalTutor.getCmbGrupos());
+        modelo.cambiarGrupoTutor(vistaPrincipalTutor.getCmbGrupos());
     }
 
     public void mostrarRegistro() {
@@ -405,6 +406,10 @@ public class Controlador {
         String url = vistaConfigFichero.getTxtUrl();
         modelo.escribirConfiguracion(user, password, url);
         vistaConfigFichero.setVisible(false);
+    }
+
+    public void cambiarAno() {
+        modelo.cambiarAnoAcademico(vistaPrincipalAdministrativo.getAnoAcademico());
     }
 
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
