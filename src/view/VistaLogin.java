@@ -102,8 +102,8 @@ public class VistaLogin extends JFrame implements Vista {
 
         btnConfig = new JButton("");
 
-        lblAviso = new JLabel("");
-        lblAviso.setForeground(Color.RED);
+        lblAviso = new JLabel("Conectando con la base de datos...");
+        lblAviso.setForeground(Color.ORANGE);
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -191,22 +191,27 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     public void contrasenaEnviada() {
-        JOptionPane.showMessageDialog(null, "Contraseña enviada.");
+        lblAviso.setForeground(Color.GREEN);
+        lblAviso.setText("Contraseña enviada.");
     }
 
     public void errorInicioSesion() {
+        lblAviso.setForeground(Color.RED);
         lblAviso.setText("Usuario o contraseña incorrectos.");
     }
 
     public void errorGenerarContrasena() {
-        JOptionPane.showMessageDialog(null, "Error al enviar la nueva contraseña.");
+        lblAviso.setForeground(Color.RED);
+        lblAviso.setText("Error al enviar la nueva contraseña.");
     }
 
     public void errorCrearUsuario() {
-        JOptionPane.showMessageDialog(null, "Error al crear el nuevo usuario.");
+        lblAviso.setForeground(Color.RED);
+        lblAviso.setText("Error al crear el nuevo usuario.");
     }
 
     public void errorConexion() {
+        lblAviso.setForeground(Color.RED);
         lblAviso.setText("No ha sido posible conectarse a la base de datos.");
     }
 
@@ -226,6 +231,7 @@ public class VistaLogin extends JFrame implements Vista {
     }
 
     public void conectado() {
+        lblAviso.setText("");
         conectado = true;
     }
 
