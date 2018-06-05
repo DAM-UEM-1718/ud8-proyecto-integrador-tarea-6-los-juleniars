@@ -20,7 +20,6 @@ public class VistaConfiguracion extends JFrame implements Vista {
     private JLabel lblCambiarContrasea;
     private JButton btnCambiar;
     private JButton btnAceptar;
-    private JButton btnCambiarAvatar;
 
     public VistaConfiguracion() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaConfiguracion.class.getResource("/img/uem.png")));
@@ -74,24 +73,16 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
         JLabel lblApellidoCamacho = new JLabel("Apellido: Camacho");
 
-        btnCambiarAvatar = new JButton("Cambiar Avatar");
-        btnCambiarAvatar.addActionListener(e -> {
-
-        });
-
         btnAceptar = new JButton("Aceptar");
         btnAceptar.addActionListener(e -> controlador.cerrarConfiguracion());
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                gl_contentPane.createParallelGroup(Alignment.TRAILING)
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                         .addComponent(lblConfiguracin)
-                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addComponent(lblNmeroDeExpediente)
-                                                .addGap(18)
-                                                .addComponent(btnCambiarAvatar))
+                                        .addComponent(lblNmeroDeExpediente)
                                         .addComponent(lblNombrePedro)
                                         .addComponent(lblApellidoCamacho)
                                         .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
@@ -99,9 +90,9 @@ public class VistaConfiguracion extends JFrame implements Vista {
                                                 .addComponent(pswContrasena, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                                                 .addComponent(pswConfirmarContrasena))
                                         .addComponent(btnCambiar))
-                                .addContainerGap(12, Short.MAX_VALUE))
-                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-                                .addContainerGap(200, Short.MAX_VALUE)
+                                .addContainerGap(136, Short.MAX_VALUE))
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addContainerGap(218, Short.MAX_VALUE)
                                 .addComponent(btnAceptar)
                                 .addContainerGap())
         );
@@ -111,9 +102,7 @@ public class VistaConfiguracion extends JFrame implements Vista {
                                 .addContainerGap()
                                 .addComponent(lblConfiguracin)
                                 .addGap(18)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(lblNmeroDeExpediente)
-                                        .addComponent(btnCambiarAvatar))
+                                .addComponent(lblNmeroDeExpediente)
                                 .addGap(18)
                                 .addComponent(lblNombrePedro)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)

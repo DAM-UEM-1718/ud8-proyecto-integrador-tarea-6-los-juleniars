@@ -30,20 +30,8 @@ public class Main {
         VistaSuperUsuario vistaSuperUsuario = new VistaSuperUsuario();
         VistaTutores vistaTutores = new VistaTutores();
 
-        //Crea el contenedor principal del director
-        ArrayList<ListaVistas> vistasDirector = new ArrayList<>();
-        vistasDirector.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
-        vistasDirector.add(new ListaVistas("Prácticas", vistaPracticas));
-        vistasDirector.add(new ListaVistas("Tutores", vistaTutores));
-        vistasDirector.add(new ListaVistas("Grupos", vistaGrupos));
-        vistasDirector.add(new ListaVistas("Empresas", vistaEmpresa));
-        VistaContenedorPrincipal contenedorDirector = new VistaContenedorPrincipal(vistasDirector);
-
-        //Crea el contenedor principal del tutor
-        ArrayList<ListaVistas> vistasTutor = new ArrayList<>();
-        vistasTutor.add(new ListaVistas("Principal", vistaPrincipalTutor));
-        //vistasTutor.add(new ListaVistas("Detalle Prácticas", vistaPracticas));
-        VistaContenedorPrincipal conetenedorTutor = new VistaContenedorPrincipal(vistasTutor);
+        //Crea el contenedor principal
+        VistaContenedorPrincipal vistaContenedorPrincipal = new VistaContenedorPrincipal();
 
         //Creamos el controlador
         Controlador controlador = new Controlador();
@@ -62,8 +50,8 @@ public class Main {
         vistaMensaje.setControlador(controlador);
         vistaPersonal.setControlador(controlador);
         vistaPracticas.setControlador(controlador);
-        contenedorDirector.setControlador(controlador);
-        conetenedorTutor.setControlador(controlador);
+        vistaContenedorPrincipal.setControlador(controlador);
+        //conetenedorTutor.setControlador(controlador);
         vistaPrincipalAdministrativo.setControlador(controlador);
         vistaPrincipalTutor.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
@@ -89,8 +77,7 @@ public class Main {
         controlador.setVistaPracticas(vistaPracticas);
         controlador.setVistaLogin(vistaLogin);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
-        controlador.setVistaContenedorDirector(contenedorDirector);
-        controlador.setVistaContenedorTutor(conetenedorTutor);
+        controlador.setVistaContenedorPrincipal(vistaContenedorPrincipal);
         controlador.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
         controlador.setVistaPrincipalTutor(vistaPrincipalTutor);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);

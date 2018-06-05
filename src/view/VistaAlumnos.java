@@ -1,16 +1,13 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import javax.swing.GroupLayout.Alignment;
-
 import controller.Controlador;
 import model.Modelo;
 
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class VistaAlumnos extends JFrame implements Vista {
 
@@ -23,11 +20,9 @@ public class VistaAlumnos extends JFrame implements Vista {
     private JTextField txtMatricula;
     private JButton btnBuscar;
     private JLabel lblTitulo;
-    private JButton btnMostrarAlmunosSin;
     private JButton btnEliminarAlumno;
     private JButton btnModificarAlumno;
     private JButton btnAadirAlumno;
-    private JButton btnAsignarEmpresa;
 
 
     public VistaAlumnos() {
@@ -60,11 +55,6 @@ public class VistaAlumnos extends JFrame implements Vista {
         lblTitulo = new JLabel("Editar Alumnos");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        btnAsignarEmpresa = new JButton("Asignar Empresa");
-        btnAsignarEmpresa.addActionListener(e -> {
-
-        });
-
         btnAadirAlumno = new JButton("Añadir Alumno");
         btnAadirAlumno.addActionListener(e -> {
 
@@ -80,71 +70,47 @@ public class VistaAlumnos extends JFrame implements Vista {
 
         });
 
-        btnMostrarAlmunosSin = new JButton("Mostrar Almunos sin Asignar");
-        btnMostrarAlmunosSin.addActionListener(e -> {
-
-        });
-
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(e -> controlador.cerrarAlumnos());
-        
         JComboBox comboBox = new JComboBox();
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
-        	gl_contentPane.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_contentPane.createSequentialGroup()
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-        				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        						.addComponent(lblTitulo)
-        						.addComponent(txtMatricula, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
-        					.addGap(18)
-        					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-        					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        						.addGroup(gl_contentPane.createSequentialGroup()
-        							.addPreferredGap(ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
-        							.addComponent(btnVolver))
-        						.addGroup(gl_contentPane.createSequentialGroup()
-        							.addGap(18)
-        							.addComponent(btnBuscar))))
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addComponent(btnAadirAlumno)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnModificarAlumno)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnEliminarAlumno)
-        					.addPreferredGap(ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-        					.addComponent(btnMostrarAlmunosSin)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnAsignarEmpresa)))
-        			.addContainerGap())
+                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(lblTitulo)
+                                                        .addComponent(txtMatricula, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18)
+                                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18)
+                                                .addComponent(btnBuscar))
+                                        .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+                                                .addComponent(btnAadirAlumno)
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addComponent(btnModificarAlumno)
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addComponent(btnEliminarAlumno)))
+                                .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
-        	gl_contentPane.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_contentPane.createSequentialGroup()
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addGap(23)
-        					.addComponent(lblTitulo))
-        				.addGroup(gl_contentPane.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(btnVolver)))
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(txtMatricula, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(btnBuscar))
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(btnAsignarEmpresa)
-        				.addComponent(btnAadirAlumno)
-        				.addComponent(btnModificarAlumno)
-        				.addComponent(btnEliminarAlumno)
-        				.addComponent(btnMostrarAlmunosSin))
-        			.addContainerGap())
+                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGap(23)
+                                .addComponent(lblTitulo)
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtMatricula, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnBuscar))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(btnAadirAlumno)
+                                        .addComponent(btnModificarAlumno)
+                                        .addComponent(btnEliminarAlumno))
+                                .addContainerGap())
         );
 
         table = new JTable();

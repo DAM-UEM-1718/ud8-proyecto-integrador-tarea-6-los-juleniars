@@ -14,7 +14,7 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
 
     private JTabbedPane jTabbedPane;
 
-    public VistaContenedorPrincipal(ArrayList<ListaVistas> vistas) {
+    public VistaContenedorPrincipal() {
         setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,9 +22,6 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         jTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        for (ListaVistas vista : vistas) {
-            jTabbedPane.addTab(vista.getTitulo(), (Component) vista.getVista());
-        }
         jTabbedPane.addChangeListener(e -> {
             Component vista = jTabbedPane.getComponentAt(jTabbedPane.getSelectedIndex());
             if (vista instanceof VistaPracticas) {
@@ -35,9 +32,19 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
                 controlador.mostrarEmpresas();
             } else if (vista instanceof VistaGrupos) {
                 controlador.mostrarGrupos();
+            } else if (vista instanceof VistaAlumnos) {
+                controlador.mostrarListaAlumnos();
             }
         });
         getContentPane().add(jTabbedPane);
+    }
+
+    public void cargarPestanas(ArrayList<ListaVistas> vistas) {
+        jTabbedPane.removeAll();
+        for (ListaVistas vista : vistas) {
+            jTabbedPane.addTab(vista.getTitulo(), (Component) vista.getVista());
+        }
+
     }
 
 

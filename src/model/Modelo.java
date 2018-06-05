@@ -95,7 +95,7 @@ public class Modelo {
     private String queryCargarAsignarPracticasDirector = "SELECT CONCAT(NOM, CONCAT(' ', CONCAT(APELL1, CONCAT(' ', APELL2)))), ESTUDIANTE.NUM_MAT FROM ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT NOT IN (SELECT NUM_MAT FROM EMPRESA_ESTUDIANTE);";
     private String queryNombreEmpresas = "SELECT NOM_EMPR, NUM_CONV FROM EMPRESA;";
     private String queryComprobacionRegistroTutor = "SELECT * FROM USERS WHERE USR = ? OR NIF = ?;";
-    private String queryAnoAcademico = "SELECT ANO FROM ANO_ACADEMICO;";
+    private String queryAnoAcademico = "SELECT ANO FROM ANO_ACADEMICO ORDER BY ANO DESC;";
     private String queryFechaLimite = "SELECT FECHA_LIMITE FROM ANO_ACADEMICO WHERE ANO = ?;";
 
     //Queries INSERT
@@ -429,7 +429,7 @@ public class Modelo {
 
     public void cargarAnosAcademicos() {
         Vector<Integer> anos = new Vector<>();
-        PreparedStatement stmtAnos = null;
+        PreparedStatement stmtAnos;
         try {
             stmtAnos = connection.prepareStatement(queryAnoAcademico);
             ResultSet resultSetAnos = stmtAnos.executeQuery();
@@ -444,7 +444,14 @@ public class Modelo {
             e.printStackTrace();
         }
         modeloCmbAnos = new DefaultComboBoxModel<>(anos);
-        vistaPrincipalAdministrativo.cargarAnoAcademico();
+        switch (tipoUsuario) {
+            case 0:
+                vistaPrincipalTutor.cargarAnoAcademico();
+                break;
+            case 1:
+                vistaPrincipalAdministrativo.cargarAnoAcademico();
+                break;
+        }
     }
 
     /**

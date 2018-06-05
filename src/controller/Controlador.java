@@ -3,6 +3,7 @@ package controller;
 import model.Modelo;
 import view.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -24,8 +25,7 @@ public class Controlador {
     private VistaMensaje vistaMensaje;
     private VistaPersonal vistaPersonal;
     private VistaPracticas vistaPracticas;
-    private VistaContenedorPrincipal vistaContenedorDirector;
-    private VistaContenedorPrincipal vistaContenedorTutor;
+    private VistaContenedorPrincipal vistaContenedorPrincipal;
     private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaRecuperarPswd vistaRecuperarPswd;
@@ -66,11 +66,17 @@ public class Controlador {
         tipoUsuario = modelo.getTipoUsuario();
         switch (tipoUsuario) {
             case 0:
+                modelo.cargarAnosAcademicos();
                 modelo.mostrarGrupoTutor();
                 modelo.mostrarPracticasTutor();
                 vistaPrincipalTutor.setLblBienvenido();
                 //vistaPrincipalTutor.setVisible(true);
-                vistaContenedorTutor.setVisible(true);
+                ArrayList<ListaVistas> vistasTutor = new ArrayList<>();
+                vistasTutor.add(new ListaVistas("Principal", vistaPrincipalTutor));
+                vistasTutor.add(new ListaVistas("Detalle Prácticas", vistaPracticas));
+                vistasTutor.add(new ListaVistas("Mis Alumnos", vistaAlumnos));
+                vistaContenedorPrincipal.cargarPestanas(vistasTutor);
+                vistaContenedorPrincipal.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 1:
@@ -78,7 +84,15 @@ public class Controlador {
                 modelo.mostrarDashboardDirector();
                 vistaPrincipalAdministrativo.setLblBienvenido();
                 //vistaPrincipalAdministrativo.setVisible(true);
-                vistaContenedorDirector.setVisible(true);
+
+                ArrayList<ListaVistas> vistasDirector = new ArrayList<>();
+                vistasDirector.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
+                vistasDirector.add(new ListaVistas("Prácticas", vistaPracticas));
+                vistasDirector.add(new ListaVistas("Tutores", vistaTutores));
+                vistasDirector.add(new ListaVistas("Grupos", vistaGrupos));
+                vistasDirector.add(new ListaVistas("Empresas", vistaEmpresa));
+                vistaContenedorPrincipal.cargarPestanas(vistasDirector);
+                vistaContenedorPrincipal.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             case 2:
@@ -130,11 +144,9 @@ public class Controlador {
     public void mostrarListaAlumnos() {
         if (tipoUsuario == 0) {
             modelo.cargarAlumnosTutor();
-            vistaPrincipalTutor.setVisible(false);
         } else if (tipoUsuario == 2)
             modelo.cargarAlumnosDirector();
         vistaSuperUsuario.setVisible(false);
-        vistaAlumnos.setVisible(true);
     }
 
     public void mostarConfiguracion() {
@@ -288,11 +300,11 @@ public class Controlador {
     private void abrirPanelUsuario() {
         switch (tipoUsuario) {
             case 0:
-                vistaContenedorTutor.setVisible(true);
+                vistaContenedorPrincipal.setVisible(true);
                 //vistaPrincipalTutor.setVisible(true);
                 break;
             case 1:
-                vistaContenedorDirector.setVisible(true);
+                vistaContenedorPrincipal.setVisible(true);
                 //vistaPrincipalAdministrativo.setVisible(true);
                 break;
             case 2:
@@ -306,11 +318,11 @@ public class Controlador {
     private void cerrarPanelUsuario() {
         switch (tipoUsuario) {
             case 0:
-                vistaContenedorTutor.setVisible(true);
+                vistaContenedorPrincipal.setVisible(false);
                 //vistaPrincipalTutor.setVisible(false);
                 break;
             case 1:
-                vistaContenedorDirector.setVisible(false);
+                vistaContenedorPrincipal.setVisible(false);
                 //vistaPrincipalAdministrativo.setVisible(false);
                 break;
             case 2:
@@ -409,7 +421,14 @@ public class Controlador {
     }
 
     public void cambiarAno() {
-        modelo.cambiarAnoAcademico(vistaPrincipalAdministrativo.getAnoAcademico());
+        switch (tipoUsuario) {
+            case 0:
+                modelo.cambiarAnoAcademico(vistaPrincipalTutor.getAnoAcademico());
+                break;
+            case 1:
+                modelo.cambiarAnoAcademico(vistaPrincipalAdministrativo.getAnoAcademico());
+                break;
+        }
     }
 
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
@@ -436,11 +455,7 @@ public class Controlador {
         this.vistaModificarPracticas = vistaModificarPracticas;
     }
 
-    public void setVistaContenedorDirector(VistaContenedorPrincipal vistaContenedorDirector) {
-        this.vistaContenedorDirector = vistaContenedorDirector;
-    }
-
-    public void setVistaContenedorTutor(VistaContenedorPrincipal vistaContenedorTutor) {
-        this.vistaContenedorTutor = vistaContenedorTutor;
+    public void setVistaContenedorPrincipal(VistaContenedorPrincipal vistaContenedorPrincipal) {
+        this.vistaContenedorPrincipal = vistaContenedorPrincipal;
     }
 }
