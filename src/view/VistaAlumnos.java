@@ -55,14 +55,14 @@ public class VistaAlumnos extends JPanel implements Vista {
         });
 
         btnModificarAlumno = new JButton("Modificar Alumno");
+        btnModificarAlumno.setEnabled(false);
         btnModificarAlumno.addActionListener(e -> {
-
+            controlador.mostrarModificarAlumno();
         });
 
         btnEliminarAlumno = new JButton("Eliminar Alumno");
-        btnEliminarAlumno.addActionListener(e -> {
-
-        });
+        btnEliminarAlumno.setEnabled(false);
+        btnEliminarAlumno.addActionListener(e -> controlador.eliminarAlumno());
 
         JComboBox comboBox = new JComboBox();
         GroupLayout gl_contentPane = new GroupLayout(this);
@@ -109,8 +109,33 @@ public class VistaAlumnos extends JPanel implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.getSelectionModel().addListSelectionListener(e->{
+            btnModificarAlumno.setEnabled(!table.getSelectionModel().isSelectionEmpty());
+            btnEliminarAlumno.setEnabled(!table.getSelectionModel().isSelectionEmpty());
+        });
         scrollPane.setViewportView(table);
         setLayout(gl_contentPane);
+    }
+
+    public int getNumMatSeleccionado() {
+        return (Integer) table.getValueAt(table.getSelectedRow(), 0);
+    }
+
+    public String getNombreSeleccionado() {
+        return (String) table.getValueAt(table.getSelectedRow(), 1);
+    }
+
+    public String getApellido1Seleccionado() {
+        return ((String) table.getValueAt(table.getSelectedRow(), 2)).split(" ")[0];
+    }
+
+    public String getApellido2Seleccionado() {
+        String[] apellido2 = ((String) table.getValueAt(table.getSelectedRow(), 2)).split(" ");
+        return apellido2.length > 1 ? apellido2[1] : "";
+    }
+
+    public String getDniSeleccionado() {
+        return (String) table.getValueAt(table.getSelectedRow(), 3);
     }
 
     public void cargarTabla() {

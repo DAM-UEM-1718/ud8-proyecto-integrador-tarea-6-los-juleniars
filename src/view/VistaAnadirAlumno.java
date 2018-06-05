@@ -23,6 +23,7 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
     private JTextField txtDNI;
     private JTextField txtApellido2;
 
+    private boolean modificar;
     private JButton btnAnadir;
 
     public VistaAnadirAlumno() {
@@ -30,7 +31,6 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
         setTitle("Añadir Alumno");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAnadirTutor.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,7 +53,10 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
         btnAnadir = new JButton("Añadir");
         btnAnadir.setEnabled(false);
         btnAnadir.addActionListener(e -> {
-            controlador.insertarAlumno();
+            if (!modificar)
+                controlador.insertarAlumno();
+            else
+                controlador.modificarAlumno();
             limpiarCampos();
         });
 
@@ -121,12 +124,31 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
         }
     }
 
-    private void limpiarCampos() {
+    public void limpiarCampos() {
         txtNombre.setText("");
         txtNumMat.setText("");
         txtApellido1.setText("");
         txtApellido2.setText("");
         txtDNI.setText("");
+    }
+
+    public void setAnadir() {
+        modificar = false;
+        setTitle("Añadir Alumno");
+        btnAnadir.setText("Añadir");
+        txtNumMat.setEditable(true);
+    }
+
+    public void setModificar(int numMat, String nombre, String apellido1, String apellido2, String dni) {
+        setTitle("Modificar Alumno");
+        btnAnadir.setText("Modificar");
+        modificar = true;
+        txtNumMat.setText(Integer.toString(numMat));
+        txtNombre.setText(nombre);
+        txtApellido1.setText(apellido1);
+        txtApellido2.setText(apellido2);
+        txtDNI.setText(dni);
+        txtNumMat.setEditable(false);
     }
 
     @Override

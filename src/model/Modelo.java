@@ -105,14 +105,19 @@ public class Modelo {
     private String queryRegistrotutor = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
 
     private String queryInsertarAlumno = "INSERT INTO ESTUDIANTE (NUM_MAT, NOM, APELL1, APELL2, DNI) VALUES (?, ?, ?, ?, ?);";
-    private String queryInsertarGrupoEstudiante="INSERT INTO GRUPO_ESTUDIANTE (COD_GRUPO, NUM_MAT) VALUES (?, ?);";
+    private String queryInsertarGrupoEstudiante = "INSERT INTO GRUPO_ESTUDIANTE (COD_GRUPO, NUM_MAT) VALUES (?, ?);";
 
     //Queries UPDATE
     private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
     private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
 
+    private String queryModificarAlumno = "UPDATE ESTUDIANTE SET NOM = ?, APELL1 = ?, APELL2 = ?, DNI = ? WHERE NUM_MAT = ?";
+
     //Queries DELETE
     private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
+
+    private String queryEliminarGrupoEstudiante="DELETE FROM GRUPO_ESTUDIANTE WHERE NUM_MAT = ?;";
+    private String queryEliminarAlumno="DELETE FROM ESTUDIANTE WHERE NUM_MAT = ?;";
 
 
     public Modelo(VistaLogin vistaLogin) {
@@ -619,26 +624,65 @@ public class Modelo {
             stmtEstudiante.setString(3, apellido1);
             stmtEstudiante.setString(4, apellido2);
             stmtEstudiante.setString(5, dni);
-            PreparedStatement stmtGrupoEstudiante=connection.prepareStatement(queryInsertarGrupoEstudiante);
-            stmtGrupoEstudiante.setInt(1,codGrupo);
-            stmtGrupoEstudiante.setInt(2,numMat);
+            PreparedStatement stmtGrupoEstudiante = connection.prepareStatement(queryInsertarGrupoEstudiante);
+            stmtGrupoEstudiante.setInt(1, codGrupo);
+            stmtGrupoEstudiante.setInt(2, numMat);
             stmtEstudiante.executeUpdate();
             stmtGrupoEstudiante.executeUpdate();
-            switch (tipoUsuario) {
-                case 0:
-                    cargarAlumnosTutor();
-                    break;
-                case 1:
-                    cargarAlumnosDirector();
-                    break;
-                case 2:
-                    cargarAlumnosDirector();
-                    break;
-            }
+            cargarAlumnos();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Modifica un alumno
+     */
+    public void modificarAlumno(int numMat, String nombre, String apellido1, String apellido2, String dni) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryModificarAlumno);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, apellido1);
+            preparedStatement.setString(3, apellido2);
+            preparedStatement.setString(4, dni);
+            preparedStatement.setInt(5, numMat);
+            preparedStatement.executeUpdate();
+            cargarAlumnos();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Elimina un alumno
+     */
+    public void eliminarAlumno(int numMat) {
+        try {
+            PreparedStatement stmtGrupoEstudiante=connection.prepareStatement(queryEliminarGrupoEstudiante);
+            stmtGrupoEstudiante.setInt(1,numMat);
+            stmtGrupoEstudiante.executeUpdate();
+            PreparedStatement stmtAlumno=connection.prepareStatement(queryEliminarAlumno);
+            stmtAlumno.setInt(1,numMat);
+            stmtAlumno.executeUpdate();
+            cargarAlumnos();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cargarAlumnos(){
+        switch (tipoUsuario) {
+            case 0:
+                cargarAlumnosTutor();
+                break;
+            case 1:
+                cargarAlumnosDirector();
+                break;
+            case 2:
+                cargarAlumnosDirector();
+                break;
+        }
     }
 
     /**

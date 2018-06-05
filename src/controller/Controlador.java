@@ -432,13 +432,34 @@ public class Controlador {
         }
     }
 
-    public void mostarAnadirAlumno(){
+    public void mostarAnadirAlumno() {
+        vistaAnadirAlumno.limpiarCampos();
         vistaAnadirAlumno.setVisible(true);
     }
 
     public void insertarAlumno() {
+        vistaAnadirAlumno.setAnadir();
         modelo.insertarAlumno(vistaAnadirAlumno.getNumMat(), vistaAnadirAlumno.getNombre(), vistaAnadirAlumno.getApellido1(), vistaAnadirAlumno.getApellido2(), vistaAnadirAlumno.getDNI());
-    vistaAnadirAlumno.setVisible(false);
+        vistaAnadirAlumno.setVisible(false);
+    }
+
+    public void mostrarModificarAlumno() {
+        int numMat = vistaAlumnos.getNumMatSeleccionado();
+        String nombre = vistaAlumnos.getNombreSeleccionado();
+        String apellido1 = vistaAlumnos.getApellido1Seleccionado();
+        String apellido2 = vistaAlumnos.getApellido2Seleccionado();
+        String dni = vistaAlumnos.getDniSeleccionado();
+        vistaAnadirAlumno.setModificar(numMat, nombre, apellido1, apellido2, dni);
+        vistaAnadirAlumno.setVisible(true);
+    }
+
+    public void modificarAlumno() {
+        modelo.modificarAlumno(vistaAnadirAlumno.getNumMat(), vistaAnadirAlumno.getNombre(), vistaAnadirAlumno.getApellido1(), vistaAnadirAlumno.getApellido2(), vistaAnadirAlumno.getDNI());
+        vistaAnadirAlumno.setVisible(false);
+    }
+
+    public void eliminarAlumno(){
+        modelo.eliminarAlumno(vistaAlumnos.getNumMatSeleccionado());
     }
 
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
