@@ -18,7 +18,6 @@ public class VistaEmpresa extends JPanel implements Vista {
     private JTable table;
     private JButton btnAnadirEmpresa;
     private JButton btnEliminarEmpresa;
-    private JButton btnVolver;
 
 
     public VistaEmpresa() {
@@ -48,22 +47,17 @@ public class VistaEmpresa extends JPanel implements Vista {
         btnEliminarEmpresa = new JButton("Eliminar Empresa");
         btnEliminarEmpresa.addActionListener(e -> {
         });
-
-        btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(e -> controlador.cerrarEmpresas());
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
-                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-                                        .addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                                        .addComponent(lblTitulo, Alignment.LEADING)
-                                        .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+                gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+                                        .addComponent(lblTitulo)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnAnadirEmpresa)
                                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                                .addComponent(btnEliminarEmpresa)
-                                                .addPreferredGap(ComponentPlacement.RELATED, 398, Short.MAX_VALUE)
-                                                .addComponent(btnVolver)))
+                                                .addComponent(btnEliminarEmpresa)))
                                 .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
@@ -73,10 +67,9 @@ public class VistaEmpresa extends JPanel implements Vista {
                                 .addComponent(lblTitulo)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnAnadirEmpresa)
-                                        .addComponent(btnVolver)
                                         .addComponent(btnEliminarEmpresa))
                                 .addContainerGap())
         );

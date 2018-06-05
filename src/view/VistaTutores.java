@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class VistaTutores extends JPanel implements Vista {
@@ -19,7 +18,6 @@ public class VistaTutores extends JPanel implements Vista {
     private JTable table;
     private JButton btnAnadirTutor;
     private JButton btnEliminarTutor;
-    private JButton btnVolver;
 
 
     public VistaTutores() {
@@ -44,27 +42,24 @@ public class VistaTutores extends JPanel implements Vista {
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         btnAnadirTutor = new JButton("Añadir Tutor");
+        btnAnadirTutor.setEnabled(false);
         btnAnadirTutor.addActionListener(e -> controlador.mostrarAnadirUsuario());
 
         btnEliminarTutor = new JButton("Eliminar Tutor");
+        btnEliminarTutor.setEnabled(false);
         btnEliminarTutor.addActionListener(e -> {
         });
-
-        btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(e -> controlador.cerrarTutores());
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
-                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-                                        .addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                                        .addComponent(lblTitulo, Alignment.LEADING)
-                                        .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+                gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                                        .addComponent(lblTitulo)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnAnadirTutor)
                                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                                .addComponent(btnEliminarTutor)
-                                                .addPreferredGap(ComponentPlacement.RELATED, 398, Short.MAX_VALUE)
-                                                .addComponent(btnVolver)))
+                                                .addComponent(btnEliminarTutor)))
                                 .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
@@ -74,10 +69,9 @@ public class VistaTutores extends JPanel implements Vista {
                                 .addComponent(lblTitulo)
                                 .addGap(18)
                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 226, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnAnadirTutor)
-                                        .addComponent(btnVolver)
                                         .addComponent(btnEliminarTutor))
                                 .addContainerGap())
         );

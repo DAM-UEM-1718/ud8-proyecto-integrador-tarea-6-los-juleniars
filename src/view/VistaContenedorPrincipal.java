@@ -4,6 +4,7 @@ import controller.Controlador;
 import model.Modelo;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
     private Controlador controlador;
 
     private JTabbedPane jTabbedPane;
+    private ChangeListener changeListener;
 
     public VistaContenedorPrincipal() {
         setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
@@ -22,7 +24,8 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         jTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        jTabbedPane.addChangeListener(e -> {
+        getContentPane().add(jTabbedPane);
+        changeListener= e -> {
             Component vista = jTabbedPane.getComponentAt(jTabbedPane.getSelectedIndex());
             if (vista instanceof VistaPracticas) {
                 controlador.mostrarPracticas();
@@ -35,15 +38,16 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
             } else if (vista instanceof VistaAlumnos) {
                 controlador.mostrarListaAlumnos();
             }
-        });
-        getContentPane().add(jTabbedPane);
+        };
     }
 
     public void cargarPestanas(ArrayList<ListaVistas> vistas) {
+        jTabbedPane.removeChangeListener(changeListener);
         jTabbedPane.removeAll();
         for (ListaVistas vista : vistas) {
             jTabbedPane.addTab(vista.getTitulo(), (Component) vista.getVista());
         }
+        jTabbedPane.addChangeListener(changeListener);
 
     }
 
