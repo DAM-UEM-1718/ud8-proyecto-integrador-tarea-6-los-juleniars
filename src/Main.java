@@ -10,6 +10,7 @@ public class Main {
 
         //Creamos las vistas
         VistaAlumnos vistaAlumnos = new VistaAlumnos();
+        VistaAnadirAlumno vistaAnadirAlumno=new VistaAnadirAlumno();
         VistaAnadirTutor vistaAnadirTutor = new VistaAnadirTutor();
         VistaAnadirAdministrativo vistaAnadirAdministrativo = new VistaAnadirAdministrativo();
         VistaAnadirEmpresa vistaAnadirEmpresa = new VistaAnadirEmpresa();
@@ -38,6 +39,7 @@ public class Main {
 
         //Asignamos el controlador a las vistas
         vistaAlumnos.setControlador(controlador);
+        vistaAnadirAlumno.setControlador(controlador);
         vistaAnadirTutor.setControlador(controlador);
         vistaAnadirAdministrativo.setControlador(controlador);
         vistaAnadirEmpresa.setControlador(controlador);
@@ -63,6 +65,7 @@ public class Main {
 
         //Asignamos las vistas al controlador
         controlador.setVistaAlumnos(vistaAlumnos);
+        controlador.setVistaAnadirAlumno(vistaAnadirAlumno);
         controlador.setVistaAnadirTutor(vistaAnadirTutor);
         controlador.setVistaAnadirAdministrativo(vistaAnadirAdministrativo);
         controlador.setVistaAnadirEmpresa(vistaAnadirEmpresa);

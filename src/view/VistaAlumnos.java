@@ -51,7 +51,7 @@ public class VistaAlumnos extends JPanel implements Vista {
 
         btnAadirAlumno = new JButton("Añadir Alumno");
         btnAadirAlumno.addActionListener(e -> {
-
+            controlador.mostarAnadirAlumno();
         });
 
         btnModificarAlumno = new JButton("Modificar Alumno");

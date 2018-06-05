@@ -100,8 +100,12 @@ public class Modelo {
 
     //Queries INSERT
     private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
     private String queryInsertarUsuario = "INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);";
-    private String queryREgistrotutor = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
+    private String queryRegistrotutor = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
+
+    private String queryInsertarAlumno = "INSERT INTO ESTUDIANTE (NUM_MAT, NOM, APELL1, APELL2, DNI) VALUES (?, ?, ?, ?, ?);";
+    private String queryInsertarGrupoEstudiante="INSERT INTO GRUPO_ESTUDIANTE (COD_GRUPO, NUM_MAT) VALUES (?, ?);";
 
     //Queries UPDATE
     private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
@@ -605,6 +609,39 @@ public class Modelo {
     }
 
     /**
+     * Inserta un alumno en la base de datos
+     */
+    public void insertarAlumno(int numMat, String nombre, String apellido1, String apellido2, String dni) {
+        try {
+            PreparedStatement stmtEstudiante = connection.prepareStatement(queryInsertarAlumno);
+            stmtEstudiante.setInt(1, numMat);
+            stmtEstudiante.setString(2, nombre);
+            stmtEstudiante.setString(3, apellido1);
+            stmtEstudiante.setString(4, apellido2);
+            stmtEstudiante.setString(5, dni);
+            PreparedStatement stmtGrupoEstudiante=connection.prepareStatement(queryInsertarGrupoEstudiante);
+            stmtGrupoEstudiante.setInt(1,codGrupo);
+            stmtGrupoEstudiante.setInt(2,numMat);
+            stmtEstudiante.executeUpdate();
+            stmtGrupoEstudiante.executeUpdate();
+            switch (tipoUsuario) {
+                case 0:
+                    cargarAlumnosTutor();
+                    break;
+                case 1:
+                    cargarAlumnosDirector();
+                    break;
+                case 2:
+                    cargarAlumnosDirector();
+                    break;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
      * Elimina las prácticas seleccionadas
      *
      * @param fila fila a eliminar
@@ -673,7 +710,7 @@ public class Modelo {
             ResultSet resultSet = stmtComprobacion.executeQuery();
             if (!resultSet.next()) {
                 password = hash256(password);
-                PreparedStatement preparedStatement = connection.prepareStatement(queryREgistrotutor);
+                PreparedStatement preparedStatement = connection.prepareStatement(queryRegistrotutor);
                 preparedStatement.setString(1, nombre);
                 preparedStatement.setString(2, usuario);
                 preparedStatement.setString(3, password);

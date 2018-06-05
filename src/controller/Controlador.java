@@ -12,6 +12,7 @@ import java.util.Date;
 public class Controlador {
 
     private VistaAlumnos vistaAlumnos;
+    private VistaAnadirAlumno vistaAnadirAlumno;
     private VistaAnadirTutor vistaAnadirTutor;
     private VistaAnadirAdministrativo vistaAnadirAdministrativo;
     private VistaAnadirEmpresa vistaAnadirEmpresa;
@@ -431,6 +432,15 @@ public class Controlador {
         }
     }
 
+    public void mostarAnadirAlumno(){
+        vistaAnadirAlumno.setVisible(true);
+    }
+
+    public void insertarAlumno() {
+        modelo.insertarAlumno(vistaAnadirAlumno.getNumMat(), vistaAnadirAlumno.getNombre(), vistaAnadirAlumno.getApellido1(), vistaAnadirAlumno.getApellido2(), vistaAnadirAlumno.getDNI());
+    vistaAnadirAlumno.setVisible(false);
+    }
+
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
         this.vistaAnadirEmpresa = vistaAnadirEmpresa;
     }
@@ -457,5 +467,9 @@ public class Controlador {
 
     public void setVistaContenedorPrincipal(VistaContenedorPrincipal vistaContenedorPrincipal) {
         this.vistaContenedorPrincipal = vistaContenedorPrincipal;
+    }
+
+    public void setVistaAnadirAlumno(VistaAnadirAlumno vistaAnadirAlumno) {
+        this.vistaAnadirAlumno = vistaAnadirAlumno;
     }
 }
