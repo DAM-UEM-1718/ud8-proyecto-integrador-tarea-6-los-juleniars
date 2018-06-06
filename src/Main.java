@@ -20,7 +20,7 @@ public class Main {
         VistaEmpresa vistaEmpresa = new VistaEmpresa();
         VistaGrupos vistaGrupos = new VistaGrupos();
         VistaMensaje vistaMensaje = new VistaMensaje();
-        VistaPersonal vistaPersonal = new VistaPersonal();
+        VistaDirectores vistaDirectores = new VistaDirectores();
         VistaPracticas vistaPracticas = new VistaPracticas();
         VistaLogin vistaLogin = new VistaLogin();
         VistaRecuperarPswd vistaRecuperarPswd = new VistaRecuperarPswd();
@@ -50,7 +50,7 @@ public class Main {
         vistaEmpresa.setControlador(controlador);
         vistaGrupos.setControlador(controlador);
         vistaMensaje.setControlador(controlador);
-        vistaPersonal.setControlador(controlador);
+        vistaDirectores.setControlador(controlador);
         vistaPracticas.setControlador(controlador);
         vistaContenedorPrincipal.setControlador(controlador);
         //conetenedorTutor.setControlador(controlador);
@@ -77,7 +77,7 @@ public class Main {
         controlador.setVistaEmpresa(vistaEmpresa);
         controlador.setVistaGrupos(vistaGrupos);
         controlador.setVistaMensaje(vistaMensaje);
-        controlador.setVistaPersonal(vistaPersonal);
+        controlador.setVistaDirectores(vistaDirectores);
         controlador.setVistaPracticas(vistaPracticas);
         controlador.setVistaLogin(vistaLogin);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
@@ -103,7 +103,7 @@ public class Main {
         vistaModificarPracticas.setModelo(modelo);
         vistaEmpresa.setModelo(modelo);
         vistaGrupos.setModelo(modelo);
-        vistaPersonal.setModelo(modelo);
+        vistaDirectores.setModelo(modelo);
         vistaPracticas.setModelo(modelo);
         vistaPrincipalDirector.setModelo(modelo);
         vistaPrincipalTutor.setModelo(modelo);
@@ -126,7 +126,7 @@ public class Main {
         modelo.setVistaPrincipalTutor(vistaPrincipalTutor);
         modelo.setVistaPrincipalDirector(vistaPrincipalDirector);
         modelo.setVistaTutores(vistaTutores);
-        modelo.setVistaPersonal(vistaPersonal);
+        modelo.setVistaDirectores(vistaDirectores);
         modelo.setVistaRegistro(vistaRegistro);
 
     }

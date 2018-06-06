@@ -9,7 +9,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class VistaPersonal extends JFrame implements Vista {
+public class VistaDirectores extends JFrame implements Vista {
 
     private Controlador controlador;
     private Modelo modelo;
@@ -21,7 +21,7 @@ public class VistaPersonal extends JFrame implements Vista {
     private JButton btnVolver;
 
 
-    public VistaPersonal() {
+    public VistaDirectores() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {

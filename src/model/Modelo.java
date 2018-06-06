@@ -37,7 +37,7 @@ public class Modelo {
     private VistaConfigFichero vistaConfigFichero;
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
-    private VistaPersonal vistaPersonal;
+    private VistaDirectores vistaDirectores;
     private VistaPracticas vistaPracticas;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaPrincipalDirector vistaPrincipalDirector;
@@ -591,7 +591,7 @@ public class Modelo {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
             tablaPersonal = crearModelo(nombreColumnas, connection.prepareStatement(queryDirectores));
-            vistaPersonal.cargarTabla();
+            vistaDirectores.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -990,8 +990,8 @@ public class Modelo {
         this.vistaGrupos = vistaGrupos;
     }
 
-    public void setVistaPersonal(VistaPersonal vistaPersonal) {
-        this.vistaPersonal = vistaPersonal;
+    public void setVistaDirectores(VistaDirectores vistaDirectores) {
+        this.vistaDirectores = vistaDirectores;
     }
 
     public void setVistaAlumnos(VistaAlumnos vistaAlumnos) {
