@@ -25,7 +25,7 @@ public class Controlador {
     private VistaGrupos vistaGrupos;
     private VistaLogin vistaLogin;
     private VistaMensaje vistaMensaje;
-    private VistaPersonal vistaPersonal;
+    private VistaDirectores vistaDirectores;
     private VistaPracticas vistaPracticas;
     private VistaContenedorPrincipal vistaContenedorPrincipal;
     private VistaPrincipalDirector vistaPrincipalDirector;
@@ -98,7 +98,14 @@ public class Controlador {
                 vistaLogin.setVisible(false);
                 break;
             case 2:
-                vistaSuperUsuario.setVisible(true);
+                ArrayList<ListaVistas> vistasRoot = new ArrayList<>();
+                vistasRoot.add(new ListaVistas("Directores", vistaDirectores));
+                vistasRoot.add(new ListaVistas("Tutores", vistaTutores));
+                vistasRoot.add(new ListaVistas("Alumnos", vistaAlumnos));
+                modelo.cargarPersonal();
+                //vistaSuperUsuario.setVisible(true);
+                vistaContenedorPrincipal.cargarPestanas(vistasRoot);
+                vistaContenedorPrincipal.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
             default:
@@ -280,13 +287,13 @@ public class Controlador {
 
     public void mostrarPersonal() {
         modelo.cargarPersonal();
-        cerrarPanelUsuario();
-        vistaPersonal.setVisible(true);
+        //cerrarPanelUsuario();
+        //vistaDirectores.setVisible(true);
     }
 
     public void cerrarPersonal() {
         abrirPanelUsuario();
-        vistaPersonal.setVisible(false);
+        vistaDirectores.setVisible(false);
     }
 
     private void abrirPanelUsuario() {
@@ -352,8 +359,8 @@ public class Controlador {
         vistaRegistro.setVisible(false);
     }
 
-    public void setVistaPersonal(VistaPersonal vistaPersonal) {
-        this.vistaPersonal = vistaPersonal;
+    public void setVistaDirectores(VistaDirectores vistaDirectores) {
+        this.vistaDirectores = vistaDirectores;
     }
 
     public void setVistaMensaje(VistaMensaje vistaMensaje) {

@@ -37,6 +37,8 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
                 controlador.mostrarGrupos();
             } else if (vista instanceof VistaAlumnos) {
                 controlador.mostrarListaAlumnos();
+            } else if (vista instanceof VistaDirectores){
+                controlador.mostrarPersonal();
             }
         };
     }
