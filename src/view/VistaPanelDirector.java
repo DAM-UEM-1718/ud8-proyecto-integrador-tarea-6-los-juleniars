@@ -9,7 +9,7 @@ public class VistaPanelDirector {
         // Create and set up the window.
         final JFrame frame = new JFrame("Split Pane Example");
 
-        VistaPrincipalAdministrativo vistaPrincipalAdministrativo = new VistaPrincipalAdministrativo();
+        VistaPrincipalDirector vistaPrincipalDirector = new VistaPrincipalDirector();
         // Display the window.
         frame.setSize(500, 300);
         frame.setVisible(true);
@@ -22,7 +22,7 @@ public class VistaPanelDirector {
 
         tabbedPane.addTab("Tab1", makePanel("This is tab 1"));
         tabbedPane.addTab("Tab2", makePanel("This is tab 2"));
-        tabbedPane.addTab("Principal",vistaPrincipalAdministrativo);
+        tabbedPane.addTab("Principal", vistaPrincipalDirector);
 
         frame.getContentPane().add(tabbedPane);
 

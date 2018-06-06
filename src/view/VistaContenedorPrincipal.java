@@ -18,7 +18,7 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
 
     public VistaContenedorPrincipal() {
         setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalDirector.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 400);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

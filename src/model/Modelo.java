@@ -39,7 +39,7 @@ public class Modelo {
     private VistaPersonal vistaPersonal;
     private VistaPracticas vistaPracticas;
     private VistaPrincipalTutor vistaPrincipalTutor;
-    private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
+    private VistaPrincipalDirector vistaPrincipalDirector;
     private VistaTutores vistaTutores;
     private VistaRegistro vistaRegistro;
 
@@ -324,8 +324,8 @@ public class Modelo {
         this.vistaPrincipalTutor = vistaPrincipalTutor;
     }
 
-    public void setVistaPrincipalAdministrativo(VistaPrincipalAdministrativo vistaPrincipalAdministrativo) {
-        this.vistaPrincipalAdministrativo = vistaPrincipalAdministrativo;
+    public void setVistaPrincipalDirector(VistaPrincipalDirector vistaPrincipalDirector) {
+        this.vistaPrincipalDirector = vistaPrincipalDirector;
     }
 
     public void cerrarSesion() {
@@ -493,7 +493,7 @@ public class Modelo {
                 vistaPrincipalTutor.cargarAnoAcademico();
                 break;
             case 1:
-                vistaPrincipalAdministrativo.cargarAnoAcademico();
+                vistaPrincipalDirector.cargarAnoAcademico();
                 break;
         }
     }
@@ -530,7 +530,7 @@ public class Modelo {
                 data.add(vector);
             }
             tablaDashboardDirector = new DefaultTableModel(data, nombreColumnas);
-            vistaPrincipalAdministrativo.cargarTabla();
+            vistaPrincipalDirector.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }

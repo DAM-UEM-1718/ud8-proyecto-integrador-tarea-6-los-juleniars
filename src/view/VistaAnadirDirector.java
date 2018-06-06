@@ -8,7 +8,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class VistaAnadirAdministrativo extends JFrame implements Vista {
+public class VistaAnadirDirector extends JFrame implements Vista {
 
     private Controlador controlador;
 
@@ -23,7 +23,7 @@ public class VistaAnadirAdministrativo extends JFrame implements Vista {
     private JButton btnAadir;
     private boolean modificar;
 
-    public VistaAnadirAdministrativo() {
+    public VistaAnadirDirector() {
         setTitle("Añadir Director");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAnadirTutor.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

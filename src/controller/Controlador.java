@@ -14,7 +14,7 @@ public class Controlador {
     private VistaAlumnos vistaAlumnos;
     private VistaAnadirAlumno vistaAnadirAlumno;
     private VistaAnadirTutor vistaAnadirTutor;
-    private VistaAnadirAdministrativo vistaAnadirAdministrativo;
+    private VistaAnadirDirector vistaAnadirDirector;
     private VistaAnadirEmpresa vistaAnadirEmpresa;
     private VistaAsignarPracticas vistaAsignarPracticas;
     private VistaModificarPracticas vistaModificarPracticas;
@@ -27,7 +27,7 @@ public class Controlador {
     private VistaPersonal vistaPersonal;
     private VistaPracticas vistaPracticas;
     private VistaContenedorPrincipal vistaContenedorPrincipal;
-    private VistaPrincipalAdministrativo vistaPrincipalAdministrativo;
+    private VistaPrincipalDirector vistaPrincipalDirector;
     private VistaPrincipalTutor vistaPrincipalTutor;
     private VistaRecuperarPswd vistaRecuperarPswd;
     private VistaRegistro vistaRegistro;
@@ -83,11 +83,11 @@ public class Controlador {
             case 1:
                 modelo.cargarAnosAcademicos();
                 modelo.mostrarDashboardDirector();
-                vistaPrincipalAdministrativo.setLblBienvenido();
-                //vistaPrincipalAdministrativo.setVisible(true);
+                vistaPrincipalDirector.setLblBienvenido();
+                //vistaPrincipalDirector.setVisible(true);
 
                 ArrayList<ListaVistas> vistasDirector = new ArrayList<>();
-                vistasDirector.add(new ListaVistas("Principal", vistaPrincipalAdministrativo));
+                vistasDirector.add(new ListaVistas("Principal", vistaPrincipalDirector));
                 vistasDirector.add(new ListaVistas("Prácticas", vistaPracticas));
                 vistasDirector.add(new ListaVistas("Tutores", vistaTutores));
                 vistasDirector.add(new ListaVistas("Grupos", vistaGrupos));
@@ -114,8 +114,8 @@ public class Controlador {
         this.vistaPrincipalTutor = vistaPrincipalTutor;
     }
 
-    public void setVistaPrincipalAdministrativo(VistaPrincipalAdministrativo vistaPrincipalAdministrativo) {
-        this.vistaPrincipalAdministrativo = vistaPrincipalAdministrativo;
+    public void setVistaPrincipalDirector(VistaPrincipalDirector vistaPrincipalDirector) {
+        this.vistaPrincipalDirector = vistaPrincipalDirector;
     }
 
     public void setVistaAlumnos(VistaAlumnos vistaAlumnos) {
@@ -168,13 +168,13 @@ public class Controlador {
 
     public void mostrarGrupos() {
         modelo.cargarGrupos();
-        //vistaPrincipalAdministrativo.setVisible(false);
+        //vistaPrincipalDirector.setVisible(false);
         //vistaGrupos.setVisible(true);
     }
 
     public void mostrarEmpresas() {
         modelo.cargarEmpresas();
-        //vistaPrincipalAdministrativo.setVisible(false);
+        //vistaPrincipalDirector.setVisible(false);
         //vistaEmpresa.setVisible(true);
     }
 
@@ -306,7 +306,7 @@ public class Controlador {
                 break;
             case 1:
                 vistaContenedorPrincipal.setVisible(true);
-                //vistaPrincipalAdministrativo.setVisible(true);
+                //vistaPrincipalDirector.setVisible(true);
                 break;
             case 2:
                 vistaSuperUsuario.setVisible(true);
@@ -324,7 +324,7 @@ public class Controlador {
                 break;
             case 1:
                 vistaContenedorPrincipal.setVisible(false);
-                //vistaPrincipalAdministrativo.setVisible(false);
+                //vistaPrincipalDirector.setVisible(false);
                 break;
             case 2:
                 vistaSuperUsuario.setVisible(false);
@@ -379,8 +379,8 @@ public class Controlador {
     }
 
     public void anadirAdministrativo() {
-        modelo.generarUsuario(vistaAnadirAdministrativo.getNombre(), vistaAnadirAdministrativo.getTxtExpediente(), vistaAnadirAdministrativo.getTxtMail(), vistaAnadirAdministrativo.getNIF(), (byte) 1);
-        vistaAnadirAdministrativo.setVisible(false);
+        modelo.generarUsuario(vistaAnadirDirector.getNombre(), vistaAnadirDirector.getTxtExpediente(), vistaAnadirDirector.getTxtMail(), vistaAnadirDirector.getNIF(), (byte) 1);
+        vistaAnadirDirector.setVisible(false);
     }
 
     public void mostrarAnadirUsuario() {
@@ -421,11 +421,11 @@ public class Controlador {
     }
 
     public void mostrarAnadirPersonal() {
-        vistaAnadirAdministrativo.setVisible(true);
+        vistaAnadirDirector.setVisible(true);
     }
 
-    public void setVistaAnadirAdministrativo(VistaAnadirAdministrativo vistaAnadirAdministrativo) {
-        this.vistaAnadirAdministrativo = vistaAnadirAdministrativo;
+    public void setVistaAnadirDirector(VistaAnadirDirector vistaAnadirDirector) {
+        this.vistaAnadirDirector = vistaAnadirDirector;
     }
 
     public void mostrarConfigFichero() {
@@ -447,7 +447,7 @@ public class Controlador {
                 modelo.cambiarAnoAcademico(vistaPrincipalTutor.getAnoAcademico());
                 break;
             case 1:
-                modelo.cambiarAnoAcademico(vistaPrincipalAdministrativo.getAnoAcademico());
+                modelo.cambiarAnoAcademico(vistaPrincipalDirector.getAnoAcademico());
                 break;
         }
     }

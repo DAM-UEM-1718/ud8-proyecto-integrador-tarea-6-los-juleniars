@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class VistaPrincipalAdministrativo extends JPanel implements Vista {
+public class VistaPrincipalDirector extends JPanel implements Vista {
 
     private Controlador controlador;
     private Modelo modelo;
@@ -24,14 +24,14 @@ public class VistaPrincipalAdministrativo extends JPanel implements Vista {
     private JLabel lblClases;
     private JComboBox<Integer> cmbAnoAcademico;
 
-    public VistaPrincipalAdministrativo() {
+    public VistaPrincipalDirector() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
         //setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalAdministrativo.class.getResource("/img/uem.png")));
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalDirector.class.getResource("/img/uem.png")));
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 525, 381);
         //contentPane = new JPanel();

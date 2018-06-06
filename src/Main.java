@@ -2,8 +2,6 @@ import controller.Controlador;
 import model.Modelo;
 import view.*;
 
-import java.util.ArrayList;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -12,7 +10,7 @@ public class Main {
         VistaAlumnos vistaAlumnos = new VistaAlumnos();
         VistaAnadirAlumno vistaAnadirAlumno=new VistaAnadirAlumno();
         VistaAnadirTutor vistaAnadirTutor = new VistaAnadirTutor();
-        VistaAnadirAdministrativo vistaAnadirAdministrativo = new VistaAnadirAdministrativo();
+        VistaAnadirDirector vistaAnadirDirector = new VistaAnadirDirector();
         VistaAnadirEmpresa vistaAnadirEmpresa = new VistaAnadirEmpresa();
         VistaAsignarPracticas vistaAsignarPracticas = new VistaAsignarPracticas();
         VistaModificarPracticas vistaModificarPracticas = new VistaModificarPracticas();
@@ -25,7 +23,7 @@ public class Main {
         VistaPracticas vistaPracticas = new VistaPracticas();
         VistaLogin vistaLogin = new VistaLogin();
         VistaRecuperarPswd vistaRecuperarPswd = new VistaRecuperarPswd();
-        VistaPrincipalAdministrativo vistaPrincipalAdministrativo = new VistaPrincipalAdministrativo();
+        VistaPrincipalDirector vistaPrincipalDirector = new VistaPrincipalDirector();
         VistaPrincipalTutor vistaPrincipalTutor = new VistaPrincipalTutor();
         VistaRegistro vistaRegistro = new VistaRegistro();
         VistaSuperUsuario vistaSuperUsuario = new VistaSuperUsuario();
@@ -41,7 +39,7 @@ public class Main {
         vistaAlumnos.setControlador(controlador);
         vistaAnadirAlumno.setControlador(controlador);
         vistaAnadirTutor.setControlador(controlador);
-        vistaAnadirAdministrativo.setControlador(controlador);
+        vistaAnadirDirector.setControlador(controlador);
         vistaAnadirEmpresa.setControlador(controlador);
         vistaAsignarPracticas.setControlador(controlador);
         vistaModificarPracticas.setControlador(controlador);
@@ -54,7 +52,7 @@ public class Main {
         vistaPracticas.setControlador(controlador);
         vistaContenedorPrincipal.setControlador(controlador);
         //conetenedorTutor.setControlador(controlador);
-        vistaPrincipalAdministrativo.setControlador(controlador);
+        vistaPrincipalDirector.setControlador(controlador);
         vistaPrincipalTutor.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
         vistaRegistro.setControlador(controlador);
@@ -67,7 +65,7 @@ public class Main {
         controlador.setVistaAlumnos(vistaAlumnos);
         controlador.setVistaAnadirAlumno(vistaAnadirAlumno);
         controlador.setVistaAnadirTutor(vistaAnadirTutor);
-        controlador.setVistaAnadirAdministrativo(vistaAnadirAdministrativo);
+        controlador.setVistaAnadirDirector(vistaAnadirDirector);
         controlador.setVistaAnadirEmpresa(vistaAnadirEmpresa);
         controlador.setVistaAsignarPracticas(vistaAsignarPracticas);
         controlador.setVistaModificarPracticas(vistaModificarPracticas);
@@ -81,7 +79,7 @@ public class Main {
         controlador.setVistaLogin(vistaLogin);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
         controlador.setVistaContenedorPrincipal(vistaContenedorPrincipal);
-        controlador.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
+        controlador.setVistaPrincipalDirector(vistaPrincipalDirector);
         controlador.setVistaPrincipalTutor(vistaPrincipalTutor);
         controlador.setVistaRecuperarPswd(vistaRecuperarPswd);
         controlador.setVistaRegistro(vistaRegistro);
@@ -103,7 +101,7 @@ public class Main {
         vistaGrupos.setModelo(modelo);
         vistaPersonal.setModelo(modelo);
         vistaPracticas.setModelo(modelo);
-        vistaPrincipalAdministrativo.setModelo(modelo);
+        vistaPrincipalDirector.setModelo(modelo);
         vistaPrincipalTutor.setModelo(modelo);
         vistaTutores.setModelo(modelo);
 
@@ -121,7 +119,7 @@ public class Main {
         modelo.setVistaGrupos(vistaGrupos);
         modelo.setVistaPracticas(vistaPracticas);
         modelo.setVistaPrincipalTutor(vistaPrincipalTutor);
-        modelo.setVistaPrincipalAdministrativo(vistaPrincipalAdministrativo);
+        modelo.setVistaPrincipalDirector(vistaPrincipalDirector);
         modelo.setVistaTutores(vistaTutores);
         modelo.setVistaPersonal(vistaPersonal);
         modelo.setVistaRegistro(vistaRegistro);
