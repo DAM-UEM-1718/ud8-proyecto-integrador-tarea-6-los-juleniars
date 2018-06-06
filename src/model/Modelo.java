@@ -78,7 +78,7 @@ public class Modelo {
     private String queryInicioSesion = "SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;";
     private String queryMail = "SELECT MAIL FROM USERS WHERE USR = ?;";
     private String queryAlumnosTutor = "SELECT ESTUDIANTE.NUM_MAT, NOM, CONCAT(APELL1, CONCAT(' ', APELL2)), DNI FROM ESTUDIANTE, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND  COD_GRUPO = ?;";
-    private String queryPracticasTutor = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV, ANEXO_2, ANEXO_3, ANEXO_4, ANEXO_5 FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ?;";
+    private String queryPracticasTutor = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV, ANEXO_2, ANEXO_3, ANEXO_4, ANEXO_5 FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA, GRUPO_ESTUDIANTE WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ESTUDIANTE.NUM_MAT = GRUPO_ESTUDIANTE.NUM_MAT AND COD_GRUPO = ? AND ANO_ACADEMICO = ?;";
     private String queryPracticasDirector = "SELECT CONCAT(ESTUDIANTE.NOM, CONCAT(' ', CONCAT(ESTUDIANTE.APELL1, CONCAT(' ', ESTUDIANTE.APELL2)))), NOM_EMPR, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO, ESTUDIANTE.NUM_MAT, EMPRESA.NUM_CONV, ANEXO_2, ANEXO_3, ANEXO_4, ANEXO_5 FROM EMPRESA_ESTUDIANTE, ESTUDIANTE, EMPRESA WHERE ESTUDIANTE.NUM_MAT = EMPRESA_ESTUDIANTE.NUM_MAT AND EMPRESA.NUM_CONV = EMPRESA_ESTUDIANTE.NUM_CONV AND ANO_ACADEMICO = ?;";
     private String queryGruposTutor = "SELECT NOM_GRUPO, COD_GRUPO FROM GRUPO WHERE USR = ?;";
     private String queryGruposDirector = "SELECT COD_GRUPO FROM GRUPO;";
@@ -116,8 +116,8 @@ public class Modelo {
     //Queries DELETE
     private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
 
-    private String queryEliminarGrupoEstudiante="DELETE FROM GRUPO_ESTUDIANTE WHERE NUM_MAT = ?;";
-    private String queryEliminarAlumno="DELETE FROM ESTUDIANTE WHERE NUM_MAT = ?;";
+    private String queryEliminarGrupoEstudiante = "DELETE FROM GRUPO_ESTUDIANTE WHERE NUM_MAT = ?;";
+    private String queryEliminarAlumno = "DELETE FROM ESTUDIANTE WHERE NUM_MAT = ?;";
 
 
     public Modelo(VistaLogin vistaLogin) {
@@ -324,6 +324,7 @@ public class Modelo {
                 case 0:
                     PreparedStatement stmtTutor = connection.prepareStatement(queryPracticasTutor);
                     stmtTutor.setInt(1, codGrupo);
+                    stmtTutor.setInt(2, anoAcademico);
                     tablaPracticas = crearModelo(arrayNombres, stmtTutor);
                     break;
                 case 1:
@@ -659,11 +660,11 @@ public class Modelo {
      */
     public void eliminarAlumno(int numMat) {
         try {
-            PreparedStatement stmtGrupoEstudiante=connection.prepareStatement(queryEliminarGrupoEstudiante);
-            stmtGrupoEstudiante.setInt(1,numMat);
+            PreparedStatement stmtGrupoEstudiante = connection.prepareStatement(queryEliminarGrupoEstudiante);
+            stmtGrupoEstudiante.setInt(1, numMat);
             stmtGrupoEstudiante.executeUpdate();
-            PreparedStatement stmtAlumno=connection.prepareStatement(queryEliminarAlumno);
-            stmtAlumno.setInt(1,numMat);
+            PreparedStatement stmtAlumno = connection.prepareStatement(queryEliminarAlumno);
+            stmtAlumno.setInt(1, numMat);
             stmtAlumno.executeUpdate();
             cargarAlumnos();
         } catch (SQLException e) {
@@ -671,7 +672,7 @@ public class Modelo {
         }
     }
 
-    private void cargarAlumnos(){
+    private void cargarAlumnos() {
         switch (tipoUsuario) {
             case 0:
                 cargarAlumnosTutor();
