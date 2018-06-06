@@ -29,6 +29,7 @@ public class Modelo {
     private final String FICHERO;
 
     private VistaAlumnos vistaAlumnos;
+    private VistaAnadirGrupo vistaAnadirGrupo;
     private VistaAsignarPracticas vistaAsignarPracticas;
     private VistaModificarPracticas vistaModificarPracticas;
     private VistaLogin vistaLogin;
@@ -58,13 +59,17 @@ public class Modelo {
     private Properties propiedades;
     private FileInputStream entrada;
 
-    private int numeroAsignados;
-    private int numeroPorAsignar;
-    private int clasesPorAsignar;
+
     private DefaultComboBoxModel<ComboItem> modeloGrupos;
     private DefaultComboBoxModel<ComboItem> modeloCmbAlumnos;
     private DefaultComboBoxModel<ComboItem> modeloCmbEmpresas;
     private DefaultComboBoxModel<Integer> modeloCmbAnos;
+    private DefaultComboBoxModel<ComboItem> modeloCmbCiclos;
+    private DefaultComboBoxModel<ComboItem> modeloCmbTutores;
+
+    private int numeroAsignados;
+    private int numeroPorAsignar;
+    private int clasesPorAsignar;
     private DefaultTableModel tablaAlumnos;
     private DefaultTableModel tablaPracticas;
     private DefaultTableModel tablaPracticasTutor;
@@ -98,6 +103,10 @@ public class Modelo {
     private String queryAnoAcademico = "SELECT ANO FROM ANO_ACADEMICO ORDER BY ANO DESC;";
     private String queryFechaLimite = "SELECT FECHA_LIMITE FROM ANO_ACADEMICO WHERE ANO = ?;";
 
+    private String queryComboCiclos = "SELECT NOM_CICLO, CLAVE_CICLO FROM CICLO;";
+    private String queryComboTutor = "SELECT NOMBRE, USR FROM USERS WHERE ROLE = 0;";
+
+
     //Queries INSERT
     private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -107,6 +116,8 @@ public class Modelo {
     private String queryInsertarAlumno = "INSERT INTO ESTUDIANTE (NUM_MAT, NOM, APELL1, APELL2, DNI) VALUES (?, ?, ?, ?, ?);";
     private String queryInsertarGrupoEstudiante = "INSERT INTO GRUPO_ESTUDIANTE (COD_GRUPO, NUM_MAT) VALUES (?, ?);";
 
+    private String queryAnadirGrupo = "INSERT INTO GRUPO (NOM_GRUPO, COD_GRUPO, CLAVE_CICLO, USR) VALUES (?, ?, ?, ?)";
+
     //Queries UPDATE
     private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
     private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
@@ -115,6 +126,8 @@ public class Modelo {
 
     private String queryModificarUsuario = "UPDATE USERS SET NOMBRE = ?, MAIL = ?, NIF = ? WHERE USR = ?;";
 
+    private String queryModificarGrupo = "UPDATE GRUPO SET NOM_GRUPO = ?, CLAVE_CICLO = ?, USR = ? WHERE COD_GRUPO = ?;";
+
     //Queries DELETE
     private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
 
@@ -122,6 +135,8 @@ public class Modelo {
     private String queryEliminarAlumno = "DELETE FROM ESTUDIANTE WHERE NUM_MAT = ?;";
 
     private String queryEliminarUsuario = "DELETE FROM USERS WHERE USR = ?;";
+
+    private String queryEliminarGrupo = "DELETE FROM GRUPO WHERE COD_GRUPO = ?;";
 
 
     public Modelo(VistaLogin vistaLogin) {
@@ -591,7 +606,7 @@ public class Modelo {
      * Popula los combo box de asignar prácticas
      */
     public void cargarAsignarPracticas() {
-        Vector<ComboItem> alumnos = new Vector<ComboItem>();
+        Vector<ComboItem> alumnos = new Vector<>();
         Vector<ComboItem> empresas = new Vector<>();
         try {
             PreparedStatement stmtAlumnos = null;
@@ -617,6 +632,85 @@ public class Modelo {
             modeloCmbEmpresas = new DefaultComboBoxModel<>(empresas);
             vistaAsignarPracticas.cargarCmbs();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Popula los ComboBox de añadir grupo
+     */
+    public void cargarAnadirGrupo() {
+        Vector<ComboItem> ciclos = new Vector<>();
+        Vector<ComboItem> tutores = new Vector<>();
+        try {
+            PreparedStatement stmtCiclos = connection.prepareStatement(queryComboCiclos);
+            ResultSet resultSetAlumnos = stmtCiclos.executeQuery();
+            while (resultSetAlumnos.next()) {
+                ciclos.add(new ComboItem(resultSetAlumnos.getString(1), resultSetAlumnos.getString(2)));
+            }
+            PreparedStatement stmtEmpresas = connection.prepareStatement(queryComboTutor);
+            ResultSet resultSetEmpresas = stmtEmpresas.executeQuery();
+            while (resultSetEmpresas.next()) {
+                tutores.add(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
+            }
+            modeloCmbCiclos = new DefaultComboBoxModel<>(ciclos);
+            modeloCmbTutores = new DefaultComboBoxModel<>(tutores);
+            vistaAnadirGrupo.cargarCmbs();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Añade un grupo a la base de datos dados los parámetros
+     *
+     * @param nombre
+     * @param codGrupo
+     * @param claveCiclo
+     * @param usuarioTutor
+     */
+    public void anadirGrupo(String nombre, int codGrupo, int claveCiclo, String usuarioTutor) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryAnadirGrupo);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setInt(2, codGrupo);
+            preparedStatement.setInt(3, claveCiclo);
+            preparedStatement.setString(4, usuarioTutor);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Modifica un grupo en la base de datos datos los parámetros
+     */
+    public void modificarGrupo(String nombre, int codGrupo, int claveCiclo, String usuarioTutor) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryModificarGrupo);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setInt(2, claveCiclo);
+            preparedStatement.setString(3, usuarioTutor);
+            preparedStatement.setInt(4, codGrupo);
+            preparedStatement.executeUpdate();
+            cargarGrupos();
+        } catch (SQLException e) {
+            vistaGrupos.errorEliminar();
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Elimina el grupo con el código indicado
+     */
+    public void eliminarGrupo(int codGrupo) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarGrupo);
+            preparedStatement.setInt(1, codGrupo);
+            preparedStatement.executeUpdate();
+            cargarGrupos();
+        } catch (SQLException e) {
+            vistaGrupos.errorEliminar();
             e.printStackTrace();
         }
     }
@@ -940,7 +1034,21 @@ public class Modelo {
         return fechaLimite;
     }
 
-    //Clase interna para los objetos de las comboBoxes
+    public DefaultComboBoxModel<ComboItem> getModeloCmbCiclos() {
+        return modeloCmbCiclos;
+    }
+
+    public DefaultComboBoxModel<ComboItem> getModeloCmbTutores() {
+        return modeloCmbTutores;
+    }
+
+    public void setVistaAnadirGrupo(VistaAnadirGrupo vistaAnadirGrupo) {
+        this.vistaAnadirGrupo = vistaAnadirGrupo;
+    }
+
+    /**
+     * Clase interna para los objetos de las comboBoxes
+     */
     public class ComboItem {
         private String key;
         private String value;

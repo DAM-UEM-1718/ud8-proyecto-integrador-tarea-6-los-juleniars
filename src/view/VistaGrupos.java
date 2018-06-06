@@ -17,6 +17,8 @@ public class VistaGrupos extends JPanel implements Vista {
     //private JPanel contentPane;
     private JTable table;
 
+    private JLabel lblError;
+
     public VistaGrupos() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -39,41 +41,49 @@ public class VistaGrupos extends JPanel implements Vista {
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
         JButton btnAnadirGrupo = new JButton("Añadir Grupo");
-        btnAnadirGrupo.addActionListener(e -> {
-        });
+        btnAnadirGrupo.addActionListener(e -> controlador.mostrarAnadirGrupo());
 
         JButton btnEliminarGrupo = new JButton("Eliminar Grupo");
-        btnEliminarGrupo.addActionListener(e -> {
-        });
+        btnEliminarGrupo.setEnabled(false);
+        btnEliminarGrupo.addActionListener(e -> controlador.eliminarGrupo());
 
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(e -> controlador.cerrarGrupos());
+        JButton btnModificarGrupo = new JButton("Modificar Grupo");
+        btnModificarGrupo.addActionListener(e -> controlador.mostrarModificarGrupo());
+        btnModificarGrupo.setEnabled(false);
+
+        lblError = new JLabel("");
+        lblError.setForeground(Color.RED);
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
-                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-                                        .addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                                        .addComponent(lblTitulo, Alignment.LEADING)
-                                        .addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+                gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                .addComponent(lblTitulo)
+                                                .addPreferredGap(ComponentPlacement.RELATED, 571, Short.MAX_VALUE)
+                                                .addComponent(lblError))
+                                        .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnAnadirGrupo)
                                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                                .addComponent(btnEliminarGrupo)
-                                                .addPreferredGap(ComponentPlacement.RELATED, 398, Short.MAX_VALUE)
-                                                .addComponent(btnVolver)))
+                                                .addComponent(btnModificarGrupo)
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addComponent(btnEliminarGrupo)))
                                 .addContainerGap())
         );
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addGap(23)
-                                .addComponent(lblTitulo)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(lblTitulo)
+                                        .addComponent(lblError))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnAnadirGrupo)
-                                        .addComponent(btnVolver)
+                                        .addComponent(btnModificarGrupo)
                                         .addComponent(btnEliminarGrupo))
                                 .addContainerGap())
         );
@@ -82,6 +92,26 @@ public class VistaGrupos extends JPanel implements Vista {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(table);
         setLayout(gl_contentPane);
+        table.getSelectionModel().addListSelectionListener(e -> {
+            btnModificarGrupo.setEnabled(!table.getSelectionModel().isSelectionEmpty());
+            btnEliminarGrupo.setEnabled(!table.getSelectionModel().isSelectionEmpty());
+        });
+    }
+
+    public void errorEliminar() {
+        lblError.setText("No se puede eliminar un grupo con alumnos asignados.");
+    }
+
+    public void limpiarError() {
+        lblError.setText("");
+    }
+
+    public String getNombreSeleccionado() {
+        return (String) table.getValueAt(table.getSelectedRow(), 1);
+    }
+
+    public int getCodigoSeleccionado() {
+        return (Integer) table.getValueAt(table.getSelectedRow(), 0);
     }
 
     public void cargarTabla() {

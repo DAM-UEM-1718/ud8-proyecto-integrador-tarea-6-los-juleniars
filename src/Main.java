@@ -8,10 +8,11 @@ public class Main {
 
         //Creamos las vistas
         VistaAlumnos vistaAlumnos = new VistaAlumnos();
-        VistaAnadirAlumno vistaAnadirAlumno=new VistaAnadirAlumno();
+        VistaAnadirAlumno vistaAnadirAlumno = new VistaAnadirAlumno();
         VistaAnadirTutor vistaAnadirTutor = new VistaAnadirTutor();
         VistaAnadirDirector vistaAnadirDirector = new VistaAnadirDirector();
         VistaAnadirEmpresa vistaAnadirEmpresa = new VistaAnadirEmpresa();
+        VistaAnadirGrupo vistaAnadirGrupo = new VistaAnadirGrupo();
         VistaAsignarPracticas vistaAsignarPracticas = new VistaAsignarPracticas();
         VistaModificarPracticas vistaModificarPracticas = new VistaModificarPracticas();
         VistaConfigFichero vistaConfigFichero = new VistaConfigFichero();
@@ -41,6 +42,7 @@ public class Main {
         vistaAnadirTutor.setControlador(controlador);
         vistaAnadirDirector.setControlador(controlador);
         vistaAnadirEmpresa.setControlador(controlador);
+        vistaAnadirGrupo.setControlador(controlador);
         vistaAsignarPracticas.setControlador(controlador);
         vistaModificarPracticas.setControlador(controlador);
         vistaConfigFichero.setControlador(controlador);
@@ -67,6 +69,7 @@ public class Main {
         controlador.setVistaAnadirTutor(vistaAnadirTutor);
         controlador.setVistaAnadirDirector(vistaAnadirDirector);
         controlador.setVistaAnadirEmpresa(vistaAnadirEmpresa);
+        controlador.setVistaAnadirGrupo(vistaAnadirGrupo);
         controlador.setVistaAsignarPracticas(vistaAsignarPracticas);
         controlador.setVistaModificarPracticas(vistaModificarPracticas);
         controlador.setVistaConfigFichero(vistaConfigFichero);
@@ -94,6 +97,7 @@ public class Main {
 
         //Asignamos el modelo a las vistas
         vistaAlumnos.setModelo(modelo);
+        vistaAnadirGrupo.setModelo(modelo);
         vistaAsignarPracticas.setModelo(modelo);
         vistaConfigFichero.setModelo(modelo);
         vistaModificarPracticas.setModelo(modelo);
@@ -111,6 +115,7 @@ public class Main {
         //Asignamos las vistas al modelo
         modelo.setVistaAlumnos(vistaAlumnos);
         modelo.setVistaAsignarPracticas(vistaAsignarPracticas);
+        modelo.setVistaAnadirGrupo(vistaAnadirGrupo);
         modelo.setVistaModificarPracticas(vistaModificarPracticas);
         modelo.setVistaLogin(vistaLogin);
         modelo.setVistaConfigFichero(vistaConfigFichero);

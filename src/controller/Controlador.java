@@ -16,6 +16,7 @@ public class Controlador {
     private VistaAnadirTutor vistaAnadirTutor;
     private VistaAnadirDirector vistaAnadirDirector;
     private VistaAnadirEmpresa vistaAnadirEmpresa;
+    private VistaAnadirGrupo vistaAnadirGrupo;
     private VistaAsignarPracticas vistaAsignarPracticas;
     private VistaModificarPracticas vistaModificarPracticas;
     private VistaConfigFichero vistaConfigFichero;
@@ -408,6 +409,37 @@ public class Controlador {
         modelo.eliminarUsuario(vistaTutores.getUsuarioSeleccionado());
     }
 
+    public void mostrarAnadirGrupo() {
+        modelo.cargarAnadirGrupo();
+        vistaAnadirGrupo.setAnadir();
+        vistaAnadirGrupo.setVisible(true);
+    }
+
+    public void mostrarModificarGrupo() {
+        modelo.cargarAnadirGrupo();
+        vistaAnadirGrupo.setModificar(vistaGrupos.getNombreSeleccionado(), vistaGrupos.getCodigoSeleccionado());
+        vistaAnadirGrupo.setVisible(true);
+    }
+
+    public void anadirGrupo() {
+        String nombre = vistaAnadirGrupo.getNombre();
+        int codigo = vistaAnadirGrupo.getCodigo();
+        int claveCiclo = vistaAnadirGrupo.getCiclo();
+        String usuarioTutor = vistaAnadirGrupo.getTutor();
+        modelo.anadirGrupo(nombre, codigo, claveCiclo, usuarioTutor);
+        modelo.cargarGrupos();
+        vistaAnadirGrupo.setVisible(false);
+    }
+
+    public void modificarGrupo() {
+        modelo.modificarGrupo(vistaAnadirGrupo.getNombre(), vistaAnadirGrupo.getCodigo(), vistaAnadirGrupo.getCiclo(), vistaAnadirGrupo.getTutor());
+        vistaAnadirGrupo.setVisible(false);
+    }
+
+    public void eliminarGrupo() {
+        modelo.eliminarGrupo(vistaGrupos.getCodigoSeleccionado());
+    }
+
     public void cambiarContrasena() {
         if (vistaConfiguracion.getPswContrasena().equals(vistaConfiguracion.getPswConfirmarContrasena())) {
             modelo.cambiarContrasena(vistaConfiguracion.getPswContrasena());
@@ -511,5 +543,9 @@ public class Controlador {
 
     public void setVistaAnadirAlumno(VistaAnadirAlumno vistaAnadirAlumno) {
         this.vistaAnadirAlumno = vistaAnadirAlumno;
+    }
+
+    public void setVistaAnadirGrupo(VistaAnadirGrupo vistaAnadirGrupo) {
+        this.vistaAnadirGrupo = vistaAnadirGrupo;
     }
 }
