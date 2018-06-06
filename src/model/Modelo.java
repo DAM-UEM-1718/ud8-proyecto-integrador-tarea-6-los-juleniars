@@ -142,7 +142,7 @@ public class Modelo {
 
     private String queryEliminarGrupo = "DELETE FROM GRUPO WHERE COD_GRUPO = ?;";
 
-    private String queryEliminarEmpresa = "DELETE FROM EMPRESA WHERE NUM_CONV;";
+    private String queryEliminarEmpresa = "DELETE FROM EMPRESA WHERE NUM_CONV = ?;";
 
 
     public Modelo(VistaLogin vistaLogin) {
@@ -772,6 +772,7 @@ public class Modelo {
             PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarEmpresa);
             preparedStatement.setInt(1, numConv);
             preparedStatement.executeUpdate();
+            cargarEmpresas();
         } catch (SQLException e) {
             e.printStackTrace();
             vistaEmpresa.errorEliminar();
