@@ -25,6 +25,11 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
 
     private boolean modificar;
     private JButton btnAnadir;
+    private JLabel lblNombre;
+    private JLabel lblNMatrcula;
+    private JLabel lblPrimerApellido;
+    private JLabel lblSegundoApellido;
+    private JLabel lblDni;
 
     public VistaAnadirAlumno() {
 
@@ -62,37 +67,66 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
 
         txtApellido2 = new JTextField();
         txtApellido2.setColumns(10);
+
+        lblNombre = new JLabel("Nombre");
+
+        lblNMatrcula = new JLabel("N. Matrícula");
+
+        lblPrimerApellido = new JLabel("Primer Apellido");
+
+        lblSegundoApellido = new JLabel("Segundo Apellido");
+
+        lblDni = new JLabel("DNI");
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
+                gl_contentPane.createParallelGroup(Alignment.TRAILING)
                         .addGroup(gl_contentPane.createSequentialGroup()
-                                .addGap(21)
+                                .addContainerGap(104, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-                                        .addComponent(btnAnadir)
-                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                .addComponent(txtDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtApellido1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtNumMat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtApellido2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(317, Short.MAX_VALUE))
+                                        .addComponent(lblNombre)
+                                        .addComponent(lblNMatrcula)
+                                        .addComponent(lblPrimerApellido)
+                                        .addComponent(lblSegundoApellido)
+                                        .addComponent(lblDni))
+                                .addGap(28)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                        .addComponent(txtDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtApellido2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtApellido1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNumMat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addGap(124))
+                        .addGroup(gl_contentPane.createSequentialGroup()
+                                .addGap(181)
+                                .addComponent(btnAnadir)
+                                .addContainerGap(180, Short.MAX_VALUE))
         );
         gl_contentPane.setVerticalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addGap(40)
-                                .addComponent(txtNumMat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18)
-                                .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18)
-                                .addComponent(txtApellido1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(3)
-                                .addComponent(txtApellido2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtNumMat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblNMatrcula))
                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                .addComponent(txtDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblNombre))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                                        .addComponent(txtApellido1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblPrimerApellido))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtApellido2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblSegundoApellido))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblDni))
                                 .addGap(18)
                                 .addComponent(btnAnadir)
-                                .addContainerGap(25, Short.MAX_VALUE))
+                                .addContainerGap(46, Short.MAX_VALUE))
         );
         contentPane.setLayout(gl_contentPane);
         DocumentListener documentListener = new DocumentListener() {
@@ -112,12 +146,11 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
         txtNumMat.getDocument().addDocumentListener(documentListener);
         txtNombre.getDocument().addDocumentListener(documentListener);
         txtApellido1.getDocument().addDocumentListener(documentListener);
-        txtApellido2.getDocument().addDocumentListener(documentListener);
         txtDNI.getDocument().addDocumentListener(documentListener);
     }
 
     private void changed() {
-        if (txtNumMat.getText().equals("") || txtNombre.getText().equals("") || txtApellido1.getText().equals("") || txtApellido2.getText().equals("") || txtDNI.getText().equals("")) {
+        if (txtNumMat.getText().equals("") || txtNombre.getText().equals("") || txtApellido1.getText().equals("") || txtDNI.getText().equals("")) {
             btnAnadir.setEnabled(false);
         } else {
             btnAnadir.setEnabled(true);
@@ -133,6 +166,7 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
     }
 
     public void setAnadir() {
+        limpiarCampos();
         modificar = false;
         setTitle("Añadir Alumno");
         btnAnadir.setText("Añadir");
