@@ -118,6 +118,8 @@ public class Modelo {
 
     private String queryAnadirGrupo = "INSERT INTO GRUPO (NOM_GRUPO, COD_GRUPO, CLAVE_CICLO, USR) VALUES (?, ?, ?, ?)";
 
+    private String queryAnadirEmpresa = "INSERT INTO EMPRESA (NUM_CONV, NOM_EMPR, F_FIRMA, LOCALIDAD, DIRECCION, REPR_EMPR, CORREO_EMPR) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
     //Queries UPDATE
     private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
     private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
@@ -128,6 +130,8 @@ public class Modelo {
 
     private String queryModificarGrupo = "UPDATE GRUPO SET NOM_GRUPO = ?, CLAVE_CICLO = ?, USR = ? WHERE COD_GRUPO = ?;";
 
+    private String queryModificarEmpresa = "UPDATE EMPRESA SET NOM_EMPR = ?, F_FIRMA = ?, LOCALIDAD = ?, DIRECCION = ?, REPR_EMPR = ?, CORREO_EMPR = ? WHERE NUM_CONV = ?;";
+
     //Queries DELETE
     private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
 
@@ -137,6 +141,8 @@ public class Modelo {
     private String queryEliminarUsuario = "DELETE FROM USERS WHERE USR = ?;";
 
     private String queryEliminarGrupo = "DELETE FROM GRUPO WHERE COD_GRUPO = ?;";
+
+    private String queryEliminarEmpresa = "DELETE FROM EMPRESA WHERE NUM_CONV;";
 
 
     public Modelo(VistaLogin vistaLogin) {
@@ -712,6 +718,63 @@ public class Modelo {
         } catch (SQLException e) {
             vistaGrupos.errorEliminar();
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Inserta una empresa en la base de datos dados los parámetros
+     */
+    public void anadirEmpresa(int numConv, String nombre, Date fechaFirma, String localidad, String direccion, String representante, String mail) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryAnadirEmpresa);
+            //NUM_CONV, NOM_EMPR, F_FIRMA, LOCALIDAD, DIRECCION, REPR_EMPR, CORREO_EMPR
+            preparedStatement.setInt(1, numConv);
+            preparedStatement.setString(2, nombre);
+            preparedStatement.setDate(3, new java.sql.Date(fechaFirma.getTime()));
+            preparedStatement.setString(4, localidad);
+            preparedStatement.setString(5, direccion);
+            preparedStatement.setString(6, representante);
+            preparedStatement.setString(7, mail);
+            preparedStatement.executeUpdate();
+            cargarEmpresas();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Modifica una empresa dados los parámetros
+     */
+    public void modificarEmpresa(int numConv, String nombre, Date fechaFirma, String localidad, String direccion, String representante, String mail) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryModificarEmpresa);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setDate(2, new java.sql.Date(fechaFirma.getTime()));
+            preparedStatement.setString(3, localidad);
+            preparedStatement.setString(4, direccion);
+            preparedStatement.setString(5, representante);
+            preparedStatement.setString(6, mail);
+            preparedStatement.setInt(7, numConv);
+            preparedStatement.executeUpdate();
+            cargarEmpresas();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Elimina una emrpesa dado su número de convenio
+     *
+     * @param numConv
+     */
+    public void eliminarEmpresa(int numConv) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarEmpresa);
+            preparedStatement.setInt(1, numConv);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            vistaEmpresa.errorEliminar();
         }
     }
 

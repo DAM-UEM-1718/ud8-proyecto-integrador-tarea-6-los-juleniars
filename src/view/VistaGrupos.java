@@ -102,10 +102,6 @@ public class VistaGrupos extends JPanel implements Vista {
         lblError.setText("No se puede eliminar un grupo con alumnos asignados.");
     }
 
-    public void limpiarError() {
-        lblError.setText("");
-    }
-
     public String getNombreSeleccionado() {
         return (String) table.getValueAt(table.getSelectedRow(), 1);
     }
@@ -115,6 +111,7 @@ public class VistaGrupos extends JPanel implements Vista {
     }
 
     public void cargarTabla() {
+        lblError.setText("");
         table.setModel(modelo.getTablaGrupos());
     }
 

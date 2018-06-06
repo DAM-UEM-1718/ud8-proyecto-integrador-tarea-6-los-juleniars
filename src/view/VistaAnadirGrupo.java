@@ -139,7 +139,7 @@ public class VistaAnadirGrupo extends JFrame implements Vista {
         }
     }
 
-    public void limpiarCampos() {
+    private void limpiarCampos() {
         txtNombre.setText("");
         txtCodigo.setText("");
     }

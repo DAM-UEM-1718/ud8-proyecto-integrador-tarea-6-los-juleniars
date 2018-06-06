@@ -278,16 +278,6 @@ public class Controlador {
         abrirPanelUsuario();
     }
 
-    public void cerrarEmpresas() {
-        vistaEmpresa.setVisible(false);
-        abrirPanelUsuario();
-    }
-
-    public void cerrarPracticas() {
-        vistaPracticas.setVisible(false);
-        abrirPanelUsuario();
-    }
-
     public void mostrarPersonal() {
         modelo.cargarPersonal();
         cerrarPanelUsuario();
@@ -440,6 +430,51 @@ public class Controlador {
         modelo.eliminarGrupo(vistaGrupos.getCodigoSeleccionado());
     }
 
+    public void mostrarAnadirEmpresa() {
+        vistaAnadirEmpresa.setAnadir();
+        vistaAnadirEmpresa.setVisible(true);
+    }
+
+    public void mostrarModificarEmpresa() {
+        int numConv = vistaEmpresa.getNumConvenioSeleccionado();
+        String nombre = vistaEmpresa.getNombreSeleccionad();
+        Date fechaFirma = vistaEmpresa.getFechaSeleccionada();
+        String localidad = vistaEmpresa.getLocalidadSeleccionad();
+        String direccion = vistaEmpresa.getDireccionSeleccionad();
+        String representante = vistaEmpresa.getRepresentanteSeleccionado();
+        String mail = vistaEmpresa.getMailSeleccionado();
+        vistaAnadirEmpresa.setModificar(nombre, fechaFirma, numConv, mail, direccion, localidad, representante);
+        vistaAnadirEmpresa.setVisible(true);
+    }
+
+    public void anadirEmpresa() {
+        int numConv = vistaAnadirEmpresa.getConvenio();
+        String nombre = vistaAnadirEmpresa.getTxtNombre();
+        Date fechaFirma = vistaAnadirEmpresa.getFechaFirma();
+        String localidad = vistaAnadirEmpresa.getTxtLocalidad();
+        String direccion = vistaAnadirEmpresa.getTxtDireccion();
+        String representante = vistaAnadirEmpresa.getTxtRepresentante();
+        String mail = vistaAnadirEmpresa.getTxtMail();
+        modelo.anadirEmpresa(numConv, nombre, fechaFirma, localidad, direccion, representante, mail);
+        vistaAnadirEmpresa.setVisible(false);
+    }
+
+    public void modificarEmpresa() {
+        int numConv = vistaEmpresa.getNumConvenioSeleccionado();
+        String nombre = vistaEmpresa.getNombreSeleccionad();
+        Date fechaFirma = vistaAnadirEmpresa.getFechaFirma();
+        String localidad = vistaEmpresa.getLocalidadSeleccionad();
+        String direccion = vistaEmpresa.getDireccionSeleccionad();
+        String representante = vistaEmpresa.getRepresentanteSeleccionado();
+        String mail = vistaEmpresa.getMailSeleccionado();
+        modelo.modificarEmpresa(numConv, nombre, fechaFirma, localidad, direccion, representante, mail);
+        vistaAnadirEmpresa.setVisible(false);
+    }
+
+    public void eliminarEmpresa() {
+        modelo.eliminarEmpresa(vistaEmpresa.getNumConvenioSeleccionado());
+    }
+
     public void cambiarContrasena() {
         if (vistaConfiguracion.getPswContrasena().equals(vistaConfiguracion.getPswConfirmarContrasena())) {
             modelo.cambiarContrasena(vistaConfiguracion.getPswContrasena());
@@ -515,14 +550,6 @@ public class Controlador {
 
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
         this.vistaAnadirEmpresa = vistaAnadirEmpresa;
-    }
-
-    public void mostrarAnadirEmpresa() {
-        vistaAnadirEmpresa.setVisible(true);
-    }
-
-    public void anadirEmpresa() {
-        vistaAnadirEmpresa.setVisible(false);
     }
 
     public void setVistaRegistro(VistaRegistro vistaRegistro) {
