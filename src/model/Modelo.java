@@ -101,7 +101,7 @@ public class Modelo {
     //Queries INSERT
     private String queryAsignarPracticas = "INSERT INTO EMPRESA_ESTUDIANTE (NUM_MAT, NUM_CONV, TUT_EMPR, FECHA_INICIO, FECH_FIN, HORARIO, LOCALIZACION, ERASMUS, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    private String queryInsertarUsuario = "INSERT INTO USERS (USR, PWD, ROLE, MAIL) VALUES (?, ?, ?, ?);";
+    private String queryInsertarUsuario = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
     private String queryRegistrotutor = "INSERT INTO USERS (NOMBRE, USR, PWD, ROLE, MAIL, NIF) VALUES (?, ?, ?, ?, ?, ?);";
 
     private String queryInsertarAlumno = "INSERT INTO ESTUDIANTE (NUM_MAT, NOM, APELL1, APELL2, DNI) VALUES (?, ?, ?, ?, ?);";
@@ -113,11 +113,15 @@ public class Modelo {
 
     private String queryModificarAlumno = "UPDATE ESTUDIANTE SET NOM = ?, APELL1 = ?, APELL2 = ?, DNI = ? WHERE NUM_MAT = ?";
 
+    private String queryModificarUsuario = "UPDATE USERS SET NOMBRE = ?, MAIL = ?, NIF = ? WHERE USR = ?;";
+
     //Queries DELETE
     private String queryEliminarPracticas = "DELETE FROM EMPRESA_ESTUDIANTE WHERE NUM_MAT = ? AND NUM_CONV = ?;";
 
     private String queryEliminarGrupoEstudiante = "DELETE FROM GRUPO_ESTUDIANTE WHERE NUM_MAT = ?;";
     private String queryEliminarAlumno = "DELETE FROM ESTUDIANTE WHERE NUM_MAT = ?;";
+
+    private String queryEliminarUsuario = "DELETE FROM USERS WHERE USR = ?;";
 
 
     public Modelo(VistaLogin vistaLogin) {
@@ -236,17 +240,21 @@ public class Modelo {
         }
     }
 
-    //Método que crea un usuario, lo mete en la base de datos y le envía una contraseña aleatoria
-    public void generarUsuario(String expediente, String mail, byte role) {
+    /**
+     * Método que crea un usuario, lo mete en la base de datos y le envía una contraseña aleatoria
+     */
+    public void generarUsuario(String nombre, String nombreUsuario, String mail, String dni, byte role) {
         try {
             String contrasenaAleatoria = contrasenaAleatoria();
             PreparedStatement preparedStatement = connection.prepareStatement(queryInsertarUsuario);
-            preparedStatement.setString(1, expediente.toLowerCase());
-            preparedStatement.setString(2, hash256(contrasenaAleatoria));
-            preparedStatement.setInt(3, role);
-            preparedStatement.setString(4, mail);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, nombreUsuario.toLowerCase());
+            preparedStatement.setString(3, hash256(contrasenaAleatoria));
+            preparedStatement.setInt(4, role);
+            preparedStatement.setString(5, mail);
+            preparedStatement.setString(6, dni);
             String contenidoMail = "<html><body>Bienvenido a la aplicación de Gestión de Prácticas de CFGS de la Universidad Europea. <br>" +
-                    "Su usuario es: " + expediente + "<br>" +
+                    "Su usuario es: " + nombreUsuario + "<br>" +
                     "Su contraseña es: " + contrasenaAleatoria +
                     "</body></html>";
             enviarMail(mail, "Nuevo Usuario", contenidoMail);
@@ -257,6 +265,32 @@ public class Modelo {
             vistaLogin.errorCrearUsuario();
         }
 
+    }
+
+    public void modificarUsuario(String nombre, String nombreUsuario, String mail, String dni) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryModificarUsuario);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, mail);
+            preparedStatement.setString(3, dni);
+            preparedStatement.setString(4, nombreUsuario);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void eliminarUsuario(String nombreUsuario) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarUsuario);
+            preparedStatement.setString(1, nombreUsuario);
+            preparedStatement.executeUpdate();
+            cargarTutores();
+        } catch (SQLException e) {
+            vistaTutores.errorEliminar();
+            //e.printStackTrace();
+        }
     }
 
     /**

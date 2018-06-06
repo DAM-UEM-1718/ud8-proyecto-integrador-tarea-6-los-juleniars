@@ -374,18 +374,38 @@ public class Controlador {
     }
 
     public void anadirTutor() {
-        modelo.generarUsuario(vistaAnadirTutor.getTxtExpediente(), vistaAnadirTutor.getTxtMail(), (byte) 0);
+        modelo.generarUsuario(vistaAnadirTutor.getNombre(), vistaAnadirTutor.getUsuario(), vistaAnadirTutor.getTxtMail(), vistaAnadirTutor.getNIF(), (byte) 0);
         vistaAnadirTutor.setVisible(false);
     }
 
     public void anadirAdministrativo() {
-        modelo.generarUsuario(vistaAnadirAdministrativo.getTxtExpediente(), vistaAnadirAdministrativo.getTxtMail(), (byte) 1);
+        modelo.generarUsuario(vistaAnadirAdministrativo.getNombre(), vistaAnadirAdministrativo.getTxtExpediente(), vistaAnadirAdministrativo.getTxtMail(), vistaAnadirAdministrativo.getNIF(), (byte) 1);
         vistaAnadirAdministrativo.setVisible(false);
     }
 
     public void mostrarAnadirUsuario() {
         //vistaTutores.setVisible(false);
+        vistaAnadirTutor.setAnadir();
         vistaAnadirTutor.setVisible(true);
+    }
+
+    public void mostrarModificarUsuario() {
+        //vistaTutores.setVisible(false);
+        String usuario = vistaTutores.getUsuarioSeleccionado();
+        String nombre = vistaTutores.getNombreSeleccionado();
+        String mail = vistaTutores.getMailSeleccionado();
+        String nif = vistaTutores.getNIFSeleccionado();
+        vistaAnadirTutor.setModificar(nombre, usuario, mail, nif);
+        vistaAnadirTutor.setVisible(true);
+    }
+
+    public void modificarTutor() {
+        modelo.modificarUsuario(vistaAnadirTutor.getNombre(), vistaAnadirTutor.getUsuario(), vistaAnadirTutor.getTxtMail(), vistaAnadirTutor.getNIF());
+        vistaAnadirTutor.setVisible(false);
+    }
+
+    public void eliminarTutor() {
+        modelo.eliminarUsuario(vistaTutores.getUsuarioSeleccionado());
     }
 
     public void cambiarContrasena() {
@@ -433,12 +453,11 @@ public class Controlador {
     }
 
     public void mostarAnadirAlumno() {
-        vistaAnadirAlumno.limpiarCampos();
+        vistaAnadirAlumno.setAnadir();
         vistaAnadirAlumno.setVisible(true);
     }
 
     public void insertarAlumno() {
-        vistaAnadirAlumno.setAnadir();
         modelo.insertarAlumno(vistaAnadirAlumno.getNumMat(), vistaAnadirAlumno.getNombre(), vistaAnadirAlumno.getApellido1(), vistaAnadirAlumno.getApellido2(), vistaAnadirAlumno.getDNI());
         vistaAnadirAlumno.setVisible(false);
     }
@@ -458,7 +477,7 @@ public class Controlador {
         vistaAnadirAlumno.setVisible(false);
     }
 
-    public void eliminarAlumno(){
+    public void eliminarAlumno() {
         modelo.eliminarAlumno(vistaAlumnos.getNumMatSeleccionado());
     }
 
