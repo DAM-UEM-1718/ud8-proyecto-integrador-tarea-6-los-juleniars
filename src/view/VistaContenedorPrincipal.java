@@ -35,16 +35,34 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
             //Utilizando el operador instanceof, selecciona la operación a realizar según el tipo de vista
             if (vista instanceof VistaPracticas) {
                 controlador.mostrarPracticas();
+                setBounds(100, 100, 1200, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             } else if (vista instanceof VistaTutores) {
                 controlador.mostrarTutores();
+                setBounds(100, 100, 700, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             } else if (vista instanceof VistaEmpresa) {
                 controlador.mostrarEmpresas();
+                setBounds(100, 100, 1200, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             } else if (vista instanceof VistaGrupos) {
                 controlador.mostrarGrupos();
+                setBounds(100, 100, 700, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             } else if (vista instanceof VistaAlumnos) {
                 controlador.mostrarListaAlumnos();
+                setBounds(100, 100, 700, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             } else if (vista instanceof VistaDirectores) {
                 controlador.mostrarDirectores();
+                setBounds(100, 100, 700, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            } else if (vista instanceof VistaPrincipalDirector) {
+                setBounds(100, 100, 700, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            }else if (vista instanceof VistaPrincipalTutor) {
+                setBounds(100, 100, 700, 400);
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
             }
         };
     }
