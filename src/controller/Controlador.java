@@ -40,26 +40,25 @@ public class Controlador {
     private Modelo modelo;
     private byte tipoUsuario;
 
-    public void setVistaLogin(VistaLogin vistaLogin) {
-        this.vistaLogin = vistaLogin;
-    }
-
-    public void setVistaRecuperarPswd(VistaRecuperarPswd vistaRecuperarPswd) {
-        this.vistaRecuperarPswd = vistaRecuperarPswd;
-    }
-
-    public void setModelo(Modelo modelo) {
-        this.modelo = modelo;
-    }
-
+    /**
+     * Llama al modelo con las credenciales de usuario obtenidas desde la vista
+     * para iniciar sesión
+     */
     public void iniciarSesion() {
         modelo.iniciarSesion(vistaLogin.getTxtUsuario(), vistaLogin.getPswContrasena());
     }
 
+    /**
+     * Muestra la vista de recuperación de contraseña
+     */
     public void mostrarRecuperarContrasena() {
         vistaRecuperarPswd.setVisible(true);
     }
 
+    /**
+     * Cierra la vista de recuperar contraeña y llama al modelo con el nombre de usuario
+     * obtenido desde la vista
+     */
     public void recuperarContrasena() {
         vistaRecuperarPswd.setVisible(false);
         modelo.recuperarContrasena(vistaRecuperarPswd.getTxtNombreUsuario());
@@ -72,6 +71,7 @@ public class Controlador {
     public void mostrarVistaSesion() {
         tipoUsuario = modelo.getTipoUsuario();
         switch (tipoUsuario) {
+            //En caso de ser tutor
             case 0:
                 modelo.cargarAnosAcademicos();
                 modelo.mostrarGrupoTutor();
@@ -86,6 +86,7 @@ public class Controlador {
                 vistaContenedorPrincipal.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
+            //En caso de ser director
             case 1:
                 modelo.cargarAnosAcademicos();
                 modelo.mostrarDashboardDirector();
@@ -102,6 +103,7 @@ public class Controlador {
                 vistaContenedorPrincipal.setVisible(true);
                 vistaLogin.setVisible(false);
                 break;
+            //En caso de ser superusuario
             case 2:
                 ArrayList<ListaVistas> vistasRoot = new ArrayList<>();
                 vistasRoot.add(new ListaVistas("Directores", vistaDirectores));
@@ -119,77 +121,51 @@ public class Controlador {
         }
     }
 
-
-    public void setVistaSuperUsuario(VistaSuperUsuario vistaSuperUsuario) {
-        this.vistaSuperUsuario = vistaSuperUsuario;
-    }
-
-    public void setVistaPrincipalTutor(VistaPrincipalTutor vistaPrincipalTutor) {
-        this.vistaPrincipalTutor = vistaPrincipalTutor;
-    }
-
-    public void setVistaPrincipalDirector(VistaPrincipalDirector vistaPrincipalDirector) {
-        this.vistaPrincipalDirector = vistaPrincipalDirector;
-    }
-
-    public void setVistaAlumnos(VistaAlumnos vistaAlumnos) {
-        this.vistaAlumnos = vistaAlumnos;
-    }
-
-    public void setVistaTutores(VistaTutores vistaTutores) {
-        this.vistaTutores = vistaTutores;
-    }
-
-    public void setVistaConfiguracion(VistaConfiguracion vistaConfiguracion) {
-        this.vistaConfiguracion = vistaConfiguracion;
-    }
-
-    public void setVistaEmpresa(VistaEmpresa vistaEmpresa) {
-        this.vistaEmpresa = vistaEmpresa;
-    }
-
-    public void setVistaGrupos(VistaGrupos vistaGrupos) {
-        this.vistaGrupos = vistaGrupos;
-    }
-
-    public void setVistaPracticas(VistaPracticas vistaPracticas) {
-        this.vistaPracticas = vistaPracticas;
-    }
-
+    /**
+     * Llama al modelo para cargar la tabla de alumnos
+     */
     public void mostrarListaAlumnos() {
+        //Si el usuario es tutor
         if (tipoUsuario == 0) {
             modelo.cargarAlumnosTutor();
+        //Si el usuario es superusuario
         } else if (tipoUsuario == 2)
             modelo.cargarAlumnosDirector();
-        vistaSuperUsuario.setVisible(false);
     }
 
+    /**
+     * Muestra la vista de configuración
+     */
     public void mostarConfiguracion() {
         vistaConfiguracion.setVisible(true);
     }
 
+    /**
+     * Llama al modelo para cargar la tabla de prácticas
+     */
     public void mostrarPracticas() {
-        //cerrarPanelUsuario();
         modelo.cargarPracticas();
-        //vistaPracticas.setVisible(true);
     }
 
+    /**
+     * Llama al modelo para cargar la tabla de tutores
+     */
     public void mostrarTutores() {
         modelo.cargarTutores();
-        //cerrarPanelUsuario();
-        //vistaTutores.setVisible(true);
     }
 
+    /**
+     * Llama al modelo para cargar la tabla de grupos
+     */
     public void mostrarGrupos() {
         modelo.cargarGrupos();
-        //vistaPrincipalDirector.setVisible(false);
-        //vistaGrupos.setVisible(true);
     }
 
+    /**
+     * Llama al modelo para cargar la tabla de emrpesas
+     */
     public void mostrarEmpresas() {
         modelo.cargarEmpresas();
-        //vistaPrincipalDirector.setVisible(false);
-        //vistaEmpresa.setVisible(true);
     }
 
     /**
@@ -202,24 +178,24 @@ public class Controlador {
         vistaLogin.setVisible(true);
     }
 
-    public void cerrarAlumnos() {
-        vistaAlumnos.setVisible(false);
-        abrirPanelUsuario();
-    }
-
+    /**
+     * Cierra la ventana de configuración
+     */
     public void cerrarConfiguracion() {
         vistaConfiguracion.setVisible(false);
     }
 
-    public void setVistaAsignarPracticas(VistaAsignarPracticas vistaAsignarPracticas) {
-        this.vistaAsignarPracticas = vistaAsignarPracticas;
-    }
-
+    /**
+     * Muestra la ventana de asignación de prácticas
+     */
     public void mostrarAsignarPracticas() {
         modelo.cargarAsignarPracticas();
         vistaAsignarPracticas.setVisible(true);
     }
 
+    /**
+     * Cierra la ventana de asignación de prácticas
+     */
     public void cerrarAsignarPracticas() {
         vistaAsignarPracticas.setVisible(false);
     }
@@ -248,6 +224,10 @@ public class Controlador {
         modelo.eliminarPracticas(vistaPracticas.getFilaSeleccionada());
     }
 
+    /**
+     * Coge los datos de cada columna de la fila seleccionada en la vista y los carga
+     * en la vista de modificación de prácticas
+     */
     public void mostrarModificarPracticas() {
         String nombreAlumno = vistaPracticas.getNombreAlumnoSeleccionado();
         String nombreEmpresa = vistaPracticas.getNombreEmpresaSeleccionada();
@@ -265,10 +245,16 @@ public class Controlador {
         vistaModificarPracticas.setVisible(true);
     }
 
+    /**
+     * Cierra la ventana de modificación de prácticas
+     */
     public void cerrarModificarPracticas() {
         vistaModificarPracticas.setVisible(false);
     }
 
+    /**
+     * Coge los datos de la vista y llama al controlador para modificar las prácticas
+     */
     public void modificarPracticas() {
         int fila = vistaModificarPracticas.getFila();
         int numMat = vistaModificarPracticas.getNumMat();
@@ -284,47 +270,25 @@ public class Controlador {
         vistaModificarPracticas.setVisible(false);
     }
 
+    /**
+     * Carga la tabla de directores
+     */
     public void mostrarDirectores() {
         modelo.cargarDirectores();
     }
 
-    public void cerrarPersonal() {
-        abrirPanelUsuario();
-        vistaDirectores.setVisible(false);
-    }
-
+    /**
+     * Abre el panel de usuario
+     */
     private void abrirPanelUsuario() {
-        switch (tipoUsuario) {
-            case 0:
-                vistaContenedorPrincipal.setVisible(true);
-                //vistaPrincipalTutor.setVisible(true);
-                break;
-            case 1:
-                vistaContenedorPrincipal.setVisible(true);
-                //vistaPrincipalDirector.setVisible(true);
-                break;
-            case 2:
-                vistaSuperUsuario.setVisible(true);
-                break;
-            default:
-                break;
-        }
+        vistaContenedorPrincipal.setVisible(true);
     }
 
+    /**
+     * Cierra el panel de usuario
+     */
     private void cerrarPanelUsuario() {
-        switch (tipoUsuario) {
-            case 0:
-                vistaContenedorPrincipal.setVisible(false);
-                break;
-            case 1:
-                vistaContenedorPrincipal.setVisible(false);
-                break;
-            case 2:
-                vistaContenedorPrincipal.setVisible(false);
-                break;
-            default:
-                break;
-        }
+        vistaContenedorPrincipal.setVisible(false);
     }
 
     public void cambiarGrupo() {
@@ -565,6 +529,8 @@ public class Controlador {
         modelo.eliminarAlumno(vistaAlumnos.getNumMatSeleccionado());
     }
 
+    //Getters y setters
+
     public void setVistaAnadirEmpresa(VistaAnadirEmpresa vistaAnadirEmpresa) {
         this.vistaAnadirEmpresa = vistaAnadirEmpresa;
     }
@@ -592,4 +558,57 @@ public class Controlador {
     public void setVistaAnadirGrupo(VistaAnadirGrupo vistaAnadirGrupo) {
         this.vistaAnadirGrupo = vistaAnadirGrupo;
     }
+
+    public void setVistaSuperUsuario(VistaSuperUsuario vistaSuperUsuario) {
+        this.vistaSuperUsuario = vistaSuperUsuario;
+    }
+
+    public void setVistaPrincipalTutor(VistaPrincipalTutor vistaPrincipalTutor) {
+        this.vistaPrincipalTutor = vistaPrincipalTutor;
+    }
+
+    public void setVistaPrincipalDirector(VistaPrincipalDirector vistaPrincipalDirector) {
+        this.vistaPrincipalDirector = vistaPrincipalDirector;
+    }
+
+    public void setVistaAlumnos(VistaAlumnos vistaAlumnos) {
+        this.vistaAlumnos = vistaAlumnos;
+    }
+
+    public void setVistaTutores(VistaTutores vistaTutores) {
+        this.vistaTutores = vistaTutores;
+    }
+
+    public void setVistaConfiguracion(VistaConfiguracion vistaConfiguracion) {
+        this.vistaConfiguracion = vistaConfiguracion;
+    }
+
+    public void setVistaEmpresa(VistaEmpresa vistaEmpresa) {
+        this.vistaEmpresa = vistaEmpresa;
+    }
+
+    public void setVistaGrupos(VistaGrupos vistaGrupos) {
+        this.vistaGrupos = vistaGrupos;
+    }
+
+    public void setVistaPracticas(VistaPracticas vistaPracticas) {
+        this.vistaPracticas = vistaPracticas;
+    }
+
+    public void setVistaAsignarPracticas(VistaAsignarPracticas vistaAsignarPracticas) {
+        this.vistaAsignarPracticas = vistaAsignarPracticas;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
+
+    public void setVistaLogin(VistaLogin vistaLogin) {
+        this.vistaLogin = vistaLogin;
+    }
+
+    public void setVistaRecuperarPswd(VistaRecuperarPswd vistaRecuperarPswd) {
+        this.vistaRecuperarPswd = vistaRecuperarPswd;
+    }
+
 }
