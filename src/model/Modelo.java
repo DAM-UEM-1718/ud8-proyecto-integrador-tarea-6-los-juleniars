@@ -77,7 +77,7 @@ public class Modelo {
     private DefaultTableModel tablaTutores;
     private DefaultTableModel tablaGrupos;
     private DefaultTableModel tablaEmpresas;
-    private DefaultTableModel tablaPersonal;
+    private DefaultTableModel tablaDirectores;
 
     //Queries SELECT
     private String queryInicioSesion = "SELECT PWD, ROLE, NOMBRE FROM USERS WHERE USR = ?;";
@@ -307,7 +307,6 @@ public class Modelo {
             PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarUsuario);
             preparedStatement.setString(1, nombreUsuario);
             preparedStatement.executeUpdate();
-            cargarTutores();
         } catch (SQLException e) {
             vistaTutores.errorEliminar();
             //e.printStackTrace();
@@ -587,10 +586,10 @@ public class Modelo {
         }
     }
 
-    public void cargarPersonal() {
+    public void cargarDirectores() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
-            tablaPersonal = crearModelo(nombreColumnas, connection.prepareStatement(queryDirectores));
+            tablaDirectores = crearModelo(nombreColumnas, connection.prepareStatement(queryDirectores));
             vistaDirectores.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1058,8 +1057,8 @@ public class Modelo {
         return tablaEmpresas;
     }
 
-    public DefaultTableModel getTablaPersonal() {
-        return tablaPersonal;
+    public DefaultTableModel getTablaDirectores() {
+        return tablaDirectores;
     }
 
     public DefaultComboBoxModel<ComboItem> getModeloCmbAlumnos() {
