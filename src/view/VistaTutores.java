@@ -11,6 +11,7 @@ import java.awt.*;
 
 /**
  * Vista que muestra los datos de la tabla tutores
+ *
  * @author Los Juleniars
  */
 public class VistaTutores extends JPanel implements Vista {
@@ -115,7 +116,7 @@ public class VistaTutores extends JPanel implements Vista {
         table.setModel(modelo.getTablaTutores());
     }
 
-    public void errorEliminar(){
+    public void errorEliminar() {
         lblError.setText("Primero debe eliminar los grupos de este tutor.");
     }
 

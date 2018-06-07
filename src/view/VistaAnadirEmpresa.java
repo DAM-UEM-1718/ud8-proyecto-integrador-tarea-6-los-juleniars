@@ -14,6 +14,7 @@ import java.util.Date;
 
 /**
  * Vista de laaplicación que permite añadir empresas
+ *
  * @author Los Juleniars
  */
 public class VistaAnadirEmpresa extends JFrame implements Vista {

@@ -11,6 +11,7 @@ import java.awt.*;
 
 /**
  * Vista que muestra la tabla de alumnos
+ *
  * @author Los Juleniars
  */
 public class VistaAlumnos extends JPanel implements Vista {
@@ -115,7 +116,7 @@ public class VistaAlumnos extends JPanel implements Vista {
 
         table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getSelectionModel().addListSelectionListener(e->{
+        table.getSelectionModel().addListSelectionListener(e -> {
             btnModificarAlumno.setEnabled(!table.getSelectionModel().isSelectionEmpty());
             btnEliminarAlumno.setEnabled(!table.getSelectionModel().isSelectionEmpty());
         });

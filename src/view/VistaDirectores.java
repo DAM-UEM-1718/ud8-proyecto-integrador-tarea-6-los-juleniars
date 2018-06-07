@@ -11,6 +11,7 @@ import java.awt.*;
 
 /**
  * Vista que muestra la tabla de directores
+ *
  * @author Los Juleniars
  */
 public class VistaDirectores extends JPanel implements Vista {

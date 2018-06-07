@@ -12,6 +12,7 @@ import java.awt.*;
 
 /**
  * Vista de la aplicación que permite añadir directores
+ *
  * @author Los Juleniars
  */
 public class VistaAnadirDirector extends JFrame implements Vista {

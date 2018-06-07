@@ -2,6 +2,7 @@ package view;
 
 /**
  * Clase para contener vistas junto a su título para su uso en JTabbedPane
+ * @author Los Juleniars
  */
 public class ListaVistas {
 
@@ -10,8 +11,9 @@ public class ListaVistas {
 
     /**
      * Constructor de la clase
+     *
      * @param titulo El título que aparecerá en el JTabbedPane
-     * @param vista El objeto vista correspondiente
+     * @param vista  El objeto vista correspondiente
      */
     public ListaVistas(String titulo, Vista vista) {
         this.titulo = titulo;

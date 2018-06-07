@@ -1,20 +1,16 @@
 package view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import controller.Controlador;
 
-import java.awt.*;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 /**
  * Vista principal del superusuario
+ *
  * @author Los Juleniars
  */
 public class VistaSuperUsuario extends JFrame implements Vista {

@@ -12,6 +12,7 @@ import java.awt.*;
 
 /**
  * Vista de la aplicación que permite añadir tutores
+ *
  * @author Los Juleniars
  */
 public class VistaAnadirTutor extends JFrame implements Vista {

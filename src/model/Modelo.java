@@ -23,6 +23,7 @@ import java.util.Vector;
 
 /**
  * Clase Modelo de la aplicación necesaria por el patrón MVC
+ *
  * @author Los Juleniars
  */
 public class Modelo {
@@ -199,7 +200,8 @@ public class Modelo {
     /**
      * Intenta iniciar sesión en la aplicación comparando las credenciales pasadas como parámetros
      * con las existentes en la base de datos
-     * @param user Nombre de usuario
+     *
+     * @param user     Nombre de usuario
      * @param password Contraseña del usuario
      */
     public void iniciarSesion(String user, String password) {
@@ -239,6 +241,7 @@ public class Modelo {
 
     /**
      * Método para generar una contraseña aleatoria
+     *
      * @return Contrase´ña aleatoria generada
      */
     private String contrasenaAleatoria() {
@@ -250,6 +253,7 @@ public class Modelo {
 
     /**
      * Método que genera una nueva contraseña para un usuario, se la envía por mail y la inserta en la base de datos
+     *
      * @param user Nombre de usuario a recuperar
      */
     public void recuperarContrasena(String user) {
@@ -282,8 +286,9 @@ public class Modelo {
 
     /**
      * Método que realiza una petición HTTP POST para enviar un mail a través de la API de Mailgun
+     *
      * @param mailEnvio Mail del destinatario
-     * @param asunto Asunto del correo
+     * @param asunto    Asunto del correo
      * @param contenido Contenido del correo
      */
     private void enviarMail(String mailEnvio, String asunto, String contenido) {
@@ -305,11 +310,12 @@ public class Modelo {
 
     /**
      * Método que crea un usuario, lo mete en la base de datos y le envía una contraseña aleatoria
-     * @param nombre Nombre formal
+     *
+     * @param nombre        Nombre formal
      * @param nombreUsuario Nombre de usuario
-     * @param mail Correo electrónico
-     * @param dni DNI del usuario
-     * @param role Rol del usuario (0=tutor, 1=director, 2=root)
+     * @param mail          Correo electrónico
+     * @param dni           DNI del usuario
+     * @param role          Rol del usuario (0=tutor, 1=director, 2=root)
      */
     public void generarUsuario(String nombre, String nombreUsuario, String mail, String dni, byte role) {
         try {
@@ -337,10 +343,11 @@ public class Modelo {
 
     /**
      * Modifica un usuario dados los parámetros
-     * @param nombre Nombre formal
+     *
+     * @param nombre        Nombre formal
      * @param nombreUsuario Nombre de usuario
-     * @param mail Correo electrónico
-     * @param dni DNI del usuario
+     * @param mail          Correo electrónico
+     * @param dni           DNI del usuario
      */
     public void modificarUsuario(String nombre, String nombreUsuario, String mail, String dni) {
         try {
@@ -358,6 +365,7 @@ public class Modelo {
 
     /**
      * Elimina un usuario dado su nombre de usuario
+     *
      * @param nombreUsuario Nombre de usuario a eliminar
      */
     public void eliminarUsuario(String nombreUsuario) {
@@ -373,6 +381,7 @@ public class Modelo {
 
     /**
      * Cambia la contraseña del usuario en la base de datos
+     *
      * @param nuevaContrasena Nueva contraseña a asignar
      */
     public void cambiarContrasena(String nuevaContrasena) {
@@ -452,7 +461,8 @@ public class Modelo {
 
     /**
      * Crea un modelo dados los parámetros
-     * @param arrayNombres Array con los nombres de las columnas
+     *
+     * @param arrayNombres      Array con los nombres de las columnas
      * @param preparedStatement PreparedStatement que devolverá los datos de las filas
      * @return Devuelve un modelo de tabla
      */
@@ -508,6 +518,7 @@ public class Modelo {
 
     /**
      * Cambia el grupo del tutor
+     *
      * @param seleccionado Grupo seleccionado por el tutor
      */
     public void cambiarGrupoTutor(ComboItem seleccionado) {
@@ -518,6 +529,7 @@ public class Modelo {
 
     /**
      * Cambia el año académico en el modelo según el seleccionaod por el usuario
+     *
      * @param anoAcademico Nuevo año académico
      */
     public void cambiarAnoAcademico(int anoAcademico) {
@@ -1002,6 +1014,7 @@ public class Modelo {
 
     /**
      * Elimina las prácticas seleccionadas
+     *
      * @param fila Fila a eliminar
      */
     public void eliminarPracticas(int fila) {
@@ -1042,9 +1055,10 @@ public class Modelo {
 
     /**
      * Escribe la configuración en el fichero config.ini
-     * @param user Usuario de la BBDD
+     *
+     * @param user     Usuario de la BBDD
      * @param password Contraseña de la BBDD
-     * @param url Dirección de conexión de la BBDD
+     * @param url      Dirección de conexión de la BBDD
      */
     public void escribirConfiguracion(String user, String password, String url) {
         try {
@@ -1060,11 +1074,12 @@ public class Modelo {
 
     /**
      * Comprueba si el usuario de tipo tutor indicado ya se encuentra en la base de datos, y en caso negativo lo introduce y le manda un mail de bienvenida
+     *
      * @param nombre   Nombre formal
      * @param usuario  Nombre de usuario
      * @param password Contraseña
-     * @param mail Correo electrónico
-     * @param nif DNI del tutor
+     * @param mail     Correo electrónico
+     * @param nif      DNI del tutor
      */
     public void registroTutor(String nombre, String usuario, String password, String mail, String nif) {
         try {

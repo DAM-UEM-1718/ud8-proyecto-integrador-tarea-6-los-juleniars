@@ -1,16 +1,13 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import controller.Controlador;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 
 /**
  * Vista que permite cambiar la contraseña
@@ -99,8 +96,8 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
         });
     }
 
-    private void changed(){
-        if (txtNombreUsuario.getText().equals("")){
+    private void changed() {
+        if (txtNombreUsuario.getText().equals("")) {
             okButton.setEnabled(false);
         } else {
             okButton.setEnabled(true);

@@ -12,6 +12,7 @@ import java.awt.*;
 
 /**
  * Pantalla principal de los directores
+ *
  * @author Los Juleniars
  */
 public class VistaPrincipalDirector extends JPanel implements Vista {

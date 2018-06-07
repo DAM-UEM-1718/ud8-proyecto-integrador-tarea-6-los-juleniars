@@ -13,6 +13,7 @@ import java.awt.*;
 
 /**
  * Vista de la aplicación que permite añadir alumnos
+ *
  * @author Los Juleniars
  */
 public class VistaAnadirAlumno extends JFrame implements Vista {

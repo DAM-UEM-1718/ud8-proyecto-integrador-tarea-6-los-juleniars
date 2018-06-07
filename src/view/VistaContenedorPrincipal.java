@@ -51,6 +51,7 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
 
     /**
      * Método para añadir las pestañas al contendor
+     *
      * @param vistas ArrayList de ListasVistas que se añadirán al contenedor
      */
     public void cargarPestanas(ArrayList<ListaVistas> vistas) {

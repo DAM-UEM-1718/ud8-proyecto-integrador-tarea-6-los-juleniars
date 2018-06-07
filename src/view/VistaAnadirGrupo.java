@@ -13,6 +13,7 @@ import java.awt.*;
 
 /**
  * Vista de la aplicación que permite añadir grupos
+ *
  * @author Los Juleniars
  */
 public class VistaAnadirGrupo extends JFrame implements Vista {

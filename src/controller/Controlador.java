@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * Clase controlador de la aplicación necesaria por el patrón MVC
+ *
  * @author Los Juleniars
  */
 public class Controlador {

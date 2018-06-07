@@ -11,6 +11,7 @@ import java.awt.*;
 
 /**
  * Vista que muestra la tabla de grupos
+ *
  * @author Los Juleniars
  */
 public class VistaGrupos extends JPanel implements Vista {

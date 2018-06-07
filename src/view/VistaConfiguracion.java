@@ -13,6 +13,7 @@ import java.awt.*;
 /**
  * Vista de la aplicación para cmostrar la configuración del usuario
  * y cambiar su contraseña
+ *
  * @author Los Juleniars
  */
 public class VistaConfiguracion extends JFrame implements Vista {

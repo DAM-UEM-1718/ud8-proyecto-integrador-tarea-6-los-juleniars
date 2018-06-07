@@ -15,6 +15,7 @@ import java.util.Date;
 
 /**
  * Vista de la aplicación que permite asignar prácticas
+ *
  * @author Los Juleniars
  */
 public class VistaAsignarPracticas extends JDialog implements Vista {

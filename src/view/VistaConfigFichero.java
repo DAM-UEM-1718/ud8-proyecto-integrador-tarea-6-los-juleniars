@@ -13,6 +13,7 @@ import java.awt.*;
 /**
  * Vista de la aplicación que permite editar la configuración de conexión
  * a la base de datos
+ *
  * @author Los Juleniars
  */
 public class VistaConfigFichero extends JFrame implements Vista {
@@ -119,7 +120,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
         txtUrl.getDocument().addDocumentListener(documentListener);
     }
 
-    public void setConfiguracion(){
+    public void setConfiguracion() {
         txtUser.setText(modelo.getUSER());
         pswContrasena.setText(modelo.getPASSWORD());
         txtUrl.setText(modelo.getURL());
