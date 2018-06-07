@@ -81,13 +81,14 @@ public class VistaPracticas extends JPanel implements Vista {
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
                                         .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addGap(10)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(lblTitulo))
-                                                .addPreferredGap(ComponentPlacement.RELATED, 505, Short.MAX_VALUE)
+                                                        .addComponent(lblTitulo)
+                                                        .addGroup(gl_contentPane.createSequentialGroup()
+                                                                .addGap(10)
+                                                                .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)))
+                                                .addPreferredGap(ComponentPlacement.RELATED, 541, Short.MAX_VALUE)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                                         .addComponent(lblTituloFecha, Alignment.TRAILING)
                                                         .addComponent(comboBox, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -108,9 +109,9 @@ public class VistaPracticas extends JPanel implements Vista {
                         .addGroup(gl_contentPane.createSequentialGroup()
                                 .addGap(23)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(lblTitulo)
                                         .addComponent(lblTituloFecha)
-                                        .addComponent(lblFechaLimite)
-                                        .addComponent(lblTitulo))
+                                        .addComponent(lblFechaLimite))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -118,7 +119,7 @@ public class VistaPracticas extends JPanel implements Vista {
                                         .addComponent(btnBuscar))
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnAsignar)
                                         .addComponent(btnEliminarPracticas)
@@ -165,7 +166,7 @@ public class VistaPracticas extends JPanel implements Vista {
         }
     }
 
-    private void coloresTabla() {
+    public void coloresTabla() {
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
@@ -182,13 +183,11 @@ public class VistaPracticas extends JPanel implements Vista {
                 boolean anexo5 = (Boolean) table.getModel().getValueAt(row, 14);
                 if (anexo2 && anexo3 && anexo4 && anexo5) {
                     setBackground(Color.GREEN);
-                    setForeground(Color.BLACK);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 30L) {
                     setBackground(Color.RED);
                     setForeground(Color.WHITE);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 45L) {
                     setBackground(Color.ORANGE);
-                    setForeground(Color.BLACK);
                 } else {
                     setBackground(table.getBackground());
                     setForeground(table.getForeground());
