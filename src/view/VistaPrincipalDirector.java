@@ -38,7 +38,7 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
         //setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         //setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalDirector.class.getResource("/img/uem.png")));
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 525, 381);
+        setBounds(100, 100, 648, 381);
         //contentPane = new JPanel();
         setBorder(new EmptyBorder(5, 5, 5, 5));
         //setContentPane(contentPane);
@@ -94,7 +94,7 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
                                                         .addComponent(lblNumeroAlumnos, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(lblBienvenido)
-                                                .addPreferredGap(ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                                                .addPreferredGap(ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
                                                 .addComponent(lblAnoAcademico)
                                                 .addGap(40)
                                                 .addComponent(cmbAnoAcademico, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -105,7 +105,7 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
                                         .addComponent(lblEstadsticas)
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(71)
+                                                .addPreferredGap(ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                                                 .addComponent(btnConfig))
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnEditarPrcticas)
@@ -123,8 +123,8 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
                                                 .addComponent(lblAnoAcademico))
                                         .addComponent(lblBienvenido))
                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                        .addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+                                        .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(lblEstadsticas)
                                                 .addPreferredGap(ComponentPlacement.RELATED)
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
@@ -140,7 +140,7 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
                                                         .addComponent(lblClases))
                                                 .addGap(15)
                                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(btnConfig, Alignment.TRAILING))
+                                        .addComponent(btnConfig))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(btnEditarPrcticas)
