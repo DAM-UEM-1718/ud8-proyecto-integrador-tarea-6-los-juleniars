@@ -107,6 +107,7 @@ public class Controlador {
                 vistasRoot.add(new ListaVistas("Directores", vistaDirectores));
                 vistasRoot.add(new ListaVistas("Tutores", vistaTutores));
                 vistasRoot.add(new ListaVistas("Alumnos", vistaAlumnos));
+                vistasRoot.add(new ListaVistas("Cerrar Sesión", new VistaSuperUsuario()));
                 modelo.cargarDirectores();
                 //vistaSuperUsuario.setVisible(true);
                 vistaContenedorPrincipal.cargarPestanas(vistasRoot);
@@ -314,14 +315,12 @@ public class Controlador {
         switch (tipoUsuario) {
             case 0:
                 vistaContenedorPrincipal.setVisible(false);
-                //vistaPrincipalTutor.setVisible(false);
                 break;
             case 1:
                 vistaContenedorPrincipal.setVisible(false);
-                //vistaPrincipalDirector.setVisible(false);
                 break;
             case 2:
-                vistaSuperUsuario.setVisible(false);
+                vistaContenedorPrincipal.setVisible(false);
                 break;
             default:
                 break;

@@ -13,19 +13,13 @@ import java.awt.*;
  *
  * @author Los Juleniars
  */
-public class VistaSuperUsuario extends JFrame implements Vista {
+public class VistaSuperUsuario extends JPanel implements Vista {
 
-    private JPanel contentPane;
     private Controlador controlador;
 
     public VistaSuperUsuario() {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(VistaSuperUsuario.class.getResource("/img/uem.png")));
-        setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
+        setBorder(new EmptyBorder(5, 5, 5, 5));
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
@@ -43,7 +37,7 @@ public class VistaSuperUsuario extends JFrame implements Vista {
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
-        GroupLayout gl_contentPane = new GroupLayout(contentPane);
+        GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
                         .addGroup(gl_contentPane.createSequentialGroup()
@@ -74,7 +68,7 @@ public class VistaSuperUsuario extends JFrame implements Vista {
                                 .addComponent(btnCerrarSesin)
                                 .addContainerGap())
         );
-        contentPane.setLayout(gl_contentPane);
+        setLayout(gl_contentPane);
     }
 
     @Override

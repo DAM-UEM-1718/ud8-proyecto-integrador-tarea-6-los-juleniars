@@ -235,7 +235,7 @@ public class Modelo {
                 errorInicioSesion();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -279,7 +279,7 @@ public class Modelo {
 
             vistaLogin.contrasenaEnviada();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             vistaLogin.errorGenerarContrasena();
         }
     }
@@ -335,7 +335,7 @@ public class Modelo {
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             vistaLogin.errorCrearUsuario();
         }
 
@@ -358,7 +358,7 @@ public class Modelo {
             preparedStatement.setString(4, nombreUsuario);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }
@@ -419,7 +419,7 @@ public class Modelo {
             tablaAlumnos = crearModelo(arrayNombres, preparedStatement);
             vistaAlumnos.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -454,7 +454,7 @@ public class Modelo {
             }
             vistaPracticas.cargarTablas();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -512,7 +512,7 @@ public class Modelo {
             modeloGrupos = new DefaultComboBoxModel<>(grupos);
             vistaPrincipalTutor.cargarGrupos();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -586,7 +586,7 @@ public class Modelo {
             tablaPracticasTutor = new DefaultTableModel(filas, nombreColumnas);
             vistaPrincipalTutor.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -609,7 +609,7 @@ public class Modelo {
                 anos.add(resultSetAnos.getInt(1));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         //Instancia el ComboBoxModel con los datos del vector
         modeloCmbAnos = new DefaultComboBoxModel<>(anos);
@@ -665,7 +665,7 @@ public class Modelo {
             tablaDashboardDirector = new DefaultTableModel(filas, nombreColumnas);
             vistaPrincipalDirector.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -678,7 +678,7 @@ public class Modelo {
             tablaTutores = crearModelo(nombreColumnas, connection.prepareStatement(queryTutores));
             vistaTutores.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -691,7 +691,7 @@ public class Modelo {
             tablaGrupos = crearModelo(nombreColumnas, connection.prepareStatement(queryGrupos));
             vistaGrupos.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -704,7 +704,7 @@ public class Modelo {
             tablaEmpresas = crearModelo(nombreColumnas, connection.prepareStatement(queryEmpresas));
             vistaEmpresa.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -717,7 +717,7 @@ public class Modelo {
             tablaDirectores = crearModelo(nombreColumnas, connection.prepareStatement(queryDirectores));
             vistaDirectores.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -730,7 +730,7 @@ public class Modelo {
             tablaAlumnos = crearModelo(nombreColumnas, connection.prepareStatement(queryAlumnosDirector));
             vistaAlumnos.cargarTabla();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -767,7 +767,7 @@ public class Modelo {
             //Carga los modelos en los ComboBox
             vistaAsignarPracticas.cargarCmbs();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -794,7 +794,7 @@ public class Modelo {
             modeloCmbTutores = new DefaultComboBoxModel<>(tutores);
             vistaAnadirGrupo.cargarCmbs();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

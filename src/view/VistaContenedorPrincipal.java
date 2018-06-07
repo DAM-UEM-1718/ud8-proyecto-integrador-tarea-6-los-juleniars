@@ -60,9 +60,11 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
             } else if (vista instanceof VistaPrincipalDirector) {
                 setBounds(100, 100, 700, 400);
                 setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-            }else if (vista instanceof VistaPrincipalTutor) {
+            } else if (vista instanceof VistaPrincipalTutor) {
                 setBounds(100, 100, 700, 400);
                 setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            } else if (vista instanceof VistaSuperUsuario) {
+                controlador.cerrarSesion();
             }
         };
     }
