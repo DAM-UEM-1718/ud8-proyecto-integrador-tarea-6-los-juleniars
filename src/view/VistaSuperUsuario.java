@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+/**
+ * Vista principal del superusuario
+ * @author Los Juleniars
+ */
 public class VistaSuperUsuario extends JFrame implements Vista {
 
     private JPanel contentPane;

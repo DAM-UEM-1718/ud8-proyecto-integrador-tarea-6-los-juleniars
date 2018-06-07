@@ -9,6 +9,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Vista principal para los directores
+ * @author Los Juleniars
+ */
 public class VistaPrincipalTutor extends JPanel implements Vista {
 
     //private JPanel contentPane;

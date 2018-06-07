@@ -8,6 +8,11 @@ public class ListaVistas {
     private String titulo;
     private Vista vista;
 
+    /**
+     * Constructor de la clase
+     * @param titulo El título que aparecerá en el JTabbedPane
+     * @param vista El objeto vista correspondiente
+     */
     public ListaVistas(String titulo, Vista vista) {
         this.titulo = titulo;
         this.vista = vista;

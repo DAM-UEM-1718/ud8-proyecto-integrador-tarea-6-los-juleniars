@@ -10,6 +10,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
+/**
+ * Vista de la aplicación que permite editar la configuración de conexión
+ * a la base de datos
+ * @author Los Juleniars
+ */
 public class VistaConfigFichero extends JFrame implements Vista {
 
     private Controlador controlador;

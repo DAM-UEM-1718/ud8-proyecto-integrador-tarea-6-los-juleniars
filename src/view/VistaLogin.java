@@ -13,6 +13,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Vista que permite el inicionde sesión ya acceder al menú de configuración de la base de datos,
+ * al menú de recuperar contraseña y al menú de registro
+ * @author Los Juleniars
+ */
 public class VistaLogin extends JFrame implements Vista {
 
     private Controlador controlador;
@@ -31,6 +36,9 @@ public class VistaLogin extends JFrame implements Vista {
     private boolean conectado;
 
 
+    /**
+     * Constructor de la clase que crea el entorno gráfico
+     */
     public VistaLogin() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -104,6 +112,7 @@ public class VistaLogin extends JFrame implements Vista {
 
         lblAviso = new JLabel("Conectando con la base de datos...");
         lblAviso.setForeground(Color.ORANGE);
+        //Crea el GroupLayout
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.TRAILING)

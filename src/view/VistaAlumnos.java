@@ -9,6 +9,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Vista que muestra la tabla de alumnos
+ * @author Los Juleniars
+ */
 public class VistaAlumnos extends JPanel implements Vista {
 
 
@@ -65,6 +69,8 @@ public class VistaAlumnos extends JPanel implements Vista {
         btnEliminarAlumno.addActionListener(e -> controlador.eliminarAlumno());
 
         JComboBox comboBox = new JComboBox();
+
+        // Crea y define el GroupLayout
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -117,27 +123,47 @@ public class VistaAlumnos extends JPanel implements Vista {
         setLayout(gl_contentPane);
     }
 
+    /**
+     * @return El número de matrícula seleccionado en la tabla
+     */
     public int getNumMatSeleccionado() {
         return (Integer) table.getValueAt(table.getSelectedRow(), 0);
     }
 
+    /**
+     * @return El nombre del alumno seleccionado en la tabla
+     */
     public String getNombreSeleccionado() {
         return (String) table.getValueAt(table.getSelectedRow(), 1);
     }
 
+    /**
+     * @return El primer apellido seleccionado en la tabla
+     */
     public String getApellido1Seleccionado() {
+        //Al estar los dos apellidos concatenados, los separa a tarvés del primer espacio y coge la primera parte
         return ((String) table.getValueAt(table.getSelectedRow(), 2)).split(" ")[0];
     }
 
+    /**
+     * @return El segundo apellido seleccionado en la tabla
+     */
     public String getApellido2Seleccionado() {
+        //Al estar los dos apellidos concatenados, los separa a tarvés del primer espacio y coge la segunda parte
         String[] apellido2 = ((String) table.getValueAt(table.getSelectedRow(), 2)).split(" ");
         return apellido2.length > 1 ? apellido2[1] : "";
     }
 
+    /**
+     * @return El DNI seleccionado en la tabla
+     */
     public String getDniSeleccionado() {
         return (String) table.getValueAt(table.getSelectedRow(), 3);
     }
 
+    /**
+     * Carga la tabla desde el modelo
+     */
     public void cargarTabla() {
         table.setModel(modelo.getTablaAlumnos());
     }

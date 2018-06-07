@@ -13,6 +13,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.Date;
 
+/**
+ * Vista de la aplicación que permite asignar prácticas
+ * @author Los Juleniars
+ */
 public class VistaAsignarPracticas extends JDialog implements Vista {
 
     private final JPanel contentPanel = new JPanel();

@@ -12,6 +12,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * Vista que permite cambiar la contraseña
+ */
 public class VistaRecuperarPswd extends JDialog implements Vista {
 
     private final JPanel contentPanel = new JPanel();

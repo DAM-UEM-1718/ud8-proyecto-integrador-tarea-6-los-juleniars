@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ * Clase controlador de la aplicación necesaria por el patrón MVC
  * @author Los Juleniars
  */
 public class Controlador {
@@ -24,7 +25,6 @@ public class Controlador {
     private VistaEmpresa vistaEmpresa;
     private VistaGrupos vistaGrupos;
     private VistaLogin vistaLogin;
-    private VistaMensaje vistaMensaje;
     private VistaDirectores vistaDirectores;
     private VistaPracticas vistaPracticas;
     private VistaContenedorPrincipal vistaContenedorPrincipal;
@@ -64,13 +64,17 @@ public class Controlador {
         modelo.recuperarContrasena(vistaRecuperarPswd.getTxtNombreUsuario());
     }
 
+    /**
+     * Muestra la vista principal de cada usuario al iniciar sesión y carga
+     * sus correspondientes pestañas
+     */
     public void mostrarVistaSesion() {
         tipoUsuario = modelo.getTipoUsuario();
         switch (tipoUsuario) {
             case 0:
                 modelo.cargarAnosAcademicos();
                 modelo.mostrarGrupoTutor();
-                modelo.mostrarPracticasTutor();
+                modelo.cargarTablaPrincipalTutor();
                 vistaPrincipalTutor.setLblBienvenido();
                 //vistaPrincipalTutor.setVisible(true);
                 ArrayList<ListaVistas> vistasTutor = new ArrayList<>();
@@ -186,9 +190,12 @@ public class Controlador {
         //vistaEmpresa.setVisible(true);
     }
 
+    /**
+     * Cierra la sesión del usuario
+     */
     public void cerrarSesion() {
-        //Insertar Código de cierre de sesión
         cerrarPanelUsuario();
+        modelo.cerrarSesion();
         tipoUsuario = -1;
         vistaLogin.setVisible(true);
     }
@@ -349,14 +356,6 @@ public class Controlador {
 
     public void setVistaDirectores(VistaDirectores vistaDirectores) {
         this.vistaDirectores = vistaDirectores;
-    }
-
-    public void setVistaMensaje(VistaMensaje vistaMensaje) {
-        this.vistaMensaje = vistaMensaje;
-    }
-
-    public void cerrarMensaje() {
-        vistaMensaje.setVisible(false);
     }
 
     public void anadirTutor() {

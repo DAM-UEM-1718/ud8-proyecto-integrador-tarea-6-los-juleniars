@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Date;
 
+/**
+ * Vista que muestra la tabla de empresas
+ * @author Los Juleniars
+ */
 public class VistaEmpresa extends JPanel implements Vista {
 
     private Controlador controlador;

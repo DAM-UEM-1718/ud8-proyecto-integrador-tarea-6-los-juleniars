@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * Pantalla principal de los directores
+ * @author Los Juleniars
+ */
 public class VistaPrincipalDirector extends JPanel implements Vista {
 
     private Controlador controlador;

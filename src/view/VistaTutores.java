@@ -9,6 +9,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Vista que muestra los datos de la tabla tutores
+ * @author Los Juleniars
+ */
 public class VistaTutores extends JPanel implements Vista {
 
     private Controlador controlador;

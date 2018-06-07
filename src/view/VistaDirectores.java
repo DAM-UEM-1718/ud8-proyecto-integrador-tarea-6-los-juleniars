@@ -9,6 +9,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Vista que muestra la tabla de directores
+ * @author Los Juleniars
+ */
 public class VistaDirectores extends JPanel implements Vista {
 
     private Controlador controlador;
@@ -52,6 +56,8 @@ public class VistaDirectores extends JPanel implements Vista {
 
         lblError = new JLabel("");
         lblError.setForeground(Color.RED);
+
+        // Crea y define el GroupLayout
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.TRAILING)

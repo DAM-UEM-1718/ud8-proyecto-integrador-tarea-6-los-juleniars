@@ -12,6 +12,10 @@ import java.awt.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Vista que permite el registro como tutor en la aplicación
+ * @author Los Juleniars
+ */
 public class VistaRegistro extends JFrame implements Vista {
 
     private JPanel contentPane;

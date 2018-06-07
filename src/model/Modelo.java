@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 /**
+ * Clase Modelo de la aplicación necesaria por el patrón MVC
  * @author Los Juleniars
  */
 public class Modelo {
@@ -145,19 +146,29 @@ public class Modelo {
     private String queryEliminarEmpresa = "DELETE FROM EMPRESA WHERE NUM_CONV = ?;";
 
 
+    /**
+     * Constructor de la clase Modelo
+     *
+     * @param vistaLogin Se debe indicar la vista de login en el momento de su instanciación
+     */
     public Modelo(VistaLogin vistaLogin) {
+        //Ruta del fichero de configuración respecto al proyecto
         FICHERO = "config.ini";
         propiedades = new Properties();
+        //Intentos de inicio de sesión
         intentos = 0;
         this.vistaLogin = vistaLogin;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             entrada = new FileInputStream(new File(FICHERO));
+            //Carga las propiedades del fichero de configuración
             propiedades.load(entrada);
             USER = propiedades.getProperty("user");
             PASSWORD = propiedades.getProperty("password");
             URL = propiedades.getProperty("url");
+            //Carga la API Key de Mailgun
             MAILGUN_API_KEY = propiedades.getProperty("mailgun");
+            //Crea la conexión a la base de datos MySQL
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             if (connection != null)
                 vistaLogin.conectado();
@@ -167,57 +178,80 @@ public class Modelo {
         }
     }
 
-    //Método para generar un hash de la contraseña utilizando el algoritmo SHA-256
+    /**
+     * Método para generar un hash de la contraseña utilizando el algoritmo SHA-256
+     */
     private static String hash256(String data) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(data.getBytes());
         return bytesToHex(md.digest());
     }
 
-    //Convierte un array de bytes a un String
+    /**
+     * Convierte un array de bytes a un String
+     */
     private static String bytesToHex(byte[] bytes) {
         StringBuilder result = new StringBuilder();
         for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
         return result.toString();
     }
 
-    public void setVistaLogin(VistaLogin vistaLogin) {
-        this.vistaLogin = vistaLogin;
-    }
-
-    //Método de inicio de sesión
+    /**
+     * Intenta iniciar sesión en la aplicación comparando las credenciales pasadas como parámetros
+     * con las existentes en la base de datos
+     * @param user Nombre de usuario
+     * @param password Contraseña del usuario
+     */
     public void iniciarSesion(String user, String password) {
         try {
+            //Convierte la contraseña en texto plano en un hash SHA-256 para compararlo con el de la base de datos
             password = hash256(password);
+            //Statement que devuelve el rol del usuario, su nombre formal y su contraseña dado su nombre de usuario
             PreparedStatement preparedStatement = connection.prepareStatement(queryInicioSesion);
             preparedStatement.setString(1, user.toLowerCase());
             ResultSet resultSet = preparedStatement.executeQuery();
+            //Comprueba si el statement ha devuelto algún usuario
             if (resultSet.next()) {
+                //Comprueba si la contraseña introducida se correspond con la de la base de datos
                 if (resultSet.getString(1).equals(password)) {
+                    //Guarda el tipo de usuario
                     tipoUsuario = resultSet.getByte(2);
+                    //Resetea el contador de intentos de inicio de sesión
                     intentos = 0;
+                    //Guarda el nombre de usuario
                     nombreUsuario = user;
+                    //Guarda el nombre formal del usuario
                     nombreUsuarioFormal = resultSet.getString("NOMBRE");
+                    //Avisa a la vista de que se ha iniciado sesión correctamente
                     vistaLogin.sesionIniciada();
                 } else {
-                    sumarIntento();
+                    //En caso de que la contraseña no sea correcta se ejecuta el método que avisará a la vista
+                    errorInicioSesion();
                 }
             } else {
-                sumarIntento();
+                //En caso de que el usuario no exista se ejecuta el método que avisará a la vista
+                errorInicioSesion();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //Método para generar una contraseña aleatoria
-    @SuppressWarnings("RedundantStringConstructorCall")
+    /**
+     * Método para generar una contraseña aleatoria
+     * @return Contrase´ña aleatoria generada
+     */
     private String contrasenaAleatoria() {
-        char[] possibleCharacters = (new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?")).toCharArray();
-        return RandomStringUtils.random(7, 0, possibleCharacters.length - 1, false, false, possibleCharacters, new SecureRandom());
+        //Array de chars con los carácteres que pueden aparecer en la contraseña generada
+        char[] caracteresPosibles = (new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?")).toCharArray();
+        //Devuleve un String de 7 carácteres aleatorios del array anterior utilizando un método de la librería Apache Commons Lang
+        return RandomStringUtils.random(7, 0, caracteresPosibles.length - 1, false, false, caracteresPosibles, new SecureRandom());
     }
 
-    //Método que genera una nueva contraseña para un usuario, se la envía por mail y la inserta en la base de datos
+    /**
+     * Método que genera una nueva contraseña para un usuario, se la envía por mail y la inserta en la base de datos
+     * @param user Nombre de usuario a recuperar
+     */
     public void recuperarContrasena(String user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(queryMail);
@@ -225,7 +259,9 @@ public class Modelo {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             String mail = resultSet.getString(1);
+            //Crea una contraseña aleatoria en texto plano
             String nuevaContrasena = contrasenaAleatoria();
+            //Convierte la contraseña aleatorio en texto plano a un hash SHA-256
             String hashContrasena = hash256(nuevaContrasena);
 
             //Enviar nueva contraseña por mail
@@ -244,18 +280,24 @@ public class Modelo {
         }
     }
 
-    //Método que realiza una petición HTTP POST para enviar un mail a través de la API de Mailgun
+    /**
+     * Método que realiza una petición HTTP POST para enviar un mail a través de la API de Mailgun
+     * @param mailEnvio Mail del destinatario
+     * @param asunto Asunto del correo
+     * @param contenido Contenido del correo
+     */
     private void enviarMail(String mailEnvio, String asunto, String contenido) {
+        //Dominio de Mailgun
         final String DOMINIO = "mg.julen.gq";
         try {
-            HttpResponse<String> request = Unirest.post("https://api.mailgun.net/v3/" + DOMINIO + "/messages")
+            //Petición HTTP POST a través de la librería de Unirest
+            HttpResponse<String> peticion = Unirest.post("https://api.mailgun.net/v3/" + DOMINIO + "/messages")
                     .basicAuth("api", MAILGUN_API_KEY)
                     .queryString("from", "Gestión Prácticas CFGS - UEM <noreply@uemgestionpracticas.com>")
                     .queryString("to", mailEnvio)
                     .queryString("subject", asunto)
                     .queryString("html", contenido)
                     .asString();
-            //System.out.println(request.getBody());
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -263,6 +305,11 @@ public class Modelo {
 
     /**
      * Método que crea un usuario, lo mete en la base de datos y le envía una contraseña aleatoria
+     * @param nombre Nombre formal
+     * @param nombreUsuario Nombre de usuario
+     * @param mail Correo electrónico
+     * @param dni DNI del usuario
+     * @param role Rol del usuario (0=tutor, 1=director, 2=root)
      */
     public void generarUsuario(String nombre, String nombreUsuario, String mail, String dni, byte role) {
         try {
@@ -288,6 +335,13 @@ public class Modelo {
 
     }
 
+    /**
+     * Modifica un usuario dados los parámetros
+     * @param nombre Nombre formal
+     * @param nombreUsuario Nombre de usuario
+     * @param mail Correo electrónico
+     * @param dni DNI del usuario
+     */
     public void modificarUsuario(String nombre, String nombreUsuario, String mail, String dni) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(queryModificarUsuario);
@@ -302,6 +356,10 @@ public class Modelo {
 
     }
 
+    /**
+     * Elimina un usuario dado su nombre de usuario
+     * @param nombreUsuario Nombre de usuario a eliminar
+     */
     public void eliminarUsuario(String nombreUsuario) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(queryEliminarUsuario);
@@ -314,12 +372,12 @@ public class Modelo {
     }
 
     /**
-     * Cambia la contraseña del usuario
-     *
-     * @param nuevaContrasena
+     * Cambia la contraseña del usuario en la base de datos
+     * @param nuevaContrasena Nueva contraseña a asignar
      */
     public void cambiarContrasena(String nuevaContrasena) {
         try {
+            //Convierte la contraseña en texto plano a un hash SHA-256
             String nuevoHash = hash256(nuevaContrasena);
             PreparedStatement preparedStatement = connection.prepareStatement(queryCambiarContraseña);
             preparedStatement.setString(1, nuevoHash);
@@ -332,28 +390,18 @@ public class Modelo {
         }
     }
 
-    public void setVistaConfiguracion(VistaConfiguracion vistaConfiguracion) {
-        this.vistaConfiguracion = vistaConfiguracion;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuarioFormal;
-    }
-
-    public void setVistaPrincipalTutor(VistaPrincipalTutor vistaPrincipalTutor) {
-        this.vistaPrincipalTutor = vistaPrincipalTutor;
-    }
-
-    public void setVistaPrincipalDirector(VistaPrincipalDirector vistaPrincipalDirector) {
-        this.vistaPrincipalDirector = vistaPrincipalDirector;
-    }
-
+    /**
+     * Vacía los datos del modelo específicos del usuario
+     */
     public void cerrarSesion() {
         tipoUsuario = -1;
         nombreUsuarioFormal = null;
         nombreUsuario = null;
     }
 
+    /**
+     * Carga la tabla de alumnos para el usuario tutor
+     */
     public void cargarAlumnosTutor() {
         String[] arrayNombres = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
@@ -366,22 +414,30 @@ public class Modelo {
         }
     }
 
+    /**
+     * Carga la tabla de prácticas
+     */
     public void cargarPracticas() {
+        //Array con los nombres de las columnas
         String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado", "N. Matrícula", "N. Convenio", "Anex. 2", "Anex. 3", "Anex. 4", "Anex. 5"};
         try {
+            //Statement que carga la fecha límite de las prácticas del año académico seleccionado
             PreparedStatement stmtFechaLimite = connection.prepareStatement(queryFechaLimite);
             stmtFechaLimite.setInt(1, anoAcademico);
             ResultSet resultSet = stmtFechaLimite.executeQuery();
             if (resultSet.next())
                 fechaLimite = resultSet.getDate(1);
+            //Ejecuta un statement diferente dependiendo del tipo de usuario
             switch (tipoUsuario) {
                 case 0:
+                    //Statement que filtra por grupo y año académico
                     PreparedStatement stmtTutor = connection.prepareStatement(queryPracticasTutor);
                     stmtTutor.setInt(1, codGrupo);
                     stmtTutor.setInt(2, anoAcademico);
                     tablaPracticas = crearModelo(arrayNombres, stmtTutor);
                     break;
                 case 1:
+                    //Sattement que filtra sólo por año académico
                     PreparedStatement stmtDirector = connection.prepareStatement(queryPracticasDirector);
                     stmtDirector.setInt(1, anoAcademico);
                     tablaPracticas = crearModelo(arrayNombres, stmtDirector);
@@ -394,6 +450,12 @@ public class Modelo {
     }
 
 
+    /**
+     * Crea un modelo dados los parámetros
+     * @param arrayNombres Array con los nombres de las columnas
+     * @param preparedStatement PreparedStatement que devolverá los datos de las filas
+     * @return Devuelve un modelo de tabla
+     */
     private DefaultTableModel crearModelo(String[] arrayNombres, PreparedStatement preparedStatement) throws SQLException {
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -417,13 +479,19 @@ public class Modelo {
 
     }
 
+    /**
+     * Popula el ComboBox de selección de grupo en la vista del tutor
+     */
     public void mostrarGrupoTutor() {
         try {
+            //Vector que contendrá la lista de grupos
             Vector<ComboItem> grupos = new Vector<>();
+            //Statement que devuelve la lista de grupos
             PreparedStatement preparedStatement = connection.prepareStatement(queryGruposTutor);
             preparedStatement.setString(1, nombreUsuario);
             ResultSet resultSet = preparedStatement.executeQuery();
             int contador = 0;
+            //Bucle que añade los grupos devueltos por el SELECT al vector
             while (resultSet.next()) {
                 if (contador == 0) {
                     codGrupo = resultSet.getInt(2);
@@ -438,52 +506,72 @@ public class Modelo {
         }
     }
 
+    /**
+     * Cambia el grupo del tutor
+     * @param seleccionado Grupo seleccionado por el tutor
+     */
     public void cambiarGrupoTutor(ComboItem seleccionado) {
         codGrupo = Integer.parseInt(seleccionado.value);
-        mostrarPracticasTutor();
+        //Vuelve a cargar la tabla principal del tutor con el grupo nuevo
+        cargarTablaPrincipalTutor();
     }
 
+    /**
+     * Cambia el año académico en el modelo según el seleccionaod por el usuario
+     * @param anoAcademico Nuevo año académico
+     */
     public void cambiarAnoAcademico(int anoAcademico) {
         this.anoAcademico = anoAcademico;
     }
 
-    public void mostrarPracticasTutor() {
+    /**
+     * Carga la tabla de la vista principal del director con los datos del grupo sobre las prácticas
+     */
+    public void cargarTablaPrincipalTutor() {
+        //Array con el nombre de las columnas
         String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
+        //Convierte el array en un vector
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
+            //Statement que devuelve los alumnos con prácticas
             PreparedStatement statementAsignadas = connection.prepareStatement(queryAsignadosTutor);
             statementAsignadas.setInt(1, codGrupo);
             ResultSet asignadas = statementAsignadas.executeQuery();
+            //Statement que devuelve los alumnos sin prácticas
             PreparedStatement statementPorAsignar = connection.prepareStatement(queryPorAsignarTutor);
             statementPorAsignar.setInt(1, codGrupo);
             ResultSet porAsignar = statementPorAsignar.executeQuery();
-            Vector<Vector<Object>> data = new Vector<>();
+            //Vector que contendrá las filas de la tabla
+            Vector<Vector<Object>> filas = new Vector<>();
             boolean asignadasBool = true;
             boolean porAsignarBool = true;
             numeroAsignados = 0;
             numeroPorAsignar = 0;
+            //Bucle que se repite el número de filas que tenga el statement más alrgo
             while (asignadasBool || porAsignarBool) {
-                Vector<Object> vector = new Vector<>();
+                //Vector que contiene los datos de cada fila
+                Vector<Object> datosFila = new Vector<>();
                 if (asignadas.next()) {
-                    vector.add(asignadas.getString(1) + " " + asignadas.getString(2) + " " + asignadas.getString(3));
+                    datosFila.add(asignadas.getString(1) + " " + asignadas.getString(2) + " " + asignadas.getString(3));
                     numeroAsignados++;
                 } else {
                     asignadasBool = false;
                 }
                 if (porAsignar.next()) {
-                    if (vector.size() == 0) {
-                        vector.add("");
+                    if (datosFila.size() == 0) {
+                        datosFila.add("");
                     }
                     numeroPorAsignar++;
-                    vector.add(porAsignar.getString(1) + " " + porAsignar.getString(2) + " " + porAsignar.getString(3));
+                    datosFila.add(porAsignar.getString(1) + " " + porAsignar.getString(2) + " " + porAsignar.getString(3));
                 } else {
                     porAsignarBool = false;
                 }
-                if (vector.size() != 0) {
-                    data.add(vector);
+                //Comprueba que al fila no esté vacía antes de añadirla al vector
+                if (datosFila.size() != 0) {
+                    filas.add(datosFila);
                 }
             }
-            tablaPracticasTutor = new DefaultTableModel(data, nombreColumnas);
+            tablaPracticasTutor = new DefaultTableModel(filas, nombreColumnas);
             vistaPrincipalTutor.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -491,7 +579,11 @@ public class Modelo {
     }
 
 
+    /**
+     * Popula el ComboBox de años académicos
+     */
     public void cargarAnosAcademicos() {
+        //Vector que contendrá la lista de años
         Vector<Integer> anos = new Vector<>();
         PreparedStatement stmtAnos;
         try {
@@ -507,7 +599,9 @@ public class Modelo {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        //Instancia el ComboBoxModel con los datos del vector
         modeloCmbAnos = new DefaultComboBoxModel<>(anos);
+        //Carga el ComboBoxModel en su correspondiente ComboBox dependiendo de si el usuario es tutor o director
         switch (tipoUsuario) {
             case 0:
                 vistaPrincipalTutor.cargarAnoAcademico();
@@ -519,43 +613,53 @@ public class Modelo {
     }
 
     /**
-     * Carga la tabla de la vista principal del direcor
+     * Carga la tabla de la vista principal del director`con los datos de cada grupo
      */
     public void mostrarDashboardDirector() {
+        //Array con el nombre de cada fila
         String[] arrayNombre = {"Grupo", "Tutor", "Alumnos por Asignar"};
+        //Convierte el array a un vector
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombre));
-        Vector<Vector<Object>> data = new Vector<>();
+        //Vector para los datos de cada fila
+        Vector<Vector<Object>> filas = new Vector<>();
         try {
             PreparedStatement stmtCodigoTutores = connection.prepareStatement(queryGruposDirector);
             ResultSet resultSet = stmtCodigoTutores.executeQuery();
             numeroPorAsignar = 0;
             clasesPorAsignar = 0;
             while (resultSet.next()) {
-                Vector<Object> vector = new Vector<>();
+                //Vector con los datos de cada columna de la fila
+                Vector<Object> datosFila = new Vector<>();
+                //Statement para los datos de cada grupo
                 PreparedStatement stmtFilas = connection.prepareStatement(queryFilasDirector);
                 stmtFilas.setInt(1, resultSet.getInt(1));
+                //Statement para el número de alumnos sin prácticas asignadas de cada grupo
                 PreparedStatement stmtSinAsignar = connection.prepareStatement(querySinAsignarDirector);
                 stmtSinAsignar.setInt(1, resultSet.getInt(1));
                 ResultSet resultSetFilas = stmtFilas.executeQuery();
                 ResultSet resultSetSinAsignar = stmtSinAsignar.executeQuery();
+                //Bucle
                 if (resultSetFilas.next() && resultSetSinAsignar.next()) {
-                    vector.add(resultSetFilas.getString(1));
-                    vector.add(resultSetFilas.getObject(2));
+                    datosFila.add(resultSetFilas.getString(1));
+                    datosFila.add(resultSetFilas.getObject(2));
                     int alumnosPorAsignarGrupo = resultSetSinAsignar.getInt(1);
                     numeroPorAsignar += alumnosPorAsignarGrupo;
-                    vector.add(alumnosPorAsignarGrupo);
+                    datosFila.add(alumnosPorAsignarGrupo);
                     if (alumnosPorAsignarGrupo > 0)
                         clasesPorAsignar++;
                 }
-                data.add(vector);
+                filas.add(datosFila);
             }
-            tablaDashboardDirector = new DefaultTableModel(data, nombreColumnas);
+            tablaDashboardDirector = new DefaultTableModel(filas, nombreColumnas);
             vistaPrincipalDirector.cargarTabla();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Carga la tabla de tutores utilizando el método crearModelo
+     */
     public void cargarTutores() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
@@ -566,6 +670,9 @@ public class Modelo {
         }
     }
 
+    /**
+     * Carga la tabla de grupos utilizando el método crearModelo
+     */
     public void cargarGrupos() {
         String[] nombreColumnas = {"Código", "Nombre", "Nombre del Ciclo", "Tutor"};
         try {
@@ -576,6 +683,9 @@ public class Modelo {
         }
     }
 
+    /**
+     * Carga la tabla de empresas utilizando el método crearModelo
+     */
     public void cargarEmpresas() {
         String[] nombreColumnas = {"N. Convenio", "Nombre", "F. Firma", "Dirección", "Localidad", "Representante", "Mail"};
         try {
@@ -586,6 +696,9 @@ public class Modelo {
         }
     }
 
+    /**
+     * Carga la tabla de directores utilizando el método crearModelo
+     */
     public void cargarDirectores() {
         String[] nombreColumnas = {"Nombre", "Usuario", "Mail", "NIF"};
         try {
@@ -596,7 +709,9 @@ public class Modelo {
         }
     }
 
-    //Carga la tabla de almunos
+    /**
+     * Carga la tabla de alumnos utilizando el método crearModelo
+     */
     public void cargarAlumnosDirector() {
         String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
         try {
@@ -611,6 +726,7 @@ public class Modelo {
      * Popula los combo box de asignar prácticas
      */
     public void cargarAsignarPracticas() {
+        //Crea los vectores necesarios para añadir los datos
         Vector<ComboItem> alumnos = new Vector<>();
         Vector<ComboItem> empresas = new Vector<>();
         try {
@@ -633,8 +749,10 @@ public class Modelo {
             while (resultSetEmpresas.next()) {
                 empresas.add(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
             }
+            //Asigna el valor de los vectores a cada ComboBoxModel
             modeloCmbAlumnos = new DefaultComboBoxModel<ComboItem>(alumnos);
             modeloCmbEmpresas = new DefaultComboBoxModel<>(empresas);
+            //Carga los modelos en los ComboBox
             vistaAsignarPracticas.cargarCmbs();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -645,6 +763,7 @@ public class Modelo {
      * Popula los ComboBox de añadir grupo
      */
     public void cargarAnadirGrupo() {
+        //Crea los vectores necesarios para añadir los datos
         Vector<ComboItem> ciclos = new Vector<>();
         Vector<ComboItem> tutores = new Vector<>();
         try {
@@ -658,6 +777,7 @@ public class Modelo {
             while (resultSetEmpresas.next()) {
                 tutores.add(new ComboItem(resultSetEmpresas.getString(1), resultSetEmpresas.getString(2)));
             }
+            //Asigna el valor de los vectores a cada ComboBoxModel
             modeloCmbCiclos = new DefaultComboBoxModel<>(ciclos);
             modeloCmbTutores = new DefaultComboBoxModel<>(tutores);
             vistaAnadirGrupo.cargarCmbs();
@@ -829,7 +949,7 @@ public class Modelo {
     }
 
     /**
-     * Modifica un alumno
+     * Modifica un alumno dados los parámetros
      */
     public void modificarAlumno(int numMat, String nombre, String apellido1, String apellido2, String dni) {
         try {
@@ -847,7 +967,7 @@ public class Modelo {
     }
 
     /**
-     * Elimina un alumno
+     * Elimina un alumno dado su número de matrícula
      */
     public void eliminarAlumno(int numMat) {
         try {
@@ -863,6 +983,9 @@ public class Modelo {
         }
     }
 
+    /**
+     * Carga la tabla de alumnos dependiendo del tipo de usuario
+     */
     private void cargarAlumnos() {
         switch (tipoUsuario) {
             case 0:
@@ -879,8 +1002,7 @@ public class Modelo {
 
     /**
      * Elimina las prácticas seleccionadas
-     *
-     * @param fila fila a eliminar
+     * @param fila Fila a eliminar
      */
     public void eliminarPracticas(int fila) {
         int numeroMatricula = (Integer) tablaPracticas.getValueAt(fila, 9);
@@ -896,6 +1018,9 @@ public class Modelo {
         }
     }
 
+    /**
+     * Modifica unas prácticas en la base de datos dados los parámetros
+     */
     public void modificarPracticas(int fila, int numMat, int numConv, Date fechaInicio, Date fechaFin, String tutorEmpresa, String horario, String localizacion, boolean erasmus, String estado) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(queryModificarPracticas);
@@ -915,7 +1040,12 @@ public class Modelo {
         }
     }
 
-    //Escribe la configuración en el fichero config.ini
+    /**
+     * Escribe la configuración en el fichero config.ini
+     * @param user Usuario de la BBDD
+     * @param password Contraseña de la BBDD
+     * @param url Dirección de conexión de la BBDD
+     */
     public void escribirConfiguracion(String user, String password, String url) {
         try {
             propiedades.setProperty("user", user);
@@ -930,12 +1060,11 @@ public class Modelo {
 
     /**
      * Comprueba si el usuario de tipo tutor indicado ya se encuentra en la base de datos, y en caso negativo lo introduce y le manda un mail de bienvenida
-     *
      * @param nombre   Nombre formal
      * @param usuario  Nombre de usuario
-     * @param password
-     * @param mail
-     * @param nif
+     * @param password Contraseña
+     * @param mail Correo electrónico
+     * @param nif DNI del tutor
      */
     public void registroTutor(String nombre, String usuario, String password, String mail, String nif) {
         try {
@@ -964,7 +1093,11 @@ public class Modelo {
         }
     }
 
-    public void sumarIntento() {
+    /**
+     * Suma un intento al inicio de sesión, si llega a 3 intentos cierra la aplicación y avisa
+     * a la vista de que se ha producido un error al iniciar sesión
+     */
+    private void errorInicioSesion() {
         intentos++;
         if (intentos < 3) {
             vistaLogin.errorInicioSesion();
@@ -972,6 +1105,8 @@ public class Modelo {
             vistaLogin.intentosSuperados();
         }
     }
+
+    //Getters y setters
 
     public String getNombreUsuarioFormal() {
         return nombreUsuarioFormal;
@@ -1107,6 +1242,26 @@ public class Modelo {
 
     public void setVistaAnadirGrupo(VistaAnadirGrupo vistaAnadirGrupo) {
         this.vistaAnadirGrupo = vistaAnadirGrupo;
+    }
+
+    public void setVistaLogin(VistaLogin vistaLogin) {
+        this.vistaLogin = vistaLogin;
+    }
+
+    public void setVistaConfiguracion(VistaConfiguracion vistaConfiguracion) {
+        this.vistaConfiguracion = vistaConfiguracion;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuarioFormal;
+    }
+
+    public void setVistaPrincipalTutor(VistaPrincipalTutor vistaPrincipalTutor) {
+        this.vistaPrincipalTutor = vistaPrincipalTutor;
+    }
+
+    public void setVistaPrincipalDirector(VistaPrincipalDirector vistaPrincipalDirector) {
+        this.vistaPrincipalDirector = vistaPrincipalDirector;
     }
 
     /**

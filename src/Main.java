@@ -2,6 +2,10 @@ import controller.Controlador;
 import model.Modelo;
 import view.*;
 
+/**
+ * Clase que se ejecutará para abrir la aplicación
+ * @author Los Juleniars
+ */
 public class Main {
 
     public static void main(String[] args) {
@@ -19,7 +23,6 @@ public class Main {
         VistaConfiguracion vistaConfiguracion = new VistaConfiguracion();
         VistaEmpresa vistaEmpresa = new VistaEmpresa();
         VistaGrupos vistaGrupos = new VistaGrupos();
-        VistaMensaje vistaMensaje = new VistaMensaje();
         VistaDirectores vistaDirectores = new VistaDirectores();
         VistaPracticas vistaPracticas = new VistaPracticas();
         VistaLogin vistaLogin = new VistaLogin();
@@ -49,11 +52,9 @@ public class Main {
         vistaConfiguracion.setControlador(controlador);
         vistaEmpresa.setControlador(controlador);
         vistaGrupos.setControlador(controlador);
-        vistaMensaje.setControlador(controlador);
         vistaDirectores.setControlador(controlador);
         vistaPracticas.setControlador(controlador);
         vistaContenedorPrincipal.setControlador(controlador);
-        //conetenedorTutor.setControlador(controlador);
         vistaPrincipalDirector.setControlador(controlador);
         vistaPrincipalTutor.setControlador(controlador);
         vistaRecuperarPswd.setControlador(controlador);
@@ -76,7 +77,6 @@ public class Main {
         controlador.setVistaConfiguracion(vistaConfiguracion);
         controlador.setVistaEmpresa(vistaEmpresa);
         controlador.setVistaGrupos(vistaGrupos);
-        controlador.setVistaMensaje(vistaMensaje);
         controlador.setVistaDirectores(vistaDirectores);
         controlador.setVistaPracticas(vistaPracticas);
         controlador.setVistaLogin(vistaLogin);
@@ -92,7 +92,7 @@ public class Main {
         //Muestra la vista de inicio de sesión
         vistaLogin.setVisible(true);
 
-        //Creamos el modelo
+        //Creamos el modelo y le pasa la vista de login como parámetro
         Modelo modelo = new Modelo(vistaLogin);
 
         //Asignamos el modelo a las vistas

@@ -16,6 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Vista que muestra los datos de la tabla de prácticas
+ * @author Los Juleniars
+ */
 public class VistaPracticas extends JPanel implements Vista {
 
     private JTable table;
@@ -162,7 +166,7 @@ public class VistaPracticas extends JPanel implements Vista {
         }
     }
 
-    public void coloresTabla() {
+    private void coloresTabla() {
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
@@ -179,11 +183,13 @@ public class VistaPracticas extends JPanel implements Vista {
                 boolean anexo5 = (Boolean) table.getModel().getValueAt(row, 14);
                 if (anexo2 && anexo3 && anexo4 && anexo5) {
                     setBackground(Color.GREEN);
+                    setForeground(Color.BLACK);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 30L) {
                     setBackground(Color.RED);
                     setForeground(Color.WHITE);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 45L) {
                     setBackground(Color.ORANGE);
+                    setForeground(Color.BLACK);
                 } else {
                     setBackground(table.getBackground());
                     setForeground(table.getForeground());

@@ -13,6 +13,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.Date;
 
+/**
+ * Clase que permite modificar las prácticas
+ * @author Los Juleniars
+ */
 public class VistaModificarPracticas extends JDialog implements Vista {
 
     private final JPanel contentPanel = new JPanel();
