@@ -21,7 +21,7 @@ public class VistaAnadirTutor extends JFrame implements Vista {
     private JTextField txtNombre;
     private JTextField txtNIF;
     private JLabel lblDni;
-    private JButton btnAadir;
+    private JButton btnAnadir;
 
     private boolean modificar;
 
@@ -45,8 +45,8 @@ public class VistaAnadirTutor extends JFrame implements Vista {
         txtMail.setColumns(10);
 
 
-        btnAadir = new JButton("Añadir");
-        btnAadir.addActionListener(e -> {
+        btnAnadir = new JButton("Añadir");
+        btnAnadir.addActionListener(e -> {
             if (!modificar)
                 controlador.anadirTutor();
             else
@@ -86,7 +86,7 @@ public class VistaAnadirTutor extends JFrame implements Vista {
                                                 .addGap(18)
                                                 .addComponent(txtMail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addComponent(btnAadir)
+                                                .addComponent(btnAnadir)
                                                 .addGap(23)))
                                 .addContainerGap(147, Short.MAX_VALUE))
         );
@@ -110,7 +110,7 @@ public class VistaAnadirTutor extends JFrame implements Vista {
                                         .addComponent(lblDni)
                                         .addComponent(txtNIF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(13)
-                                .addComponent(btnAadir)
+                                .addComponent(btnAnadir)
                                 .addContainerGap(60, Short.MAX_VALUE))
         );
         contentPane.setLayout(gl_contentPane);
@@ -136,9 +136,9 @@ public class VistaAnadirTutor extends JFrame implements Vista {
 
     private void changed() {
         if (txtMail.getText().equals("") || txtNombre.getText().equals("") || txtUsuario.getText().equals("") || txtNIF.getText().equals("")) {
-            btnAadir.setEnabled(false);
+            btnAnadir.setEnabled(false);
         } else {
-            btnAadir.setEnabled(true);
+            btnAnadir.setEnabled(true);
         }
     }
 
@@ -153,13 +153,13 @@ public class VistaAnadirTutor extends JFrame implements Vista {
         limpiarCampos();
         modificar = false;
         setTitle("Añadir Tutor");
-        btnAadir.setText("Añadir");
+        btnAnadir.setText("Añadir");
         txtUsuario.setEditable(true);
     }
 
     public void setModificar(String nombre, String usuario, String mail, String nif) {
         setTitle("Modificar Tutor");
-        btnAadir.setText("Modificar");
+        btnAnadir.setText("Modificar");
         modificar = true;
         txtUsuario.setText(usuario);
         txtNombre.setText(nombre);
@@ -174,7 +174,7 @@ public class VistaAnadirTutor extends JFrame implements Vista {
         this.controlador = controlador;
     }
 
-    public String getTxtMail() {
+    public String getMail() {
         return txtMail.getText();
     }
 

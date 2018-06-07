@@ -11,8 +11,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class VistaSuperUsuario extends JFrame implements Vista {
@@ -41,7 +39,7 @@ public class VistaSuperUsuario extends JFrame implements Vista {
         btnEditarTutores.addActionListener(e -> controlador.mostrarTutores());
 
         JButton btnEditarPersonalAdministraivo = new JButton("Editar Personal Administrativo");
-        btnEditarPersonalAdministraivo.addActionListener(e -> controlador.mostrarPersonal());
+        btnEditarPersonalAdministraivo.addActionListener(e -> controlador.mostrarDirectores());
 
         JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());

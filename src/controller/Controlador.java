@@ -102,7 +102,7 @@ public class Controlador {
                 vistasRoot.add(new ListaVistas("Directores", vistaDirectores));
                 vistasRoot.add(new ListaVistas("Tutores", vistaTutores));
                 vistasRoot.add(new ListaVistas("Alumnos", vistaAlumnos));
-                modelo.cargarPersonal();
+                modelo.cargarDirectores();
                 //vistaSuperUsuario.setVisible(true);
                 vistaContenedorPrincipal.cargarPestanas(vistasRoot);
                 vistaContenedorPrincipal.setVisible(true);
@@ -275,20 +275,8 @@ public class Controlador {
         vistaModificarPracticas.setVisible(false);
     }
 
-    public void cerrarTutores() {
-        vistaTutores.setVisible(false);
-        abrirPanelUsuario();
-    }
-
-    public void cerrarGrupos() {
-        vistaGrupos.setVisible(false);
-        abrirPanelUsuario();
-    }
-
-    public void mostrarPersonal() {
-        modelo.cargarPersonal();
-        //cerrarPanelUsuario();
-        //vistaDirectores.setVisible(true);
+    public void mostrarDirectores() {
+        modelo.cargarDirectores();
     }
 
     public void cerrarPersonal() {
@@ -372,23 +360,26 @@ public class Controlador {
     }
 
     public void anadirTutor() {
-        modelo.generarUsuario(vistaAnadirTutor.getNombre(), vistaAnadirTutor.getUsuario(), vistaAnadirTutor.getTxtMail(), vistaAnadirTutor.getNIF(), (byte) 0);
+        modelo.generarUsuario(vistaAnadirTutor.getNombre(), vistaAnadirTutor.getUsuario(), vistaAnadirTutor.getMail(), vistaAnadirTutor.getNIF(), (byte) 0);
         vistaAnadirTutor.setVisible(false);
     }
 
-    public void anadirAdministrativo() {
-        modelo.generarUsuario(vistaAnadirDirector.getNombre(), vistaAnadirDirector.getTxtExpediente(), vistaAnadirDirector.getTxtMail(), vistaAnadirDirector.getNIF(), (byte) 1);
+    public void anadirDirector() {
+        modelo.generarUsuario(vistaAnadirDirector.getNombre(), vistaAnadirDirector.getUsuario(), vistaAnadirDirector.getMail(), vistaAnadirDirector.getNIF(), (byte) 1);
         vistaAnadirDirector.setVisible(false);
     }
 
-    public void mostrarAnadirUsuario() {
-        //vistaTutores.setVisible(false);
+    public void mostrarAnadirTutor() {
         vistaAnadirTutor.setAnadir();
         vistaAnadirTutor.setVisible(true);
     }
 
+    public void mostrarAnadirDirector() {
+        vistaAnadirDirector.setAnadir();
+        vistaAnadirDirector.setVisible(true);
+    }
+
     public void mostrarModificarUsuario() {
-        //vistaTutores.setVisible(false);
         String usuario = vistaTutores.getUsuarioSeleccionado();
         String nombre = vistaTutores.getNombreSeleccionado();
         String mail = vistaTutores.getMailSeleccionado();
@@ -397,13 +388,33 @@ public class Controlador {
         vistaAnadirTutor.setVisible(true);
     }
 
+    public void mostrarModificarDirector() {
+        String usuario = vistaDirectores.getUsuarioSeleccionado();
+        String nombre = vistaDirectores.getNombreSeleccionado();
+        String mail = vistaDirectores.getMailSeleccionado();
+        String nif = vistaDirectores.getNIFSeleccionado();
+        vistaAnadirDirector.setModificar(nombre, usuario, mail, nif);
+        vistaAnadirDirector.setVisible(true);
+    }
+
     public void modificarTutor() {
-        modelo.modificarUsuario(vistaAnadirTutor.getNombre(), vistaAnadirTutor.getUsuario(), vistaAnadirTutor.getTxtMail(), vistaAnadirTutor.getNIF());
+        modelo.modificarUsuario(vistaAnadirTutor.getNombre(), vistaAnadirTutor.getUsuario(), vistaAnadirTutor.getMail(), vistaAnadirTutor.getNIF());
         vistaAnadirTutor.setVisible(false);
+    }
+
+    public void modificarDirector() {
+        modelo.modificarUsuario(vistaAnadirDirector.getNombre(), vistaAnadirDirector.getUsuario(), vistaAnadirDirector.getMail(), vistaAnadirDirector.getNIF());
+        vistaAnadirDirector.setVisible(false);
     }
 
     public void eliminarTutor() {
         modelo.eliminarUsuario(vistaTutores.getUsuarioSeleccionado());
+        modelo.cargarTutores();
+    }
+
+    public void eliminarDirector() {
+        modelo.eliminarUsuario(vistaDirectores.getUsuarioSeleccionado());
+        modelo.cargarDirectores();
     }
 
     public void mostrarAnadirGrupo() {
