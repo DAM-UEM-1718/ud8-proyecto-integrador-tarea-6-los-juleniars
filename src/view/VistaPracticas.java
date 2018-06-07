@@ -18,12 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Vista que muestra los datos de la tabla de prácticas
+ *
  * @author Los Juleniars
  */
 public class VistaPracticas extends JPanel implements Vista {
 
     private JTable table;
-    private JTextField txtEmpresa;
     private JButton btnModificar;
     private JButton btnEliminarPracticas;
     private JLabel lblFechaLimite;
@@ -49,15 +49,8 @@ public class VistaPracticas extends JPanel implements Vista {
 
         JScrollPane scrollPane = new JScrollPane();
 
-        JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.addActionListener(e -> {
-        });
-
         JLabel lblTitulo = new JLabel("Prácticas");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
-
-        txtEmpresa = new JTextField();
-        txtEmpresa.setColumns(10);
 
         JButton btnAsignar = new JButton("Asignar Prácticas");
         btnAsignar.addActionListener(e -> controlador.mostrarAsignarPracticas());
@@ -65,8 +58,6 @@ public class VistaPracticas extends JPanel implements Vista {
         btnEliminarPracticas = new JButton("Eliminar Prácticas");
         btnEliminarPracticas.setEnabled(false);
         btnEliminarPracticas.addActionListener(e -> controlador.eliminarPracticas());
-
-        JComboBox comboBox = new JComboBox();
 
         btnModificar = new JButton("Modificar");
         btnModificar.setEnabled(false);
@@ -83,19 +74,12 @@ public class VistaPracticas extends JPanel implements Vista {
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                         .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
                                         .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(lblTitulo)
-                                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                                .addGap(10)
-                                                                .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(lblTitulo)
                                                 .addPreferredGap(ComponentPlacement.RELATED, 541, Short.MAX_VALUE)
-                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(lblTituloFecha, Alignment.TRAILING)
-                                                        .addComponent(comboBox, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(lblTituloFecha)
                                                 .addGap(18)
-                                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(lblFechaLimite)
-                                                        .addComponent(btnBuscar)))
+                                                .addComponent(lblFechaLimite)
+                                                .addGap(65))
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addComponent(btnAsignar)
                                                 .addGap(18)
@@ -112,12 +96,7 @@ public class VistaPracticas extends JPanel implements Vista {
                                         .addComponent(lblTitulo)
                                         .addComponent(lblTituloFecha)
                                         .addComponent(lblFechaLimite))
-                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-                                        .addComponent(txtEmpresa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnBuscar))
-                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addGap(40)
                                 .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
@@ -166,7 +145,7 @@ public class VistaPracticas extends JPanel implements Vista {
         }
     }
 
-    public void coloresTabla() {
+    private void coloresTabla() {
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table,
@@ -183,11 +162,16 @@ public class VistaPracticas extends JPanel implements Vista {
                 boolean anexo5 = (Boolean) table.getModel().getValueAt(row, 14);
                 if (anexo2 && anexo3 && anexo4 && anexo5) {
                     setBackground(Color.GREEN);
+                    setForeground(Color.BLACK);
+                } else if (anexo2 || anexo3 || anexo4 || anexo5) {
+                    setBackground(Color.ORANGE);
+                    setForeground(Color.BLACK);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 30L) {
                     setBackground(Color.RED);
                     setForeground(Color.WHITE);
                 } else if (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 45L) {
                     setBackground(Color.ORANGE);
+                    setForeground(Color.BLACK);
                 } else {
                     setBackground(table.getBackground());
                     setForeground(table.getForeground());
