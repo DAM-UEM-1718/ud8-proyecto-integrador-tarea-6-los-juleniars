@@ -234,7 +234,7 @@ INSERT INTO EMPRESA VALUES
   (4658, 'Google Inc.', STR_TO_DATE('12-12-2017', '%d-%m-%Y'), 'Mountain view', 'Main Street 80',
    'John Smith', 'jsmith@google.com');
 INSERT INTO EMPRESA VALUES
-  (4659, 'Deloite', STR_TO_DATE('12-12-2017', '%d-%m-%Y'), 'Madrid', 'Cibeles 21',
+  (4659, 'Deloitte', STR_TO_DATE('12-12-2017', '%d-%m-%Y'), 'Madrid', 'Cibeles 21',
    'Pedro Martínez', 'pedro@deloite.com');
 INSERT INTO EMPRESA VALUES
   (4660, 'Sap', STR_TO_DATE('12-12-2017', '%d-%m-%Y'), 'Madrid', 'Salamanca 29',
@@ -265,8 +265,15 @@ INSERT INTO EMPRESA_ESTUDIANTE VALUES
 INSERT INTO EMPRESA_ESTUDIANTE VALUES
   (28756442, 4657, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
              '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, FALSE, TRUE, TRUE, TRUE);
-
-/*INSERT INTO ESTUDANTE_TUTOR VALUES (28756432, '45612378A');*/
+INSERT INTO EMPRESA_ESTUDIANTE VALUES
+  (28756447, 4662, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
+             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, FALSE, TRUE, TRUE, TRUE);
+INSERT INTO EMPRESA_ESTUDIANTE VALUES
+  (28756449, 4663, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
+             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, TRUE, TRUE, TRUE, TRUE);
+INSERT INTO EMPRESA_ESTUDIANTE VALUES
+  (28756449, 4659, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
+             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, FALSE, FALSE, FALSE, FALSE);
 
 /*Usuarios de prueba, la contraseña es "contraseña", se inserta el hash que desde la aplicación se inserta al generar usuarios.*/
 INSERT INTO USERS VALUES
