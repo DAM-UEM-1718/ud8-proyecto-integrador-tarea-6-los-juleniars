@@ -269,11 +269,19 @@ INSERT INTO EMPRESA_ESTUDIANTE VALUES
   (28756447, 4662, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
              '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, FALSE, TRUE, TRUE, TRUE);
 INSERT INTO EMPRESA_ESTUDIANTE VALUES
-  (28756449, 4663, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
-             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, TRUE, TRUE, TRUE, TRUE);
+  (28756448, 4663, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
+             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2017, TRUE, TRUE, TRUE, TRUE);
 INSERT INTO EMPRESA_ESTUDIANTE VALUES
   (28756449, 4659, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
              '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, FALSE, FALSE, FALSE, FALSE);
+
+INSERT INTO EMPRESA_ESTUDIANTE VALUES
+  (28756450, 4659, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
+             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2018, FALSE, FALSE, FALSE, FALSE);
+
+INSERT INTO EMPRESA_ESTUDIANTE VALUES
+  (28756447, 4663, 'Jane Doe', STR_TO_DATE('15-07-2018', '%d-%m-%Y'), STR_TO_DATE('20-10-2018', '%d-%m-%Y'),
+             '8AM-5PM', 'Madrid', FALSE, 'Completado', 2017, TRUE, TRUE, TRUE, TRUE);
 
 /*Usuarios de prueba, la contraseña es "contraseña", se inserta el hash que desde la aplicación se inserta al generar usuarios.*/
 INSERT INTO USERS VALUES
