@@ -80,7 +80,7 @@ public class Controlador {
                 //vistaPrincipalTutor.setVisible(true);
                 ArrayList<ListaVistas> vistasTutor = new ArrayList<>();
                 vistasTutor.add(new ListaVistas("Principal", vistaPrincipalTutor));
-                vistasTutor.add(new ListaVistas("Detalle Pr√°cticas", vistaPracticas));
+                vistasTutor.add(new ListaVistas("Detalle Pr·cticas", vistaPracticas));
                 vistasTutor.add(new ListaVistas("Mis Alumnos", vistaAlumnos));
                 vistaContenedorPrincipal.cargarPestanas(vistasTutor);
                 vistaContenedorPrincipal.setVisible(true);
@@ -95,7 +95,7 @@ public class Controlador {
 
                 ArrayList<ListaVistas> vistasDirector = new ArrayList<>();
                 vistasDirector.add(new ListaVistas("Principal", vistaPrincipalDirector));
-                vistasDirector.add(new ListaVistas("Pr√°cticas", vistaPracticas));
+                vistasDirector.add(new ListaVistas("Pr·cticas", vistaPracticas));
                 vistasDirector.add(new ListaVistas("Tutores", vistaTutores));
                 vistasDirector.add(new ListaVistas("Grupos", vistaGrupos));
                 vistasDirector.add(new ListaVistas("Empresas", vistaEmpresa));
@@ -109,7 +109,7 @@ public class Controlador {
                 vistasRoot.add(new ListaVistas("Directores", vistaDirectores));
                 vistasRoot.add(new ListaVistas("Tutores", vistaTutores));
                 vistasRoot.add(new ListaVistas("Alumnos", vistaAlumnos));
-                vistasRoot.add(new ListaVistas("Cerrar Sesi√≥n", new VistaSuperUsuario()));
+                vistasRoot.add(new ListaVistas("Cerrar SesiÛn", new VistaSuperUsuario()));
                 modelo.cargarDirectores();
                 //vistaSuperUsuario.setVisible(true);
                 vistaContenedorPrincipal.cargarPestanas(vistasRoot);

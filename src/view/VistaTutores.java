@@ -48,7 +48,7 @@ public class VistaTutores extends JPanel implements Vista {
         JLabel lblTitulo = new JLabel("Editar Tutores");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        btnAnadirTutor = new JButton("AÃ±adir Tutor");
+        btnAnadirTutor = new JButton("Añadir Tutor");
         btnAnadirTutor.addActionListener(e -> controlador.mostrarAnadirTutor());
 
         btnEliminarTutor = new JButton("Eliminar Tutor");

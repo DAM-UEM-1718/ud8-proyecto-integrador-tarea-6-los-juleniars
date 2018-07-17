@@ -27,7 +27,7 @@ public class VistaRecuperarPswd extends JDialog implements Vista {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setTitle("Recuperar ContraseÃ±a");
+        setTitle("Recuperar Contraseña");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaRecuperarPswd.class.getResource("/img/uem.png")));
         setBounds(100, 100, 450, 199);
         getContentPane().setLayout(new BorderLayout());

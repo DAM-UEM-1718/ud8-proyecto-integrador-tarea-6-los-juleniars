@@ -123,7 +123,7 @@ public class Modelo {
     private String queryAnadirEmpresa = "INSERT INTO EMPRESA (NUM_CONV, NOM_EMPR, F_FIRMA, LOCALIDAD, DIRECCION, REPR_EMPR, CORREO_EMPR) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     //Queries UPDATE
-    private String queryCambiarContraseña = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
+    private String queryCambiarContrasena = "UPDATE USERS SET PWD = ? WHERE USR = ?;";
     private String queryModificarPracticas = "UPDATE EMPRESA_ESTUDIANTE SET FECHA_INICIO = ?, FECH_FIN = ?, TUT_EMPR = ?, HORARIO = ?, LOCALIZACION = ?, ERASMUS = ?, ESTADO = ? WHERE NUM_MAT = ? AND NUM_CONV = ?;";
 
     private String queryModificarAlumno = "UPDATE ESTUDIANTE SET NOM = ?, APELL1 = ?, APELL2 = ?, DNI = ? WHERE NUM_MAT = ?";
@@ -269,10 +269,10 @@ public class Modelo {
             String hashContrasena = hash256(nuevaContrasena);
 
             //Enviar nueva contraseña por mail
-            enviarMail(mail, "Nueva contraseña.", "Se le ha asignado la siguiente contraseña: " + nuevaContrasena);
+            enviarMail(mail, "Nueva contrase�a.", "Se le ha asignado la siguiente contrase�a: " + nuevaContrasena);
 
             //Insertar nueva contraseña en la base de datos después de haberla enviado
-            PreparedStatement prstm = connection.prepareStatement(queryCambiarContraseña);
+            PreparedStatement prstm = connection.prepareStatement(queryCambiarContrasena);
             prstm.setString(1, hashContrasena);
             prstm.setString(2, user);
             int rows = prstm.executeUpdate();
@@ -298,7 +298,7 @@ public class Modelo {
             //Petición HTTP POST a través de la librería de Unirest
             HttpResponse<String> peticion = Unirest.post("https://api.mailgun.net/v3/" + DOMINIO + "/messages")
                     .basicAuth("api", MAILGUN_API_KEY)
-                    .queryString("from", "Gestión Prácticas CFGS - UEM <noreply@uemgestionpracticas.com>")
+                    .queryString("from", "Gesti�n Pr�cticas CFGS - UEM <noreply@uemgestionpracticas.com>")
                     .queryString("to", mailEnvio)
                     .queryString("subject", asunto)
                     .queryString("html", contenido)
@@ -327,9 +327,9 @@ public class Modelo {
             preparedStatement.setInt(4, role);
             preparedStatement.setString(5, mail);
             preparedStatement.setString(6, dni);
-            String contenidoMail = "<html><body>Bienvenido a la aplicación de Gestión de Prácticas de CFGS de la Universidad Europea. <br>" +
+            String contenidoMail = "<html><body>Bienvenido a la aplicaci�n de Gesti�n de Pr�cticas de CFGS de la Universidad Europea. <br>" +
                     "Su usuario es: " + nombreUsuario + "<br>" +
-                    "Su contraseña es: " + contrasenaAleatoria +
+                    "Su contrase�a es: " + contrasenaAleatoria +
                     "</body></html>";
             enviarMail(mail, "Nuevo Usuario", contenidoMail);
             preparedStatement.executeUpdate();
@@ -388,7 +388,7 @@ public class Modelo {
         try {
             //Convierte la contraseña en texto plano a un hash SHA-256
             String nuevoHash = hash256(nuevaContrasena);
-            PreparedStatement preparedStatement = connection.prepareStatement(queryCambiarContraseña);
+            PreparedStatement preparedStatement = connection.prepareStatement(queryCambiarContrasena);
             preparedStatement.setString(1, nuevoHash);
             preparedStatement.setString(2, nombreUsuario);
             preparedStatement.executeUpdate();
@@ -412,7 +412,7 @@ public class Modelo {
      * Carga la tabla de alumnos para el usuario tutor
      */
     public void cargarAlumnosTutor() {
-        String[] arrayNombres = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
+        String[] arrayNombres = {"N. Matr�cula", "Nombre", "Apellidos", "DNI"};
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(queryAlumnosTutor);
             preparedStatement.setInt(1, codGrupo);
@@ -428,7 +428,7 @@ public class Modelo {
      */
     public void cargarPracticas() {
         //Array con los nombres de las columnas
-        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localización", "Erasmus", "Estado", "N. Matrícula", "N. Convenio", "Anex. 2", "Anex. 3", "Anex. 4", "Anex. 5"};
+        String[] arrayNombres = {"Estudiante", "Empresa", "Tutor Emp.", "F. Inicio", "F. Fin", "Horario", "Localizaci�n", "Erasmus", "Estado", "N. Matrícula", "N. Convenio", "Anex. 2", "Anex. 3", "Anex. 4", "Anex. 5"};
         try {
             //Statement que carga la fecha límite de las prácticas del año académico seleccionado
             PreparedStatement stmtFechaLimite = connection.prepareStatement(queryFechaLimite);
@@ -541,7 +541,7 @@ public class Modelo {
      */
     public void cargarTablaPrincipalTutor() {
         //Array con el nombre de las columnas
-        String[] arrayNombres = {"Prácticas Asignadas", "Prácticas por asignar"};
+        String[] arrayNombres = {"Pr�cticas Asignadas", "Pr�cticas por asignar"};
         //Convierte el array en un vector
         Vector<String> nombreColumnas = new Vector<>(Arrays.asList(arrayNombres));
         try {
@@ -686,7 +686,7 @@ public class Modelo {
      * Carga la tabla de grupos utilizando el método crearModelo
      */
     public void cargarGrupos() {
-        String[] nombreColumnas = {"Código", "Nombre", "Nombre del Ciclo", "Tutor"};
+        String[] nombreColumnas = {"C�digo", "Nombre", "Nombre del Ciclo", "Tutor"};
         try {
             tablaGrupos = crearModelo(nombreColumnas, connection.prepareStatement(queryGrupos));
             vistaGrupos.cargarTabla();
@@ -699,7 +699,7 @@ public class Modelo {
      * Carga la tabla de empresas utilizando el método crearModelo
      */
     public void cargarEmpresas() {
-        String[] nombreColumnas = {"N. Convenio", "Nombre", "F. Firma", "Dirección", "Localidad", "Representante", "Mail"};
+        String[] nombreColumnas = {"N. Convenio", "Nombre", "F. Firma", "Direcci�n", "Localidad", "Representante", "Mail"};
         try {
             tablaEmpresas = crearModelo(nombreColumnas, connection.prepareStatement(queryEmpresas));
             vistaEmpresa.cargarTabla();
@@ -725,7 +725,7 @@ public class Modelo {
      * Carga la tabla de alumnos utilizando el método crearModelo
      */
     public void cargarAlumnosDirector() {
-        String[] nombreColumnas = {"N. Matrícula", "Nombre", "Apellidos", "DNI"};
+        String[] nombreColumnas = {"N. Matr�cula", "Nombre", "Apellidos", "DNI"};
         try {
             tablaAlumnos = crearModelo(nombreColumnas, connection.prepareStatement(queryAlumnosDirector));
             vistaAlumnos.cargarTabla();
@@ -1098,7 +1098,7 @@ public class Modelo {
                 preparedStatement.setString(5, mail);
                 preparedStatement.setString(6, nif);
                 preparedStatement.executeUpdate();
-                enviarMail(mail, "Gestión Prácticas CFGS", "Bienvenido al software gestor de prácticas de CFGS. Su usuario es: " + usuario);
+                enviarMail(mail, "Gesti�n Pr�cticas CFGS", "Bienvenido al software gestor de pr�cticas de CFGS. Su usuario es: " + usuario);
                 vistaRegistro.registrado();
             } else {
                 vistaRegistro.errorUsuario();

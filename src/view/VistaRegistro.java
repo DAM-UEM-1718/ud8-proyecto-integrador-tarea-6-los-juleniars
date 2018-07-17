@@ -61,7 +61,7 @@ public class VistaRegistro extends JFrame implements Vista {
             if (validarMail()) {
                 controlador.registrar();
             } else {
-                JOptionPane.showMessageDialog(null, "El mail no es vÃ¡lido.");
+                JOptionPane.showMessageDialog(null, "El mail no es válido.");
             }
         });
         btnValidar.setEnabled(false);
@@ -70,9 +70,9 @@ public class VistaRegistro extends JFrame implements Vista {
 
         JLabel lblNombreDeUsuario = new JLabel("Nombre de Usuario:");
 
-        JLabel lblCorreoElectronico = new JLabel("Correo Electronico:");
+        JLabel lblCorreoElectronico = new JLabel("Correo Electrónico:");
 
-        lblContrasena = new JLabel("ContraseÃ±a:");
+        lblContrasena = new JLabel("Contraseña:");
 
         lblNif = new JLabel("NIF:");
 
@@ -225,7 +225,7 @@ public class VistaRegistro extends JFrame implements Vista {
     }
 
     public void errorPassword() {
-        JOptionPane.showMessageDialog(null, "Las contraseÃ±as no coinciden.");
+        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.");
     }
 
     public void registrado() {

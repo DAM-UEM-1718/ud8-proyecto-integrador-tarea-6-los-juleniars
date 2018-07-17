@@ -33,7 +33,7 @@ public class VistaAnadirGrupo extends JFrame implements Vista {
     private boolean modificar;
 
     public VistaAnadirGrupo() {
-        setTitle("AÃ±adir Grupo");
+        setTitle("Añadir Grupo");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAnadirTutor.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -43,12 +43,12 @@ public class VistaAnadirGrupo extends JFrame implements Vista {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        JLabel lblCodigo = new JLabel("CÃ³digo");
+        JLabel lblCodigo = new JLabel("Código");
         txtCodigo = new JTextField();
         txtCodigo.setColumns(10);
 
 
-        btnAnadir = new JButton("AÃ±adir");
+        btnAnadir = new JButton("Añadir");
         btnAnadir.setEnabled(false);
         btnAnadir.addActionListener(e -> {
             if (!modificar)

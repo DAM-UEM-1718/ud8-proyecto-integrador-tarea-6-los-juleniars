@@ -43,7 +43,7 @@ public class VistaAlumnos extends JPanel implements Vista {
         lblTitulo = new JLabel("Editar Alumnos");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        btnAadirAlumno = new JButton("AÃ±adir Alumno");
+        btnAadirAlumno = new JButton("Añadir Alumno");
         btnAadirAlumno.addActionListener(e -> {
             controlador.mostarAnadirAlumno();
         });

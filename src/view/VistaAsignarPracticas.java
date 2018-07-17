@@ -37,7 +37,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
     private JButton btnAsignar;
 
     public VistaAsignarPracticas() {
-        setTitle("Asignar Pr√°cticas");
+        setTitle("Asignar Pr·cticas");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAsignarPracticas.class.getResource("/img/uem.png")));
         setBounds(100, 100, 450, 253);
         getContentPane().setLayout(new BorderLayout());
@@ -66,7 +66,7 @@ public class VistaAsignarPracticas extends JDialog implements Vista {
         txtHorario = new JTextField();
         txtHorario.setColumns(10);
 
-        JLabel lblLocalizacion = new JLabel("Localizaci√≥n");
+        JLabel lblLocalizacion = new JLabel("LocalizaciÛn");
 
         txtLocalizacion = new JTextField();
         txtLocalizacion.setColumns(10);

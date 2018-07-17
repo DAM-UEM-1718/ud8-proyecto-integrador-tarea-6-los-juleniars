@@ -31,7 +31,7 @@ public class VistaAnadirTutor extends JFrame implements Vista {
     private boolean modificar;
 
     public VistaAnadirTutor() {
-        setTitle("AÃ±adir Tutor");
+        setTitle("Añadir Tutor");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAnadirTutor.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -50,7 +50,7 @@ public class VistaAnadirTutor extends JFrame implements Vista {
         txtMail.setColumns(10);
 
 
-        btnAnadir = new JButton("AÃ±adir");
+        btnAnadir = new JButton("Añadir");
         btnAnadir.addActionListener(e -> {
             if (!modificar)
                 controlador.anadirTutor();
@@ -157,8 +157,8 @@ public class VistaAnadirTutor extends JFrame implements Vista {
     public void setAnadir() {
         limpiarCampos();
         modificar = false;
-        setTitle("AÃ±adir Tutor");
-        btnAnadir.setText("AÃ±adir");
+        setTitle("Añadir Tutor");
+        btnAnadir.setText("Añadir");
         txtUsuario.setEditable(true);
     }
 

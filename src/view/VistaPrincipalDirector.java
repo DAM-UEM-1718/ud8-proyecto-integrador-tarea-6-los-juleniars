@@ -43,12 +43,12 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         //setContentPane(contentPane);
 
-        JButton btnConfig = new JButton("ConfiguraciÃ³n de Usuario");
+        JButton btnConfig = new JButton("Configuración de Usuario");
         btnConfig.addActionListener(e -> controlador.mostarConfiguracion());
 
-        JLabel lblAsignadas = new JLabel("Alumnos con prÃ¡cticas asignadas: ");
+        JLabel lblAsignadas = new JLabel("Alumnos con prácticas asignadas: ");
 
-        JLabel lblPorAsignar = new JLabel("Alumnos con prÃ¡cticas por asignar:");
+        JLabel lblPorAsignar = new JLabel("Alumnos con prácticas por asignar:");
 
         lblNumeroAlumnos = new JLabel("0");
         lblNumeroAlumnos.setForeground(new Color(50, 205, 50));
@@ -56,10 +56,10 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
         lblAlumnosPorAsignar = new JLabel("2");
         lblAlumnosPorAsignar.setForeground(Color.RED);
 
-        JLabel lblEstadsticas = new JLabel("EstadÃ­sticas");
+        JLabel lblEstadsticas = new JLabel("Estadísticas");
         lblEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-        JLabel lblClasesConPrcticas = new JLabel("Clases con prÃ¡cticas por asignar:");
+        JLabel lblClasesConPrcticas = new JLabel("Clases con prácticas por asignar:");
 
         lblClases = new JLabel("1");
         lblClases.setForeground(Color.RED);
@@ -68,17 +68,17 @@ public class VistaPrincipalDirector extends JPanel implements Vista {
 
         lblBienvenido = new JLabel("Bienvenida Ana Manzanero");
 
-        JButton btnEditarPrcticas = new JButton("Editar PrÃ¡cticas");
+        JButton btnEditarPrcticas = new JButton("Editar Prácticas");
         btnEditarPrcticas.addActionListener(e -> controlador.mostrarPracticas());
 
-        JButton btnCerrarSesin = new JButton("Cerrar SesiÃ³n");
+        JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
 
         cmbAnoAcademico = new JComboBox<>();
 
         cmbAnoAcademico.addActionListener(e -> controlador.cambiarAno());
 
-        JLabel lblAnoAcademico = new JLabel("AÃ±o acadÃ©mico:");
+        JLabel lblAnoAcademico = new JLabel("Año académico:");
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)

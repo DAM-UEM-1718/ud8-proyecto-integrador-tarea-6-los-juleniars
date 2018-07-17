@@ -49,13 +49,13 @@ public class VistaPracticas extends JPanel implements Vista {
 
         JScrollPane scrollPane = new JScrollPane();
 
-        JLabel lblTitulo = new JLabel("PrÃ¡cticas");
+        JLabel lblTitulo = new JLabel("Prácticas");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        JButton btnAsignar = new JButton("Asignar PrÃ¡cticas");
+        JButton btnAsignar = new JButton("Asignar Prácticas");
         btnAsignar.addActionListener(e -> controlador.mostrarAsignarPracticas());
 
-        btnEliminarPracticas = new JButton("Eliminar PrÃ¡cticas");
+        btnEliminarPracticas = new JButton("Eliminar Prácticas");
         btnEliminarPracticas.setEnabled(false);
         btnEliminarPracticas.addActionListener(e -> controlador.eliminarPracticas());
 
@@ -63,7 +63,7 @@ public class VistaPracticas extends JPanel implements Vista {
         btnModificar.setEnabled(false);
         btnModificar.addActionListener(e -> controlador.mostrarModificarPracticas());
 
-        JLabel lblTituloFecha = new JLabel("Fecha LÃ­mite");
+        JLabel lblTituloFecha = new JLabel("Fecha Límite");
 
         lblFechaLimite = new JLabel("");
 

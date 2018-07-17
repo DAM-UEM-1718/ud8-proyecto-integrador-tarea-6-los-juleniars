@@ -49,7 +49,7 @@ public class VistaEmpresa extends JPanel implements Vista {
         JLabel lblTitulo = new JLabel("Editar Empresas");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        btnAnadirEmpresa = new JButton("AÃ±adir Empresa");
+        btnAnadirEmpresa = new JButton ("Añadir Empresa");
         btnAnadirEmpresa.addActionListener(e -> controlador.mostrarAnadirEmpresa());
 
         btnEliminarEmpresa = new JButton("Eliminar Empresa");

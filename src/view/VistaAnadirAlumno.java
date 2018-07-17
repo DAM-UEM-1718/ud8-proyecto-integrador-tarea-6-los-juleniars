@@ -38,7 +38,7 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
 
     public VistaAnadirAlumno() {
 
-        setTitle("AÃ±adir Alumno");
+        setTitle("Añadir Alumno");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAnadirTutor.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -60,7 +60,7 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
         txtDNI = new JTextField();
         txtDNI.setColumns(10);
 
-        btnAnadir = new JButton("AÃ±adir");
+        btnAnadir = new JButton("Añadir");
         btnAnadir.setEnabled(false);
         btnAnadir.addActionListener(e -> {
             if (!modificar)
@@ -75,7 +75,7 @@ public class VistaAnadirAlumno extends JFrame implements Vista {
 
         lblNombre = new JLabel("Nombre");
 
-        lblNMatrcula = new JLabel("N. MatrÃ­cula");
+        lblNMatrcula = new JLabel("N. Matrícula");
 
         lblPrimerApellido = new JLabel("Primer Apellido");
 

@@ -29,7 +29,7 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
     public VistaConfiguracion() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaConfiguracion.class.getResource("/img/uem.png")));
-        setTitle("ConfiguraciÃ³n de Usuario");
+        setTitle("Configuración de Usuario");
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class VistaConfiguracion extends JFrame implements Vista {
 
         pswContrasena = new JPasswordField();
 
-        lblCambiarContrasea = new JLabel("Cambiar contraseÃ±a:");
+        lblCambiarContrasea = new JLabel("Cambiar contraseña:");
 
         pswConfirmarContrasena = new JPasswordField();
 
@@ -70,12 +70,12 @@ public class VistaConfiguracion extends JFrame implements Vista {
         pswContrasena.getDocument().addDocumentListener(documentListener);
         pswConfirmarContrasena.getDocument().addDocumentListener(documentListener);
 
-        JLabel lblConfiguracin = new JLabel("ConfiguraciÃ³n de Usuario");
+        JLabel lblConfiguracin = new JLabel("Configuración de Usuario");
         lblConfiguracin.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-        JLabel lblNmeroDeExpediente = new JLabel("NÃºmero de expediente: 000000");
+        JLabel lblNmeroDeExpediente = new JLabel("Número de expediente: 000000");
 
-        JLabel lblNombrePedro = new JLabel("Nombre: Pedro JesÃºs");
+        JLabel lblNombrePedro = new JLabel("Nombre: Pedro Jesús");
 
         JLabel lblApellidoCamacho = new JLabel("Apellido: Camacho");
 
@@ -143,11 +143,11 @@ public class VistaConfiguracion extends JFrame implements Vista {
     }
 
     public void contrasenaCambiada() {
-        JOptionPane.showMessageDialog(null, "ContraseÃ±a cambiada correctamente.");
+        JOptionPane.showMessageDialog(null, "Contraseña cambiada correctamente.");
     }
 
     public void errorCambio() {
-        JOptionPane.showMessageDialog(null, "ContraseÃ±a cambiada correctamente.");
+        JOptionPane.showMessageDialog(null, "Contraseña cambiada correctamente.");
     }
 
     public void error(String mensaje) {
@@ -155,7 +155,7 @@ public class VistaConfiguracion extends JFrame implements Vista {
     }
 
     public void errorContrasenas() {
-        JOptionPane.showMessageDialog(null, "Las contraseÃ±as no coinciden.");
+        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.");
     }
 
     public String getPswContrasena() {

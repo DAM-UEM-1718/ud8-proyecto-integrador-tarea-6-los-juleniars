@@ -29,7 +29,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
 
     public VistaConfigFichero() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaConfigFichero.class.getResource("/img/uem.png")));
-        setTitle("ConfiguraciÃ³n Base de Datos");
+        setTitle("Configuración Base de Datos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 327, 306);
         contentPane = new JPanel();
@@ -40,7 +40,7 @@ public class VistaConfigFichero extends JFrame implements Vista {
 
         JLabel lblUsuario = new JLabel("Usuario");
 
-        JLabel lblContrasea = new JLabel("ContraseÃ±a");
+        JLabel lblContrasea = new JLabel("Contraseña");
 
         JLabel lblHostMysql = new JLabel("URL MySQL");
 

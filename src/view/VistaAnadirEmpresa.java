@@ -34,7 +34,7 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
     private boolean modificar;
 
     public VistaAnadirEmpresa() {
-        setTitle("AÃ±adir Empresa");
+        setTitle("Añadir Empresa");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaAnadirEmpresa.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 335, 368);
@@ -46,11 +46,11 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
 
         JLabel lblCdigoDeEmpresa = new JLabel("F. Firma");
 
-        JLabel lblNmeroDeConvenio = new JLabel("NÃºmero de Convenio");
+        JLabel lblNmeroDeConvenio = new JLabel("Número de Convenio");
 
         JLabel lblNombre = new JLabel("Nombre");
 
-        btnAnadir = new JButton("AÃ±adir Empresa");
+        btnAnadir = new JButton("Añadir Empresa");
         btnAnadir.setEnabled(false);
         btnAnadir.addActionListener(e -> {
             if (!modificar)
@@ -75,7 +75,7 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
         txtDireccion = new JTextField();
         txtDireccion.setColumns(10);
 
-        JLabel lblDireccin = new JLabel("DirecciÃ³n");
+        JLabel lblDireccin = new JLabel("Dirección");
 
         txtRepresentante = new JTextField();
         txtRepresentante.setColumns(10);
@@ -194,8 +194,8 @@ public class VistaAnadirEmpresa extends JFrame implements Vista {
     public void setAnadir() {
         limpiarCampos();
         modificar = false;
-        setTitle("AÃ±adir Empresa");
-        btnAnadir.setText("AÃ±adir");
+        setTitle("Añadir Empresa");
+        btnAnadir.setText("Añadir");
         txtConvenio.setEditable(true);
     }
 

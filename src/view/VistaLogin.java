@@ -44,7 +44,7 @@ public class VistaLogin extends JFrame implements Vista {
             e.printStackTrace();
         }
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaLogin.class.getResource("/img/uem.png")));
-        setTitle("GestiÃ³n de PrÃ¡cticas CFGS - Universidad Europea de Madrid");
+        setTitle("Gestión de Prácticas CFGS - Universidad Europea de Madrid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 501, 325);
         contentPane = new JPanel();
@@ -58,11 +58,11 @@ public class VistaLogin extends JFrame implements Vista {
         txtUsuario = new JTextField();
         txtUsuario.setColumns(10);
 
-        lblContrasea = new JLabel("ContraseÃ±a");
+        lblContrasea = new JLabel("Contraseña");
 
         pswContrasena = new JPasswordField();
 
-        btnIniciarSesin = new JButton("Iniciar SesiÃ³n");
+        btnIniciarSesin = new JButton("Iniciar Sesión");
         btnIniciarSesin.setEnabled(false);
         btnIniciarSesin.addActionListener(e -> {
             controlador.iniciarSesion();
@@ -101,7 +101,7 @@ public class VistaLogin extends JFrame implements Vista {
         });
 
 
-        btnRecuperarContrasea = new JButton("Recuperar ContraseÃ±a");
+        btnRecuperarContrasea = new JButton("Recuperar Contraseña");
 
         btnRegistro = new JButton("Registro");
         btnRegistro.addActionListener(e -> controlador.mostrarRegistro());
@@ -198,17 +198,17 @@ public class VistaLogin extends JFrame implements Vista {
 
     public void contrasenaEnviada() {
         lblAviso.setForeground(Color.GREEN);
-        lblAviso.setText("ContraseÃ±a enviada.");
+        lblAviso.setText("Contraseña enviada.");
     }
 
     public void errorInicioSesion() {
         lblAviso.setForeground(Color.RED);
-        lblAviso.setText("Usuario o contraseÃ±a incorrectos.");
+        lblAviso.setText("Usuario o contraseña incorrectos.");
     }
 
     public void errorGenerarContrasena() {
         lblAviso.setForeground(Color.RED);
-        lblAviso.setText("Error al enviar la nueva contraseÃ±a.");
+        lblAviso.setText("Error al enviar la nueva contraseña.");
     }
 
     public void errorCrearUsuario() {
@@ -243,7 +243,7 @@ public class VistaLogin extends JFrame implements Vista {
 
     public void intentosSuperados() {
         Object[] opciones = {"Aceptar"};
-        int input = JOptionPane.showOptionDialog(null, "Intentos de inicio de sesiÃ³n superados. La aplicaciÃ³n se va a cerrar.", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        int input = JOptionPane.showOptionDialog(null, "Intentos de inicio de sesión superados. La aplicación se va a cerrar.", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         System.exit(0);
 
     }

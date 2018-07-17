@@ -45,7 +45,7 @@ public class VistaGrupos extends JPanel implements Vista {
         JLabel lblTitulo = new JLabel("Editar Grupos");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        JButton btnAnadirGrupo = new JButton("AÃ±adir Grupo");
+        JButton btnAnadirGrupo = new JButton("Añadir Grupo");
         btnAnadirGrupo.addActionListener(e -> controlador.mostrarAnadirGrupo());
 
         JButton btnEliminarGrupo = new JButton("Eliminar Grupo");

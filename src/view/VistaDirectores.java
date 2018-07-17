@@ -42,7 +42,7 @@ public class VistaDirectores extends JPanel implements Vista {
         JLabel lblTitulo = new JLabel("Editar Directores");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-        btnAnadirDirector = new JButton("AÃ±adir Director");
+        btnAnadirDirector = new JButton("Añadir Director");
         btnAnadirDirector.addActionListener(e -> controlador.mostrarAnadirDirector());
 
         btnEliminarTutor = new JButton("Eliminar Director");

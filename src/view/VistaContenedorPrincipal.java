@@ -21,7 +21,7 @@ public class VistaContenedorPrincipal extends JFrame implements Vista {
     private ChangeListener changeListener;
 
     public VistaContenedorPrincipal() {
-        setTitle("Gesti√≥n de Pr√°cticas CFGS - Universidad Europea de Madrid");
+        setTitle("GestiÛn de Pr·cticas CFGS - Universidad Europea de Madrid");
         setIconImage(Toolkit.getDefaultToolkit().getImage(VistaPrincipalDirector.class.getResource("/img/uem.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 400);

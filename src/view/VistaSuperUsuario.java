@@ -26,7 +26,7 @@ public class VistaSuperUsuario extends JPanel implements Vista {
         JButton btnNewButton = new JButton("Editar Alumnos");
         btnNewButton.addActionListener(e -> controlador.mostrarListaAlumnos());
 
-        JLabel lblPanelDeAdministracin = new JLabel("Panel de AdministraciÃ³n");
+        JLabel lblPanelDeAdministracin = new JLabel("Panel de Administración");
         lblPanelDeAdministracin.setFont(new Font("Tahoma", Font.BOLD, 14));
 
         JButton btnEditarTutores = new JButton("Editar Tutores");
@@ -35,7 +35,7 @@ public class VistaSuperUsuario extends JPanel implements Vista {
         JButton btnEditarPersonalAdministraivo = new JButton("Editar Personal Administrativo");
         btnEditarPersonalAdministraivo.addActionListener(e -> controlador.mostrarDirectores());
 
-        JButton btnCerrarSesin = new JButton("Cerrar SesiÃ³n");
+        JButton btnCerrarSesin = new JButton("Cerrar Sesión");
         btnCerrarSesin.addActionListener(e -> controlador.cerrarSesion());
         GroupLayout gl_contentPane = new GroupLayout(this);
         gl_contentPane.setHorizontalGroup(
